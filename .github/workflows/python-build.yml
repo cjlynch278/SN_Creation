@@ -23,6 +23,14 @@ jobs:
         expire-in: 0days # Setting this to 0 will delete all artifacts
 
 
+    - name: Add conda to system path
+      run: |
+        # $CONDA is an environment variable pointing to the root of the miniconda directory
+        echo $CONDA/bin >> $GITHUB_PATH
+
+    - name: Install dependencies
+      run: |
+        conda env update --file src/environment.yml --name base
 
     - name: Lint with flake8
       run: |

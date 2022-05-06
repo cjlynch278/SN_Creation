@@ -1,0 +1,13 @@
+name: push-to-collibra-environment
+
+dependencies:
+  - python=3.9
+  - pyyaml
+  - pytest-flake8
+  - requests
+  - sqlalchemy
+  - pandas
+  - pyodbc
+  - pip
+  - PyInstaller
+  - coverage
