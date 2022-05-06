@@ -1,0 +1,9 @@
+pyyaml
+pytest-flake8
+requests
+sqlalchemy
+pandas
+pyodbc
+pyinstaller
+sqlparse
+flask-sqlalchemy

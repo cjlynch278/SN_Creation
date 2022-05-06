@@ -1,0 +1,67 @@
+name: Python test and containerize
+
+on: [push]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 5
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Delete Old Artifacts
+      uses: kolpav/purge-artifacts-action@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        expire-in: 0days # Setting this to 0 will delete all artifacts
+
+
+    - name: Add conda to system path
+      run: |
+        # $CONDA is an environment variable pointing to the root of the miniconda directory
+        echo $CONDA/bin >> $GITHUB_PATH
+
+    - name: Install dependencies
+      run: |
+        conda env update --file src/environment.yml --name base
+
+    - name: Lint with flake8
+      run: |
+        conda install flake8
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 ./src  --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 ./src  --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+   # - name: Test with pytest
+     # run: |
+    #    conda install pytest
+    #    pytest --pdb
+
+  #  - name: Test Coverage
+ #     run: |
+  #      conda install coverage
+    #    coverage run -m pytest
+     #   coverage report --fail-under=85
+
+    - uses: actions/checkout@v2
+    - name: PyInstaller Windows
+      uses: JackMcKew/pyinstaller-action-windows@main
+      with:
+        path: src
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: ds-extraction
+        path: src/dist/windows
+
+
+
+
