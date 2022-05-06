@@ -27,7 +27,6 @@ class SQL_Operations:
         self.engine = create_engine(self.connection_string)
 
         self.conn = self.engine.connect()
-        self.cursor = self.conn.cursor()
 
     def read_sql(self):
 
