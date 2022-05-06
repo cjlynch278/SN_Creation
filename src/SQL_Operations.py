@@ -1,18 +1,7 @@
-import csv
-import pandas
-import openpyxl
-
-import csv
-import openpyxl
 from urllib.parse import quote_plus as url_quote
-
-from xml.etree import cElementTree as et
 import pandas as pd
 from sqlalchemy import create_engine
-import urllib.parse
 import pyodbc
-import yaml
-import os
 
 
 class SQL_Operations:
@@ -21,8 +10,17 @@ class SQL_Operations:
         self.sql_password = sql_password
         self.server_name = server_name
         self.database_name = database_name
-        self.connection_string = 'mssql+pyodbc://' + self.sql_user + ':' + url_quote(
-            self.sql_password) + '@' + self.server_name + '/' + self.database_name + '?driver=SQL+Server+Native+Client+11.0'
+        self.connection_string = (
+            "mssql+pyodbc://"
+            + self.sql_user
+            + ":"
+            + url_quote(self.sql_password)
+            + "@"
+            + self.server_name
+            + "/"
+            + self.database_name
+            + "?driver=SQL+Server+Native+Client+11.0"
+        )
 
     def connect_to_sql(self):
 
@@ -44,9 +42,12 @@ class SQL_Operations:
         )
 
         df = pd.DataFrame(
-            SQL_Query, columns=["Asset_Name",
-                                "APM_DATA_SENSITIVITY",
-                                "Business_Criticality",
-                                "CI_NUMBER"]
+            SQL_Query,
+            columns=[
+                "Asset_Name",
+                "APM_DATA_SENSITIVITY",
+                "Business_Criticality",
+                "CI_NUMBER",
+            ],
         )
         return df

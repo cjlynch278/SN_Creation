@@ -59,7 +59,7 @@ jobs:
 
     - uses: actions/upload-artifact@v2
       with:
-        name: ds-extraction
+        name: collibra-qurey-and-post
         path: src/dist/windows
 
 

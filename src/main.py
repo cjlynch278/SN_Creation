@@ -12,7 +12,9 @@ class MainClass:
                 print(exc)
         try:
             self.token_auth = config["AUTH"]["token_auth_header"]
-            self.database_name = str(config["MYSQL_CONNECTION_DETAILS"]["DATABASE_NAME"])
+            self.database_name = str(
+                config["MYSQL_CONNECTION_DETAILS"]["DATABASE_NAME"]
+            )
             self.server_name = config["MYSQL_CONNECTION_DETAILS"]["SERVER_NAME"]
             self.sql_user = config["MYSQL_CONNECTION_DETAILS"]["LOGIN"]
             self.sql_password = config["MYSQL_CONNECTION_DETAILS"]["PASSWORD"]
@@ -25,9 +27,12 @@ class MainClass:
             print("The config file is incorrectly setup")
             os._exit(1)
 
-        sql_operations = SQL_Operations(self.sql_user, self.sql_password,self.server_name,self.database_name)
+        sql_operations = SQL_Operations(
+            self.sql_user, self.sql_password, self.server_name, self.database_name
+        )
         sql_operations.connect_to_sql()
         print(sql_operations.read_sql())
+
 
 if __name__ == "__main__":
     # Run main class
