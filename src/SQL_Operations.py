@@ -41,12 +41,6 @@ class SQL_Operations:
         )
 
         df = pd.DataFrame(
-            SQL_Query,
-            columns=[
-                "Asset_Name",
-                "APM_DATA_SENSITIVITY",
-                "Business_Criticality",
-                "CI_NUMBER",
-            ],
+            SQL_Query
         )
         return df
