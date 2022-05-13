@@ -1,0 +1,3 @@
+﻿asset_name,CI_Number,Install_Status,Business_Criticality,URL,Owned_By,IT_Owner,Supported_By,Regulatory_And_Compliance_Standards,Export_Control,Legal_Hold,APM_Data_Sensitivity,Disaster_Recovery_Gap,Records_Retention
+3PL Web Client API,SNSVC0001400,Operational - Maintain,4 - Administrative,https://gore.service-now.com/nav_to.do?uri=cmdb_ci_service.do?sys_id=6b6e47e5db0477c05535272648961963,Craig Cattaneo,Adam Richards,Craig Cattaneo,Not Assessed,Unknown,None,Gore Confidential,None,None
+A/B Requests Nihon GoreTRAINING,SNSVC0001180,Retired-Decommissioned,4 - Administrative,https://gore.service-now.com/nav_to.do?uri=cmdb_ci_service.do?sys_id=364aa3920fa4030038702ca8b1050e5e,Joan Day,NULL,Lois Bert,Not Assessed,Unknown,None,Unknown,None,None

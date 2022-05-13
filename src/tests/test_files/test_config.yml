@@ -1,0 +1,24 @@
+API_CONFIG:
+  limit: 1000000
+AUTH:
+  username: chlynch0
+  password: W#llie7360000
+  auth-header: Basic Y2hseW5jaDpXI2xsaWU3MzYwMA==00
+  cookie: AWSALB=ITtwYN2XhZe79p5QG2kgvZBRnWYjzaHsNbwhnoT0Y4PGLu69X//WO/sZjtET2v5Aeml1NEG/O499U1IcelGQYzOTT1cxSVqYlRkJCJE9mIT68JEXneaVqcMPZEHV; AWSALBCORS=ITtwYN2XhZe79p5QG2kgvZBRnWYjzaHsNbwhnoT0Y4PGLu69X//WO/sZjtET2v5Aeml1NEG/O499U1IcelGQYzOTT1cxSVqYlRkJCJE9mIT68JEXneaVqcMPZEHV; JSESSIONID=09599047-3630-435b-80d7-26e27533365e
+  token_auth_header: Basic Z2VuX2NvbGxpYnJhX2FwaXVzZXI6QlFiNHk1c3dNczdEcFlRRGlNTTVNSGlpcHJnaHZBN0dHcTY2bnBLYWZaZlYxd0t0SG44S2V2S29zVU5Fb0hJNg==
+ENVIRONMENT:
+  gore: wlgore-dev.collibra.com
+MYSQL_CONNECTION_DETAILS:
+  SERVER_NAME: anvrdmexldv03
+  DATABASE_NAME: EXL_MDSDev
+  LOGIN: CollibraDev
+  PASSWORD: EXLCollibra@123456
+  VARCHAR_LENGTH: 8000
+  SQL_QUERY: >
+            Select ltrim(rtrim(sn_assets.Name)) asset_name,[APM Data Sensitivity], [Business Criticality],
+            [CI Number] from Extract.servicenow_cmbd_ci_service_discovered_raw sn_assets left Join
+            (select * from collibra.collibra_assets where is_current=1 and
+            Domain_ID ='d248a4fd-255a-4a2a-83f9-8da0c7c2c19a') collibra_assets on sn_assets.Name =
+            collibra_assets.name where collibra_assets.Name is null
+COLLIBRA_DETAILS:
+  ADMIN_DOMAIN_ID: ba4a4398-1ced-40ed-9869-d463bc6ccf53

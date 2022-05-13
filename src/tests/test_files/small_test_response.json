@@ -1,0 +1,60 @@
+[
+   {
+      "id":"4de96e29-ab81-4527-83a3-4cd1fa55517c",
+      "createdBy":"b6d1dd87-470c-49b2-be89-611a1a967bc6",
+      "createdOn":1652386874851,
+      "lastModifiedBy":"b6d1dd87-470c-49b2-be89-611a1a967bc6",
+      "lastModifiedOn":1652386874858,
+      "system":false,
+      "resourceType":"Asset",
+      "name":"3PL Web Client API",
+      "displayName":"3PL Web Client API",
+      "excludedFromAutoHyperlinking":false,
+      "domain":{
+         "id":"ba4a4398-1ced-40ed-9869-d463bc6ccf53",
+         "resourceType":"Domain",
+         "name":"Admin Only"
+      },
+      "type":{
+         "id":"00000000-0000-0000-0000-000000031302",
+         "resourceType":"AssetType",
+         "name":"System"
+      },
+      "status":{
+         "id":"a669d696-06c4-46cc-abac-cd95bc27d374",
+         "resourceType":"Status",
+         "name":"Inactive"
+      },
+      "avgRating":0.0,
+      "ratingsCount":0
+   },
+   {
+      "id":"39219976-5656-4b1a-acd9-cfe23474da2a",
+      "createdBy":"b6d1dd87-470c-49b2-be89-611a1a967bc6",
+      "createdOn":1652386874851,
+      "lastModifiedBy":"b6d1dd87-470c-49b2-be89-611a1a967bc6",
+      "lastModifiedOn":1652386874859,
+      "system":false,
+      "resourceType":"Asset",
+      "name":"A/B Requests Nihon GoreTRAINING",
+      "displayName":"A/B Requests Nihon GoreTRAINING",
+      "excludedFromAutoHyperlinking":false,
+      "domain":{
+         "id":"ba4a4398-1ced-40ed-9869-d463bc6ccf53",
+         "resourceType":"Domain",
+         "name":"Admin Only"
+      },
+      "type":{
+         "id":"00000000-0000-0000-0000-000000031302",
+         "resourceType":"AssetType",
+         "name":"System"
+      },
+      "status":{
+         "id":"a669d696-06c4-46cc-abac-cd95bc27d374",
+         "resourceType":"Status",
+         "name":"Inactive"
+      },
+      "avgRating":0.0,
+      "ratingsCount":0
+   }
+]
