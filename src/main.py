@@ -1,4 +1,5 @@
 from src.SQL_Operations import SQL_Operations
+from src.Collibra_Operations import Collibra_Operations
 import yaml
 import os
 
@@ -29,7 +30,7 @@ class MainClass:
             print("The config file is incorrectly setup")
             os._exit(1)
 
-        sql_operations = SQL_Operations(
+        self.sql_operations = SQL_Operations(
             self.sql_user,
             self.sql_password,
             self.server_name,
@@ -39,10 +40,14 @@ class MainClass:
             self.admin_only_domain_id,
             self.environment,
         )
-        sql_operations.connect_to_sql()
-        print(sql_operations.read_sql())
+        self.sql_operations.connect_to_sql()
+        print(self.sql_operations.read_sql())
 
+        self.collibra_operations = Collibra_Operations(self.admin_only_domain_id, self.environment, self.token_auth)
 
+    def run(self):
+        dataframe = self.sql_operations.read_sql()
+        self.collibra_operations.create_assets_and_attributes(dataframe)
 if __name__ == "__main__":
     # Run main class
 
