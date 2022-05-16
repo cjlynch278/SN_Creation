@@ -40,9 +40,9 @@ class SqlOperationsTest(unittest.TestCase):
         self.small_test_df = pandas.read_csv("src/tests/test_files/small_test.csv")
         self.empty_test_df = pandas.DataFrame()
         self.collibra_operations = Collibra_Operations(self.admin_only_domain_id,self.environment,self.token_auth)
-
+        self.test_2 = pandas.read_csv("src/tests/test_files/test_2.csv")
     def test_create_assets_and_attributes(self):
-        self.collibra_operations.create_assets_and_attributes(self.empty_test_df)
+        self.collibra_operations.create_assets_and_attributes(self.test_2)
 
 
     def test_make_all_assets(self):
