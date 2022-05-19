@@ -6,7 +6,6 @@ class AccessToken:
         self.auth = auth
 
     def get_bearer_token(self):
-        response = self.get_token_response()
         token = self.extract_token(self.get_token_response())
         return token
 

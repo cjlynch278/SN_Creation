@@ -1,20 +1,12 @@
 from urllib.parse import quote_plus as url_quote
-import pandas as pd
-from sqlalchemy import create_engine
 import json
 import requests
 from src.Access_Token import AccessToken
 import os
-import numpy
-import pyodbc
 
 
 class Collibra_Operations:
-    def __init__(self, admin_only_id,
-        environment,
-                 token_auth
-
-    ):
+    def __init__(self, admin_only_id, environment, token_auth):
         self.token_auth = token_auth
         access_token_class = AccessToken(self.token_auth)
         self.collibra_auth = "Bearer " + access_token_class.get_bearer_token()
@@ -42,9 +34,7 @@ class Collibra_Operations:
     def make_collibra_assets(self, asset_list):
         url = "https://" + self.environment + "/rest/2.0/assets/bulk"
 
-        payload = json.dumps(
-            asset_list
-        )
+        payload = json.dumps(asset_list)
         headers = {
             "Content-Type": "application/json",
             "Authorization": self.collibra_auth,
@@ -55,7 +45,7 @@ class Collibra_Operations:
 
         try:
             response.raise_for_status()
-        except requests.exceptions.HTTPError as e:
+        except requests.exceptions.HTTPError:
             print("Adding assets was unsuccessful")
             print(response.json()["titleMessage"])
             print(response.json()["userMessage"])
@@ -64,40 +54,39 @@ class Collibra_Operations:
         print(response.status_code)
         return response.json()
 
-
     def add_collibra_attributes(self, attribute_dict):
         url = "https://" + self.environment + "/rest/2.0/attributes/bulk"
 
         payload = json.dumps(attribute_dict)
         headers = {
-            'Content-Type': 'application/json',
-            'Authorization': self.collibra_auth,
-            'Cookie': 'AWSALBTG=hTSJN5tR+qrcy/5TGPlei2wxCvnVmYpT+BhxuML79+Jes7EGaoDtfmZScPgxcvqw7ZpbdUlu2cifoe/9ycd51Ni2OBPXr0MPn+KQGO+0bQoz775F3TtsUHjzrZJZ4Z9aKy9TWKjTPtlFeAF5JJCvJPkvYJTLp6aYx6TjsUX2z89U5dJy7Zo=; AWSALBTGCORS=hTSJN5tR+qrcy/5TGPlei2wxCvnVmYpT+BhxuML79+Jes7EGaoDtfmZScPgxcvqw7ZpbdUlu2cifoe/9ycd51Ni2OBPXr0MPn+KQGO+0bQoz775F3TtsUHjzrZJZ4Z9aKy9TWKjTPtlFeAF5JJCvJPkvYJTLp6aYx6TjsUX2z89U5dJy7Zo='
+            "Content-Type": "application/json",
+            "Authorization": self.collibra_auth,
+            "Cookie": "AWSALBTG=hTSJN5tR+qrcy/5TGPlei2wxCvnVmYpT+BhxuML79+Jes7EGaoDtfmZScPgxcvqw7ZpbdUlu2cifoe/9ycd51Ni2OBPXr0MPn+KQGO+0bQoz775F3TtsUHjzrZJZ4Z9aKy9TWKjTPtlFeAF5JJCvJPkvYJTLp6aYx6TjsUX2z89U5dJy7Zo=; AWSALBTGCORS=hTSJN5tR+qrcy/5TGPlei2wxCvnVmYpT+BhxuML79+Jes7EGaoDtfmZScPgxcvqw7ZpbdUlu2cifoe/9ycd51Ni2OBPXr0MPn+KQGO+0bQoz775F3TtsUHjzrZJZ4Z9aKy9TWKjTPtlFeAF5JJCvJPkvYJTLp6aYx6TjsUX2z89U5dJy7Zo=",
         }
 
         response = requests.request("POST", url, headers=headers, data=payload)
 
         print(response.text)
 
-
     def add_asset_ids_to_df(self, dataframe, json_response):
         # Add asset_id column
-        dataframe['asset_id'] = None
+        dataframe["asset_id"] = None
         for asset in json_response:
             # add asset_ids from json response to dataframe
 
-            dataframe.loc[dataframe['asset_name'] == asset['name'], 'asset_id'] = asset['id']
+            dataframe.loc[dataframe["asset_name"] == asset["name"], "asset_id"] = asset[
+                "id"
+            ]
         return dataframe
-
 
     def create_assets_and_attributes(self, dataframe):
         # get all columns except asset name for attributes
-        attribute_columns = dataframe.loc[:, dataframe.columns != 'asset_name']
+        attribute_columns = dataframe.loc[:, dataframe.columns != "asset_name"]
 
         asset_list = []
         asset_response = None
         for index, row in dataframe.iterrows():
-            asset_name = row['asset_name']
+            asset_name = row["asset_name"]
             current_asset_dict = {
                 "name": asset_name,
                 "displayName": asset_name,
@@ -115,14 +104,12 @@ class Collibra_Operations:
 
             for attribute in attribute_columns:
                 value = row[attribute]
-                if not (value in ['Unknown', 'None', None]) and value == value:
+                if not (value in ["Unknown", "None", None]) and value == value:
                     current_attribute_dict = {
-                        "assetId": row['asset_id'],
+                        "assetId": row["asset_id"],
                         "typeId": self.column_map[attribute],
                         "value": value,
                     }
                     attribute_list.append(current_attribute_dict)
 
         return self.add_collibra_attributes(attribute_list)
-
-

@@ -6,7 +6,7 @@ import os
 import json
 
 
-from src.SQL_Operations import SQL_Operations
+from src.SQLOperations import SQLOperations
 
 
 class SqlOperationsTest(unittest.TestCase):
@@ -26,7 +26,7 @@ class SqlOperationsTest(unittest.TestCase):
             print("The config file is incorrectly setup")
             os._exit(1)
 
-        self.sql_operations = SQL_Operations(
+        self.sql_operations = SQLOperations(
             "test",
             "test",
             "test",
@@ -39,4 +39,3 @@ class SqlOperationsTest(unittest.TestCase):
         self.test_dataframe = pandas.read_csv("src/tests/test_files/test.csv")
         self.small_test_df = pandas.read_csv("src/tests/test_files/small_test.csv")
         self.empty_test_df = pandas.DataFrame()
-

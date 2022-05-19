@@ -4,8 +4,7 @@ from sqlalchemy import create_engine
 from src.Access_Token import AccessToken
 
 
-
-class SQL_Operations:
+class SQLOperations:
     def __init__(
         self,
         sql_user,
@@ -41,18 +40,15 @@ class SQL_Operations:
         self.collibra_auth = "Bearer " + access_token_class.get_bearer_token()
 
     def connect_to_sql(self):
-
         self.engine = create_engine(self.connection_string)
-
         self.conn = self.engine.connect()
-
 
     def read_sql(self):
 
-        SQL_Query = pd.read_sql_query(
+        sql_query = pd.read_sql_query(
             self.sql_query,
             self.conn,
         )
 
-        df = pd.DataFrame(SQL_Query)
+        df = pd.DataFrame(sql_query)
         return df
