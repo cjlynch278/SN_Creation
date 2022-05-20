@@ -30,8 +30,8 @@ class MainClass:
             self.auth = config["AUTH"]["auth-header"]
             self.logger_location = config["LOGGER"]["LOCATION"]
 
-        except KeyError:
-            print("The config file is incorrectly setup")
+        except KeyError as e:
+            print("The config file is incorrectly setup: " + str(e))
             os._exit(1)
         logging.basicConfig(
             filename=self.logger_location + "_" + str(datetime.today().date()) + ".log",
