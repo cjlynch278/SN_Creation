@@ -22,3 +22,5 @@ MYSQL_CONNECTION_DETAILS:
             collibra_assets.name where collibra_assets.Name is null
 COLLIBRA_DETAILS:
   ADMIN_DOMAIN_ID: d248a4fd-255a-4a2a-83f9-8da0c7c2c19a
+LOGGER:
+  LOCATION: app
