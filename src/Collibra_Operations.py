@@ -1,3 +1,4 @@
+import logging
 from urllib.parse import quote_plus as url_quote
 import json
 import requests
@@ -66,7 +67,7 @@ class Collibra_Operations:
 
         response = requests.request("POST", url, headers=headers, data=payload)
 
-        print(response.text)
+        logging.info("Attributes Created: " + response.text)
 
     def add_asset_ids_to_df(self, dataframe, json_response):
         # Add asset_id column
@@ -98,7 +99,7 @@ class Collibra_Operations:
             asset_list.append(current_asset_dict)
         asset_response = self.make_collibra_assets(asset_list)
         dataframe = self.add_asset_ids_to_df(dataframe, asset_response)
-
+        logging.info("Assets Created Dataframe: " + dataframe)
         attribute_list = []
         for index, row in dataframe.iterrows():
 
