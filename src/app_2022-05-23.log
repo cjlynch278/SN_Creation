@@ -1,0 +1,5 @@
+13:24:12,983 root INFO App started
+13:24:12,984 root INFO Config File Read
+13:24:12,988 urllib3.connectionpool DEBUG Starting new HTTPS connection (1): ssoauthwf.gore.com:443
+13:24:14,343 urllib3.connectionpool DEBUG https://ssoauthwf.gore.com:443 "POST /as/token.oauth2?grant_type=client_credentials HTTP/1.1" 200 None
+13:24:14,346 root INFO Sql operations setup

@@ -40,7 +40,8 @@ class MainClass:
             datefmt="%H:%M:%S",
             level=logging.DEBUG,
         )
-        logging.info("App started")
+        logging.info("--------------------------------------\n")
+        logging.info("Push To Collibra App started")
         logging.info("Config File Read")
         self.sql_operations = SQLOperations(
             self.sql_user,
