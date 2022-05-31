@@ -4,10 +4,36 @@ import json
 import requests
 from src.Access_Token import AccessToken
 import os
+import yaml
 
 
 class Collibra_Operations:
-    def __init__(self, admin_only_id, environment, token_auth):
+    def __init__(self, admin_only_id, environment, token_auth, config_file):
+        with open(config_file, "r") as stream:
+            try:
+                config = yaml.safe_load(stream)
+            except yaml.YAMLError as exc:
+                print(exc)
+        try:
+            self.asset_name = config["COLLIBRA_DETAILS"]["asset_name"]
+            self.ci_number = config["COLLIBRA_DETAILS"]["CI_Number"]
+            self.install_status = config["COLLIBRA_DETAILS"]["Install_Status"]
+            self.business_criticality = config["COLLIBRA_DETAILS"]["Business_Criticality"]
+            self.url = config["COLLIBRA_DETAILS"]["URL"]
+            self.owned_by = config["COLLIBRA_DETAILS"]["Owned_By"]
+            self.it_owner = config["COLLIBRA_DETAILS"]["IT_Owner"]
+            self.supported_by = config["COLLIBRA_DETAILS"]["Supported_By"]
+            self.regulatory_and_compliance_standards = config["COLLIBRA_DETAILS"]["Regulatory_And_Compliance_Standards"]
+            self.export_control = config["COLLIBRA_DETAILS"]["Export_Control"]
+            self.legal_hold = config["COLLIBRA_DETAILS"]["Legal_Hold"]
+            self.apm_data_sensitivity = config["COLLIBRA_DETAILS"]["APM_Data_Sensitivity"]
+            self.disaster_recovery_gab = config["COLLIBRA_DETAILS"]["Disaster_Recovery_Gap"]
+            self.records_retention = config["COLLIBRA_DETAILS"]["Records_Retention"]
+
+        except KeyError as e:
+            print("The config file is incorrectly setup: " + str(e))
+            os._exit(1)
+
         self.token_auth = token_auth
         access_token_class = AccessToken(self.token_auth)
         self.collibra_auth = "Bearer " + access_token_class.get_bearer_token()
@@ -15,20 +41,20 @@ class Collibra_Operations:
         self.admin_only_id = admin_only_id
         self.environment = environment
         self.column_map = {
-            "asset_name": "3b7023ae-9baf-4012-b6f2-aa52483d6c46",
-            "CI_Number": "dda874d3-610e-4460-b4d1-7ef304605392",
-            "Install_Status": "8eeeae37-e6cc-4cd9-a65d-c5b6c3a72c36",
-            "Business_Criticality": "12d0118b-6d7b-4ef2-86aa-a44b5552dad9",
-            "URL": "00000000-0000-0000-0000-000000000258",
-            "Owned_By": "eff75d33-cba0-44d8-9c2a-f4c3fc589693",
-            "IT_Owner": "23c90dd8-eba5-4a0b-8d2e-98ef071963c8",
-            "Supported_By": "42203189-d926-4fb6-b809-829e9596bc28",
-            "Regulatory_And_Compliance_Standards": "eb40afcd-313e-4cd5-b1c5-49b75863909a",
-            "Export_Control": "5acb934c-e521-4858-8732-bffa326419ea",
-            "Legal_Hold": "8100009a-2a8d-4dfa-9b83-77e65534318c",
-            "APM_Data_Sensitivity": "270d4a3d-fd4e-45b8-b2bc-57b0bc31b12d",
-            "Disaster_Recovery_Gap": "c6b1b435-956e-4cf7-b675-62287cb99f6e",
-            "Records_Retention": "42024702-5654-4b3b-9bb9-2de6e806882e",
+            "asset_name": self.asset_name,
+            "CI_Number": self.ci_number,
+            "Install_Status": self.install_status,
+            "Business_Criticality": self.business_criticality,
+            "URL": self.url,
+            "Owned_By": self.owned_by,
+            "IT_Owner": self.it_owner,
+            "Supported_By": self.supported_by,
+            "Regulatory_And_Compliance_Standards": self.regulatory_and_compliance_standards,
+            "Export_Control": self.export_control,
+            "Legal_Hold": self.legal_hold,
+            "APM_Data_Sensitivity": self.apm_data_sensitivity,
+            "Disaster_Recovery_Gap": self.disaster_recovery_gab,
+            "Records_Retention": self.records_retention,
         }
         self.target_domain_id = self.admin_only_id
 
@@ -66,7 +92,7 @@ class Collibra_Operations:
         }
 
         response = requests.request("POST", url, headers=headers, data=payload)
-
+        print(response)
         logging.info("Attributes Created: " + response.text)
 
     def add_asset_ids_to_df(self, dataframe, json_response):
@@ -75,21 +101,22 @@ class Collibra_Operations:
         for asset in json_response:
             # add asset_ids from json response to dataframe
 
-            dataframe.loc[dataframe["asset_name"] == asset["name"], "asset_id"] = asset[
+            dataframe.loc[dataframe["asset_name"] + "_" + dataframe["SN_System_ID"] == asset["name"], "asset_id"] = asset[
                 "id"
             ]
         return dataframe
 
     def create_assets_and_attributes(self, dataframe):
         # get all columns except asset name for attributes
-        attribute_columns = dataframe.loc[:, dataframe.columns != "asset_name"]
+        attribute_columns = dataframe.drop(columns = ["asset_name", "SN_System_ID"])
+
 
         asset_list = []
-        asset_response = None
         for index, row in dataframe.iterrows():
             asset_name = row["asset_name"]
+            asset_backend_name = row["asset_name"] + "_" + row["SN_System_ID"]
             current_asset_dict = {
-                "name": asset_name,
+                "name": asset_backend_name,
                 "displayName": asset_name,
                 "domainId": self.target_domain_id,
                 "typeId": "00000000-0000-0000-0000-000000031302",
