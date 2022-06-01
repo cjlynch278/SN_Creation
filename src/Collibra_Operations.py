@@ -1,6 +1,8 @@
 import logging
 from urllib.parse import quote_plus as url_quote
 import json
+
+import pandas
 import requests
 from src.Access_Token import AccessToken
 import os
@@ -79,6 +81,7 @@ class Collibra_Operations:
             os._exit(1)
 
         print(response.status_code)
+        logging.info("Assets Created: " + response.text)
         return response.json()
 
     def add_collibra_attributes(self, attribute_dict):
@@ -92,7 +95,7 @@ class Collibra_Operations:
         }
 
         response = requests.request("POST", url, headers=headers, data=payload)
-        print(response)
+        print(response.text)
         logging.info("Attributes Created: " + response.text)
 
     def add_asset_ids_to_df(self, dataframe, json_response):
@@ -100,10 +103,17 @@ class Collibra_Operations:
         dataframe["asset_id"] = None
         for asset in json_response:
             # add asset_ids from json response to dataframe
+            dataframe_row = dataframe.loc[dataframe["asset_name"] + "_" + dataframe["SN_System_ID"] == asset["name"], "asset_id"]
+            if not dataframe_row.empty:
+                dataframe.loc[dataframe["asset_name"] + "_" + dataframe["SN_System_ID"] == asset["name"], "asset_id"] = asset[
+                    "id"
+                ]
+            #Accounts for rows where assset_name is empty
+            else:
 
-            dataframe.loc[dataframe["asset_name"] + "_" + dataframe["SN_System_ID"] == asset["name"], "asset_id"] = asset[
-                "id"
-            ]
+                dataframe.loc["_" + dataframe["SN_System_ID"] == asset["name"], "asset_id"] = asset[
+                    "id"
+                ]
         return dataframe
 
     def create_assets_and_attributes(self, dataframe):
@@ -113,8 +123,12 @@ class Collibra_Operations:
 
         asset_list = []
         for index, row in dataframe.iterrows():
-            asset_name = row["asset_name"]
-            asset_backend_name = row["asset_name"] + "_" + row["SN_System_ID"]
+            if not (row["asset_name"] in ["Unknown", "None", None, "nan"]) and row["asset_name"] == row["asset_name"]:
+                asset_name = str(row["asset_name"])
+                asset_backend_name = str(row["asset_name"]) + "_" + str(row["SN_System_ID"])
+            else:
+                asset_name = None
+                asset_backend_name = "_" + str(row["SN_System_ID"])
             current_asset_dict = {
                 "name": asset_backend_name,
                 "displayName": asset_name,
@@ -126,13 +140,13 @@ class Collibra_Operations:
             asset_list.append(current_asset_dict)
         asset_response = self.make_collibra_assets(asset_list)
         dataframe = self.add_asset_ids_to_df(dataframe, asset_response)
-        logging.info("Assets Created Dataframe: " + dataframe)
+        logging.info("Assets Created Dataframe: " + dataframe["asset_name"])
         attribute_list = []
         for index, row in dataframe.iterrows():
 
             for attribute in attribute_columns:
                 value = row[attribute]
-                if not (value in ["Unknown", "None", None]) and value == value:
+                if not (value in ["Unknown", "None", None, "nan"]) and value == value:
                     current_attribute_dict = {
                         "assetId": row["asset_id"],
                         "typeId": self.column_map[attribute],

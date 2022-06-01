@@ -40,6 +40,7 @@ class SqlOperationsTest(unittest.TestCase):
         self.test_dataframe = pandas.read_csv("src/tests/test_files/test.csv")
         self.small_test_df = pandas.read_csv("src/tests/test_files/small_test.csv")
         self.ten_test_df = pandas.read_csv("src/tests/test_files/10_rows_test.csv")
+        self.six_test = pandas.read_csv("src/tests/test_files/six_test.csv")
         self.empty_test_df = pandas.DataFrame()
         self.collibra_operations = Collibra_Operations(
             self.admin_only_domain_id, self.environment, self.token_auth, "./src/tests/test_files/test_config.yml"
@@ -47,7 +48,7 @@ class SqlOperationsTest(unittest.TestCase):
         self.test_2 = pandas.read_csv("src/tests/test_files/test_2.csv")
 
     def test_create_assets_and_attributes(self):
-        self.collibra_operations.create_assets_and_attributes(self.ten_test_df)
+        self.collibra_operations.create_assets_and_attributes(self.six_test)
 
     def test_make_all_assets(self):
         self.collibra_operations.create_assets_and_attributes(self.small_test_df)
