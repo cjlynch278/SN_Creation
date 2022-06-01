@@ -133,7 +133,7 @@ class Collibra_Operations:
                 asset_name = str(row["asset_name"])
                 asset_backend_name = str(row["asset_name"]) + "_" + str(row["SN_System_ID"])
             else:
-                asset_name = None
+                asset_name = "_" + str(row["SN_System_ID"])
                 asset_backend_name = "_" + str(row["SN_System_ID"])
             current_asset_dict = {
                 "name": asset_backend_name,
