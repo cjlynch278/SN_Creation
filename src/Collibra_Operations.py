@@ -76,8 +76,14 @@ class Collibra_Operations:
             response.raise_for_status()
         except requests.exceptions.HTTPError:
             print("Adding assets was unsuccessful")
+            logging.info("Adding assets was unsuccessful")
             print(response.json()["titleMessage"])
+            logging.info(response.json()["titleMessage"])
             print(response.json()["userMessage"])
+            logging.info(response.json()["userMessage"])
+            print(json.dumps(asset_list))
+            logging.info(json.dumps(asset_list))
+
             os._exit(1)
 
         print(response.status_code)
