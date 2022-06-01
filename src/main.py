@@ -58,7 +58,7 @@ class MainClass:
         logging.info("SQL connected")
 
         self.collibra_operations = Collibra_Operations(
-            self.admin_only_domain_id, self.environment, self.token_auth
+            self.admin_only_domain_id, self.environment, self.token_auth, config_file
         )
         logging.info("Collibra Operations setup")
 
