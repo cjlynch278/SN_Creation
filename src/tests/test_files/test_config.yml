@@ -23,7 +23,7 @@ MYSQL_CONNECTION_DETAILS:
             collibra_assets.name where collibra_assets.Name is null
   VARCHAR_LENGTH: 8000
 COLLIBRA_DETAILS:
-  ADMIN_DOMAIN_ID: 0cea0d39-98da-41a4-968e-dfb40da2314a
+  ADMIN_DOMAIN_ID: 1df968dc-1be2-4c16-af33-59f59fd5858b
   asset_name: b7023ae-9baf-4012-b6f2-aa52483d6c46
   CI_Number: dda874d3-610e-4460-b4d1-7ef304605392
   Install_Status: 8eeeae37-e6cc-4cd9-a65d-c5b6c3a72c36
