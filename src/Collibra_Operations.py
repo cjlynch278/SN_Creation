@@ -129,7 +129,7 @@ class Collibra_Operations:
 
         asset_list = []
         for index, row in dataframe.iterrows():
-            if not (row["asset_name"] in ["Unknown", "None", None, "nan"]):
+            if not (row["asset_name"] in ["Unknown", "None", None, "nan", ""]):
                 print("Adding row: " + str(row["asset_name"]))
                 asset_name = str(row["asset_name"])
                 asset_backend_name = str(row["asset_name"]) + "_" + str(row["SN_System_ID"])
