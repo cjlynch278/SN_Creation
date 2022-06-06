@@ -25,7 +25,6 @@ class Collibra_Operations:
             self.owned_by = config["COLLIBRA_DETAILS"]["Owned_By"]
             self.it_owner = config["COLLIBRA_DETAILS"]["IT_Owner"]
             self.supported_by = config["COLLIBRA_DETAILS"]["Supported_By"]
-            self.regulatory_and_compliance_standards = config["COLLIBRA_DETAILS"]["Regulatory_And_Compliance_Standards"]
             self.export_control = config["COLLIBRA_DETAILS"]["Export_Control"]
             self.legal_hold = config["COLLIBRA_DETAILS"]["Legal_Hold"]
             self.apm_data_sensitivity = config["COLLIBRA_DETAILS"]["APM_Data_Sensitivity"]
@@ -51,7 +50,6 @@ class Collibra_Operations:
             "Owned_By": self.owned_by,
             "IT_Owner": self.it_owner,
             "Supported_By": self.supported_by,
-            "Regulatory_And_Compliance_Standards": self.regulatory_and_compliance_standards,
             "Export_Control": self.export_control,
             "Legal_Hold": self.legal_hold,
             "APM_Data_Sensitivity": self.apm_data_sensitivity,
