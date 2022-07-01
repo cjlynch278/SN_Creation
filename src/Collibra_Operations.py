@@ -19,6 +19,7 @@ class Collibra_Operations:
         try:
             self.asset_name = config["COLLIBRA_DETAILS"]["asset_name"]
             self.ci_number = config["COLLIBRA_DETAILS"]["CI_Number"]
+            self.description = config["COLLIBRA_DETAILS"]["Description"]
             self.install_status = config["COLLIBRA_DETAILS"]["Install_Status"]
             self.business_criticality = config["COLLIBRA_DETAILS"]["Business_Criticality"]
             self.url = config["COLLIBRA_DETAILS"]["URL"]
@@ -30,6 +31,7 @@ class Collibra_Operations:
             self.apm_data_sensitivity = config["COLLIBRA_DETAILS"]["APM_Data_Sensitivity"]
             self.disaster_recovery_gab = config["COLLIBRA_DETAILS"]["Disaster_Recovery_Gap"]
             self.records_retention = config["COLLIBRA_DETAILS"]["Records_Retention"]
+            self.description = config["COLLIBRA_DETAILS"]["Description"]
 
         except KeyError as e:
             print("The config file is incorrectly setup: " + str(e))
@@ -44,6 +46,7 @@ class Collibra_Operations:
         self.column_map = {
             "asset_name": self.asset_name,
             "CI_Number": self.ci_number,
+            "Description": self.description,
             "Install_Status": self.install_status,
             "Business_Criticality": self.business_criticality,
             "URL": self.url,
