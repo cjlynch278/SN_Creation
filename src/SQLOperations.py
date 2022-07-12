@@ -13,15 +13,12 @@ class SQLOperations:
         server_name,
         database_name,
         token_auth,
-        sql_query,
         admin_only_id,
         environment,
     ):
         self.admin_only_id = admin_only_id
         self.environment = environment
         self.token_auth = token_auth
-        self.sql_query = sql_query
-
         self.sql_user = sql_user
         self.sql_password = sql_password
         self.server_name = server_name
@@ -44,10 +41,10 @@ class SQLOperations:
         self.engine = create_engine(self.connection_string)
         self.conn = self.engine.connect()
 
-    def read_sql(self):
+    def read_sql(self, string_sql_query):
 
         sql_query = pd.read_sql_query(
-            self.sql_query,
+            string_sql_query,
             self.conn,
         )
 

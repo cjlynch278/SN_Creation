@@ -29,9 +29,25 @@ class Collibra_Operations:
             self.export_control = config["COLLIBRA_DETAILS"]["Export_Control"]
             self.legal_hold = config["COLLIBRA_DETAILS"]["Legal_Hold"]
             self.apm_data_sensitivity = config["COLLIBRA_DETAILS"]["APM_Data_Sensitivity"]
-            self.disaster_recovery_gab = config["COLLIBRA_DETAILS"]["Disaster_Recovery_Gap"]
+            self.disaster_recovery_gap = config["COLLIBRA_DETAILS"]["Disaster_Recovery_Gap"]
             self.records_retention = config["COLLIBRA_DETAILS"]["Records_Retention"]
             self.description = config["COLLIBRA_DETAILS"]["Description"]
+
+            self.attributes_map = {
+                'URL': 'URL',
+                'Number': 'CI_Number',
+                'Application Status': 'Install_Status',
+                'Business Owner': 'Owned_By',
+                'IT Application Owner': 'IT_Owner',
+                'Application Contact': 'Supported_By',
+                'Regulatory And Compliance Standards': 'Regulatory_And_Compliance_Standards',
+                'Legal Hold': 'Legal_Hold',
+                'Data Sensitivity': 'APM_Data_Sensitivity',
+                'Disaster Recovery Required': 'Disaster_Recovery_Gap',
+                'Records Retention': 'Records_Retention',
+                'Business Criticality': 'Business_Criticality',
+                'Export Control': 'Export_Control'
+            }
 
         except KeyError as e:
             print("The config file is incorrectly setup: " + str(e))
@@ -56,8 +72,9 @@ class Collibra_Operations:
             "Export_Control": self.export_control,
             "Legal_Hold": self.legal_hold,
             "APM_Data_Sensitivity": self.apm_data_sensitivity,
-            "Disaster_Recovery_Gap": self.disaster_recovery_gab,
+            "Disaster_Recovery_Gap": self.disaster_recovery_gap,
             "Records_Retention": self.records_retention,
+
         }
         self.target_domain_id = self.admin_only_id
 
@@ -163,3 +180,37 @@ class Collibra_Operations:
                     attribute_list.append(current_attribute_dict)
 
         return self.add_collibra_attributes(attribute_list)
+
+    def update_collibra(self, dataframe):
+        for index, row in dataframe.iterrows():
+            self.collibra_post(row['Attribute_ID'],
+                               row[self.attributes_map[row['Attribute_Name']]])
+
+
+    def collibra_post(self, attribute_id, new_value):
+        url = "https://" + self.environment + "/rest/2.0/attributes/" + attribute_id
+
+        payload = json.dumps({
+            "id": attribute_id,
+            "value": new_value
+        })
+        headers = {
+            'Authorization': self.collibra_auth,
+            'Content-Type': 'application/json',
+            'Cookie': 'AWSALBTG=fXKe2gPjziB8JKidvImZqUflXpwoukyxOAQdWJWinBToRlwy0jAnUFitKSv7+fpqgif8y9WUYDnejXAtxw+p4SJlhwUE3yAkaj2VRj3iZgpDOzhH0cGYRod650nDcTnWTuMJ/y9x68Y6KvkhUvs550iE9t1L62RfphNjhkhiMCYOhLT4zq4=; AWSALBTGCORS=fXKe2gPjziB8JKidvImZqUflXpwoukyxOAQdWJWinBToRlwy0jAnUFitKSv7+fpqgif8y9WUYDnejXAtxw+p4SJlhwUE3yAkaj2VRj3iZgpDOzhH0cGYRod650nDcTnWTuMJ/y9x68Y6KvkhUvs550iE9t1L62RfphNjhkhiMCYOhLT4zq4=; JSESSIONID=918efa55-b2b6-439f-877c-5967cef63ce2'
+        }
+        try:
+            response = requests.request("PATCH", url, headers=headers, data=payload)
+
+        # Retry request if ssl error
+        except requests.exceptions.SSLError:
+            response = requests.request("PATCH", url, headers=headers, data=payload)
+
+        if response.status_code == 404:
+            logging.error("Error when modifying attribute: " + attribute_id)
+            print("Error when modifying attribute: " + attribute_id)
+            return response.text
+
+        print(response.text)
+
+

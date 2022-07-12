@@ -19,12 +19,12 @@ class SqlOperationsTest(unittest.TestCase):
                 print(exc)
         try:
             self.token_auth = config["AUTH"]["token_auth_header"]
-            self.sql_query = config["MYSQL_CONNECTION_DETAILS"]["SQL_QUERY"]
+            self.sql_query = config["MYSQL_CONNECTION_DETAILS"]["CREATE_SQL_QUERY"]
             self.environment = config["ENVIRONMENT"]["gore"]
             self.admin_only_domain_id = config["COLLIBRA_DETAILS"]["ADMIN_DOMAIN_ID"]
             self.token_auth = config["AUTH"]["token_auth_header"]
         except KeyError:
-            print("The config file is incorrectly setup")
+            print("The config file is incorrectly setup: " + KeyError)
             os._exit(1)
 
         self.sql_operations = SQLOperations(
@@ -33,7 +33,6 @@ class SqlOperationsTest(unittest.TestCase):
             "test",
             "test",
             self.token_auth,
-            self.sql_query,
             self.admin_only_domain_id,
             self.environment,
         )
@@ -46,6 +45,10 @@ class SqlOperationsTest(unittest.TestCase):
             self.admin_only_domain_id, self.environment, self.token_auth, "./src/tests/test_files/test_config.yml"
         )
         self.test_2 = pandas.read_csv("src/tests/test_files/test_2.csv")
+        self.updates_dataframe = pandas.read_csv("src/tests/test_files/test_updates.csv")
+        self.updates_dataframe_2 = pandas.read_csv("src/tests/test_files/test_updates_2.csv")
+        self.updates_dataframe_3 = pandas.read_csv("src/tests/test_files/test_updates_3.csv")
+
 
     def test_create_assets_and_attributes(self):
         self.collibra_operations.create_assets_and_attributes(self.six_test)
@@ -85,3 +88,11 @@ class SqlOperationsTest(unittest.TestCase):
         url = "https://wlgore-dev.collibra.com/rest/2.0/assets/bulk"
         response = requests.request("DELETE", url, headers=headers, data=asset_ids)
         print("response")
+
+    def test_update_collibra(self):
+        self.collibra_operations.update_collibra(self.updates_dataframe_3)
+
+    def test_collibra_post(self):
+        self.collibra_operations.collibra_post('dcff9343-b785-4fd3-bfc7-a9312e7d89ec', 'Posted')
+        self.collibra_operations.collibra_post('dcff9343-b785-4fd3-bfc7-a9312e7d89ec', '')
+        self.collibra_operations.collibra_post('dcff9343-b785-4fd3-bfc7-a9312e7d89edsac', '')

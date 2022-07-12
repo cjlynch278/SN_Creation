@@ -15,7 +15,8 @@ class MainClass:
                 print(exc)
         try:
             self.admin_only_domain_id = config["COLLIBRA_DETAILS"]["ADMIN_DOMAIN_ID"]
-            self.sql_query = config["MYSQL_CONNECTION_DETAILS"]["SQL_QUERY"]
+            self.create_sql_query = config["MYSQL_CONNECTION_DETAILS"]["CREATE_SQL_QUERY"]
+            self.update_sql_query = config["MYSQL_CONNECTION_DETAILS"]["UPDATE_SQL_QUERY"]
             self.token_auth = config["AUTH"]["token_auth_header"]
             self.database_name = str(
                 config["MYSQL_CONNECTION_DETAILS"]["DATABASE_NAME"]
@@ -49,7 +50,6 @@ class MainClass:
             self.server_name,
             self.database_name,
             self.token_auth,
-            self.sql_query,
             self.admin_only_domain_id,
             self.environment,
         )
@@ -63,10 +63,15 @@ class MainClass:
         logging.info("Collibra Operations setup")
 
     def run(self):
-        dataframe = self.sql_operations.read_sql()
-        logging.info("Sql read successfully")
-        self.collibra_operations.create_assets_and_attributes(dataframe)
+        create_dataframe = self.sql_operations.read_sql(self.create_sql_query)
+        logging.info("Create Sql read successfully")
+        self.collibra_operations.create_assets_and_attributes(create_dataframe)
         logging.info("Assets and attributes created")
+
+        update_dataframe = self.sql_operations.read_sql(self.update_sql_query)
+        logging.info("Create Sql read successfully")
+        self.collibra_operations.update_collibra(update_dataframe)
+        logging.info("Collibra Updated")
 
 
 if __name__ == "__main__":
