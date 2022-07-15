@@ -59,7 +59,7 @@ jobs:
 
     - uses: actions/upload-artifact@v2
       with:
-        name: collibra-qurey-and-post
+        name: collibra-query-and-post
         path: src/dist/windows
 
 

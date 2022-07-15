@@ -32,6 +32,9 @@ class Collibra_Operations:
             self.disaster_recovery_gap = config["COLLIBRA_DETAILS"]["Disaster_Recovery_Gap"]
             self.records_retention = config["COLLIBRA_DETAILS"]["Records_Retention"]
             self.description = config["COLLIBRA_DETAILS"]["Description"]
+            self.system_asset_type_id = config["COLLIBRA_DETAILS"]["System_Asset_Type_ID"]
+            self.system_status_id = config["COLLIBRA_DETAILS"]["System_Status_ID"]
+
 
             self.attributes_map = {
                 'URL': 'URL',
@@ -150,16 +153,16 @@ class Collibra_Operations:
             if not (row["asset_name"] in ["Unknown", "None", None, "nan", ""]):
                 print("Adding row: " + str(row["asset_name"]))
                 asset_name = str(row["asset_name"])
-                asset_backend_name = str(row["asset_name"]) + "_" + str(row["SN_System_ID"])
             else:
-                asset_name = "_" + str(row["SN_System_ID"])
-                asset_backend_name = "_" + str(row["SN_System_ID"])
+                asset_name = str(row["SN_System_ID"])
+            asset_backend_name = str(row["SN_System_ID"])
+
             current_asset_dict = {
                 "name": asset_backend_name,
                 "displayName": asset_name,
                 "domainId": self.target_domain_id,
-                "typeId": "00000000-0000-0000-0000-000000031302",
-                "statusId": "a669d696-06c4-46cc-abac-cd95bc27d374"
+                "typeId": self.system_asset_type_id,
+                "statusId": self.system_status_id
                 # "excludedFromAutoHyperlinking": "true",
             }
             asset_list.append(current_asset_dict)

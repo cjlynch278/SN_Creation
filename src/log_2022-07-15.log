@@ -1,0 +1,7 @@
+13:19:49,437 root INFO --------------------------------------
+
+13:19:49,437 root INFO Push To Collibra App started
+13:19:49,437 root INFO Config File Read
+13:19:49,450 urllib3.connectionpool DEBUG Starting new HTTPS connection (1): ssoauthwf.gore.com:443
+13:19:50,891 urllib3.connectionpool DEBUG https://ssoauthwf.gore.com:443 "POST /as/token.oauth2?grant_type=client_credentials HTTP/1.1" 200 None
+13:19:50,893 root INFO Sql operations setup

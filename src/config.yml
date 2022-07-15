@@ -219,6 +219,9 @@ COLLIBRA_DETAILS:
   Disaster_Recovery_Gap: 75990512-2359-4c3d-996e-86dbc17cf03e
   Records_Retention: e2d0fc7f-fa63-409f-a9ab-ff861a5c1206
   Description: 00000000-0000-0000-0000-000000003114
+  System_Status_ID: a669d696-06c4-46cc-abac-cd95bc27d374
+  System_Asset_Type_ID: 00000000-0000-0000-0000-000000031302
+
 SERVICE_NOW:
   ENVIRONMENT: goredev
   USERNAME: CollibraServiceNow
