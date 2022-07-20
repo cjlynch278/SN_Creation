@@ -119,7 +119,7 @@ class Collibra_Operations:
             os._exit(1)
 
         print(response.status_code)
-        logging.info("Assets Created: " + response.text)
+        logging.info("Assets Created: " + response.status_code)
         return response.json()
 
     def add_collibra_attributes(self, attribute_dict):
@@ -133,8 +133,8 @@ class Collibra_Operations:
         }
 
         response = requests.request("POST", url, headers=headers, data=payload)
-        print(response.text)
-        logging.info("Attributes Created: " + response.text)
+        print(response.status_code)
+        logging.info("Attributes Created response: " + response.status_code)
 
     def add_asset_ids_to_df(self, dataframe, json_response):
         # Add asset_id column
