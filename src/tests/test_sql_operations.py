@@ -18,24 +18,26 @@ class SqlOperationsTest(unittest.TestCase):
                 print(exc)
         try:
             self.token_auth = config["AUTH"]["token_auth_header"]
-            self.sql_query = config["MYSQL_CONNECTION_DETAILS"]["SQL_QUERY"]
+            self.create_sql_query = config["MYSQL_CONNECTION_DETAILS"][
+                "CREATE_SQL_QUERY"
+            ].format("hello")
+            self.create_sql_query = config["MYSQL_CONNECTION_DETAILS"][
+                "CREATE_SQL_QUERY"
+            ].format(config["COLLIBRA_DETAILS"]["ADMIN_DOMAIN_ID"])
+            self.update_sql_query = config["MYSQL_CONNECTION_DETAILS"][
+                "UPDATE_SQL_QUERY"
+            ]
             self.environment = config["ENVIRONMENT"]["gore"]
             self.admin_only_domain_id = config["COLLIBRA_DETAILS"]["ADMIN_DOMAIN_ID"]
             self.token_auth = config["AUTH"]["token_auth_header"]
-        except KeyError:
-            print("The config file is incorrectly setup")
+        except KeyError as e:
+            print("The test config file is incorrectly setup: " + str(e))
             os._exit(1)
 
-        self.sql_operations = SQLOperations(
-            "test",
-            "test",
-            "test",
-            "test",
-            self.token_auth,
-            self.sql_query,
-            self.admin_only_domain_id,
-            self.environment,
-        )
         self.test_dataframe = pandas.read_csv("src/tests/test_files/test.csv")
         self.small_test_df = pandas.read_csv("src/tests/test_files/small_test.csv")
         self.empty_test_df = pandas.DataFrame()
+
+    def test_sql_format(self):
+        print("setup")
+        print(self.create_sql_query)

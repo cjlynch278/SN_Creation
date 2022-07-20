@@ -23,7 +23,7 @@ MYSQL_CONNECTION_DETAILS:
         as sn_business_apps
         left join
         (select * from collibra.collibra_assets where is_current=1 and
-        Domain_ID ='e6befd73-edd7-4faa-8635-a7640339548b') collibra_assets on sn_business_apps.Name + '_' + SN_System_ID =
+        Domain_ID ='{0}') collibra_assets on sn_business_apps.Name + '_' + SN_System_ID =
         collibra_assets.name where collibra_assets.Name is null and sn_business_apps.is_current = 1
 
         Union
@@ -37,7 +37,7 @@ MYSQL_CONNECTION_DETAILS:
         as sn_service_discovered
         left Join
         (select * from collibra.collibra_assets where is_current=1 and
-        Domain_ID ='e6befd73-edd7-4faa-8635-a7640339548b') collibra_assets on sn_service_discovered.Name + '_' + SN_System_ID =
+        Domain_ID ='{0}') collibra_assets on sn_service_discovered.Name + '_' + SN_System_ID =
         collibra_assets.name where collibra_assets.Name is null and sn_service_discovered.is_current = 1
 
         Union
@@ -51,11 +51,10 @@ MYSQL_CONNECTION_DETAILS:
         as sn_services
         left Join
         (select * from collibra.collibra_assets where is_current=1 and
-        Domain_ID ='e6befd73-edd7-4faa-8635-a7640339548b') collibra_assets on sn_services.Name + '_' + SN_System_ID =
+        Domain_ID ='{0}') collibra_assets on sn_services.Name + '_' + SN_System_ID =
         collibra_assets.name where collibra_assets.Name is null and sn_services.is_current = 1
   UPDATE_SQL_QUERY: >
 
-        use EXL_MDSDev
         select collibra_assets.Attribute_ID, collibra_assets.Asset_ID, collibra_assets.Name, Description, Attribute_Name, Install_Status, Attribute_Value, CI_Number,
         Owned_By, IT_Owner, Business_Criticality, Disaster_Recovery_Gap, Export_Control, [Regulatory_And_Compliance_Standards],
         [Legal_Hold], APM_Data_Sensitivity, Supported_By, collibra_assets.is_current,
@@ -73,7 +72,7 @@ MYSQL_CONNECTION_DETAILS:
           ,attributes.[Attribute_ID]
         FROM [EXL_MDSDev].collibra.[collibra_assets] assets
         join collibra.collibra_attributes attributes on assets.[Asset_ID] = attributes.Parent_Asset_ID
-        Where Domain_ID = 'e6befd73-edd7-4faa-8635-a7640339548b' 
+        Where Domain_ID = '{0}'
         and attributes.is_current=1 and assets.is_current = 1
         ) collibra_assets
 
@@ -122,7 +121,7 @@ MYSQL_CONNECTION_DETAILS:
           ,attributes.[Attribute_ID]
         FROM [EXL_MDSDev].collibra.[collibra_assets] assets
         join collibra.collibra_attributes attributes on assets.[Asset_ID] = attributes.Parent_Asset_ID
-        Where Domain_ID = 'e6befd73-edd7-4faa-8635-a7640339548b' 
+        Where Domain_ID = '{0}'
         and attributes.is_current=1 and assets.is_current = 1
         ) collibra_assets
 
@@ -173,7 +172,7 @@ MYSQL_CONNECTION_DETAILS:
           ,attributes.[Attribute_ID]
         FROM [EXL_MDSDev].collibra.[collibra_assets] assets
         join collibra.collibra_attributes attributes on assets.[Asset_ID] = attributes.Parent_Asset_ID
-        Where Domain_ID = 'e6befd73-edd7-4faa-8635-a7640339548b' 
+        Where Domain_ID = '{0}'
         and attributes.is_current=1 and assets.is_current = 1
         ) collibra_assets
 
@@ -204,7 +203,7 @@ MYSQL_CONNECTION_DETAILS:
 
   VARCHAR_LENGTH: 8000
 COLLIBRA_DETAILS:
-  ADMIN_DOMAIN_ID: e6befd73-edd7-4faa-8635-a7640339548b
+  ADMIN_DOMAIN_ID: 98ac7586-2792-4f26-b514-2f3649a5451b
   asset_name: b7023ae-9baf-4012-b6f2-aa52483d6c46
   CI_Number: dda874d3-610e-4460-b4d1-7ef304605392
   Install_Status: 8eeeae37-e6cc-4cd9-a65d-c5b6c3a72c36
@@ -221,6 +220,8 @@ COLLIBRA_DETAILS:
   Description: 00000000-0000-0000-0000-000000003114
   System_Status_ID: a669d696-06c4-46cc-abac-cd95bc27d374
   System_Asset_Type_ID: 00000000-0000-0000-0000-000000031302
+  Regulatory_And_Compliance_Standards: cc0f2616-907a-4098-9ea8-091ed2117068
+
 
 SERVICE_NOW:
   ENVIRONMENT: goredev

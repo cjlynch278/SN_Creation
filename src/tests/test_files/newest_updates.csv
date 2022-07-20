@@ -1,0 +1,4 @@
+Asset_ID,SN_System_ID,system_name,is_current,attribute_type,sn_value,Attribute_Name,attribute_id,collibra_value,Parent_Asset_ID,Attribute_Type_ID
+00097b8b-1238-4df2-8311-4b84acd2e4a0,534aa3920fa4030038702ca8b1050e88,FTW and Gloves / Accessories DB,1,Regulatory_And_Compliance_Standards,Not Assessed,NULL,NULL,NULL,NULL,NULL
+00249216-bd98-4423-af98-f4b077ed0408,273775dd4f3c7ac02315d1411310c7ff,IntEco_postIntegrationBrokerageCustomASN,1,APM_Data_Sensitivity,,NULL,NULL,NULL,NULL,NULL
+00249216-bd98-4423-af98-f4b077ed0408,273775dd4f3c7ac02315d1411310c7ff,IntEco_postIntegrationBrokerageCustomASN,1,Disaster_Recovery_Gap,None,NULL,NULL,NULL,NULL,NULL
