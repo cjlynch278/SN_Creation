@@ -23,7 +23,7 @@ MYSQL_CONNECTION_DETAILS:
         as sn_business_apps
         left join
         (select * from collibra.collibra_assets where is_current=1 and
-        Domain_ID ='{0}') collibra_assets on sn_business_apps.Name + '_' + SN_System_ID =
+        Domain_ID ='{0}') collibra_assets on SN_System_ID =
         collibra_assets.name where collibra_assets.Name is null and sn_business_apps.is_current = 1
 
         Union
@@ -37,7 +37,7 @@ MYSQL_CONNECTION_DETAILS:
         as sn_service_discovered
         left Join
         (select * from collibra.collibra_assets where is_current=1 and
-        Domain_ID ='{0}') collibra_assets on sn_service_discovered.Name + '_' + SN_System_ID =
+        Domain_ID ='{0}') collibra_assets on SN_System_ID =
         collibra_assets.name where collibra_assets.Name is null and sn_service_discovered.is_current = 1
 
         Union
@@ -51,156 +51,164 @@ MYSQL_CONNECTION_DETAILS:
         as sn_services
         left Join
         (select * from collibra.collibra_assets where is_current=1 and
-        Domain_ID ='{0}') collibra_assets on sn_services.Name + '_' + SN_System_ID =
+        Domain_ID ='{0}') collibra_assets on SN_System_ID =
         collibra_assets.name where collibra_assets.Name is null and sn_services.is_current = 1
   UPDATE_SQL_QUERY: >
 
-        use EXL_MDSDev
-        select collibra_assets.Attribute_ID, collibra_assets.Asset_ID, collibra_assets.Name, Description, Attribute_Name, Install_Status, Attribute_Value, CI_Number,
-        Owned_By, IT_Owner, Business_Criticality, Disaster_Recovery_Gap, Export_Control, [Regulatory_And_Compliance_Standards],
-        [Legal_Hold], APM_Data_Sensitivity, Supported_By, collibra_assets.is_current,
-        sn_business_apps.is_current, URL from (
-        SELECT [Asset_ID]
-          ,[Name]
-          ,[Display_Name]
-          ,assets.[is_current]
-          ,[Status]
-          ,[Asset_Type]
-          ,[Domain_Name]
-          ,[Domain_ID]
-          ,attributes.[Attribute_Name],
-          attributes.Attribute_Value
-          ,attributes.[Attribute_ID]
-        FROM [EXL_MDSDev].collibra.[collibra_assets] assets
-        join collibra.collibra_attributes attributes on assets.[Asset_ID] = attributes.Parent_Asset_ID
-        Where Domain_ID = '{0}'
-        and attributes.is_current=1 and assets.is_current = 1
-        ) collibra_assets
+         select  *  from ( select Asset_ID,SN_System_ID, systems.name system_name,systems.is_current, 'Number' as attribute_type, CI_Number sn_value from
+          (
+          select * from servicenow.servicenow_cmbd_ci_business_app
+          union
+          select * from servicenow.servicenow_cmbd_ci_service
+          union
+          select * from servicenow.servicenow_cmbd_ci_service_discovered
+          ) systems
+          join collibra.collibra_assets assets on assets.Name = systems.SN_System_ID
 
-        join
-        servicenow.servicenow_cmbd_ci_business_app sn_business_apps
-        on sn_business_apps.Name + '_' + SN_System_ID = collibra_assets.name
+          union
 
-        where
-        sn_business_apps.is_current = 1
-        and
+          select Asset_ID,SN_System_ID, systems.name system_name,systems.is_current,'URL' as attribute_type, url sn_value from
+          (
+          select * from servicenow.servicenow_cmbd_ci_business_app
+          union
+          select * from servicenow.servicenow_cmbd_ci_service
+          union
+          select * from servicenow.servicenow_cmbd_ci_service_discovered
+          ) systems
+          join collibra.collibra_assets assets on assets.Name = systems.SN_System_ID
 
-        (
+          union
 
-          (Attribute_Name = 'Number' and Attribute_Value != CI_Number)
-        or (Attribute_Name = 'Business Owner' and Attribute_Value != Owned_By)
-        or (Attribute_Name = 'URL' and Attribute_Value != URL)
-        or (Attribute_Name = 'Application Contact' and Attribute_Value != Supported_By)
-        or (Attribute_Name = 'IT Application Owner' and Attribute_Value != IT_Owner)
-        or (Attribute_Name = 'Application Status' and Attribute_Value != Install_Status)
-        or (Attribute_Name = 'Regulatory_And_Compliance_Standards' and Attribute_Value != [Regulatory_And_Compliance_Standards])
-        or (Attribute_Name = 'Legal Hold' and Attribute_Value != [Legal_Hold])
-        or (Attribute_Name = 'Data Sensitivity' and Attribute_Value != APM_Data_Sensitivity)
-        or (Attribute_Name = 'Disaster Recovery Required' and Attribute_Value != Disaster_Recovery_Gap)
-        or (Attribute_Name = 'Records Retention' and Attribute_Value != [Records_Retention])
-        or (Attribute_Name = 'Business Criticality' and Attribute_Value != Business_Criticality)
-        or (Attribute_Name = 'Export Control' and Attribute_Value != Export_Control)
-        )
+          select Asset_ID,SN_System_ID, systems.name system_name,systems.is_current,'Regulatory_And_Compliance_Standards' as attribute_type, Regulatory_And_Compliance_Standards sn_value from
+          (
+          select * from servicenow.servicenow_cmbd_ci_business_app
+          union
+          select * from servicenow.servicenow_cmbd_ci_service
+          union
+          select * from servicenow.servicenow_cmbd_ci_service_discovered
+          ) systems
+          join collibra.collibra_assets assets on assets.Name = systems.SN_System_ID
 
+          union
 
-        union
+          select Asset_ID,SN_System_ID, systems.name system_name,systems.is_current,'Export_Control' as attribute_type, Export_Control sn_value from
+          (
+          select * from servicenow.servicenow_cmbd_ci_business_app
+          union
+          select * from servicenow.servicenow_cmbd_ci_service
+          union
+          select * from servicenow.servicenow_cmbd_ci_service_discovered
+          ) systems
+          join collibra.collibra_assets assets on assets.Name = systems.SN_System_ID
 
-        select collibra_assets.Attribute_ID, collibra_assets.Asset_ID, collibra_assets.Name, Description, Attribute_Name, Install_Status, Attribute_Value, CI_Number,
-        Owned_By, IT_Owner, Business_Criticality, Disaster_Recovery_Gap, Export_Control, [Regulatory_And_Compliance_Standards],
-        [Legal_Hold], APM_Data_Sensitivity, Supported_By, collibra_assets.is_current,
-        sn_services.is_current, URL from (
-        SELECT [Asset_ID]
-          ,[Name]
-          ,[Display_Name]
-          ,assets.[is_current]
-          ,[Status]
-          ,[Asset_Type]
-          ,[Domain_Name]
-          ,[Domain_ID]
-          ,attributes.[Attribute_Name],
-          attributes.Attribute_Value
-          ,attributes.[Attribute_ID]
-        FROM [EXL_MDSDev].collibra.[collibra_assets] assets
-        join collibra.collibra_attributes attributes on assets.[Asset_ID] = attributes.Parent_Asset_ID
-        Where Domain_ID = '{0}'
-        and attributes.is_current=1 and assets.is_current = 1
-        ) collibra_assets
+          union
 
-        join
-        servicenow.servicenow_cmbd_ci_service sn_services
-        on sn_services.Name + '_' + SN_System_ID = collibra_assets.name
+          select Asset_ID,SN_System_ID, systems.name system_name,systems.is_current,'Legal_Hold' as attribute_type, Legal_Hold sn_value from
+          (
+          select * from servicenow.servicenow_cmbd_ci_business_app
+          union
+          select * from servicenow.servicenow_cmbd_ci_service
+          union
+          select * from servicenow.servicenow_cmbd_ci_service_discovered
+          ) systems
+          join collibra.collibra_assets assets on assets.Name = systems.SN_System_ID
 
-        where
-        sn_services.is_current = 1
-        and
+          union
 
-        (
+          select Asset_ID,SN_System_ID, systems.name system_name,systems.is_current,'APM_Data_Sensitivity' as attribute_type, APM_Data_Sensitivity sn_value from
+          (
+          select * from servicenow.servicenow_cmbd_ci_business_app
+          union
+          select * from servicenow.servicenow_cmbd_ci_service
+          union
+          select * from servicenow.servicenow_cmbd_ci_service_discovered
+          ) systems
+          join collibra.collibra_assets assets on assets.Name = systems.SN_System_ID
 
-          (Attribute_Name = 'Number' and Attribute_Value != CI_Number)
-        or (Attribute_Name = 'Business Owner' and Attribute_Value != Owned_By)
-        or (Attribute_Name = 'URL' and Attribute_Value != URL)
-        or (Attribute_Name = 'Application Contact' and Attribute_Value != Supported_By)
-        or (Attribute_Name = 'IT Application Owner' and Attribute_Value != IT_Owner)
-        or (Attribute_Name = 'Application Status' and Attribute_Value != Install_Status)
-        or (Attribute_Name = 'Regulatory_And_Compliance_Standards' and Attribute_Value != [Regulatory_And_Compliance_Standards])
-        or (Attribute_Name = 'Legal Hold' and Attribute_Value != [Legal_Hold])
-        or (Attribute_Name = 'Data Sensitivity' and Attribute_Value != APM_Data_Sensitivity)
-        or (Attribute_Name = 'Disaster Recovery Required' and Attribute_Value != Disaster_Recovery_Gap)
-        or (Attribute_Name = 'Records Retention' and Attribute_Value != [Records_Retention])
-        or (Attribute_Name = 'Business Criticality' and Attribute_Value != Business_Criticality)
-        or (Attribute_Name = 'Export Control' and Attribute_Value != Export_Control)
-        )
+          union
 
+          select Asset_ID,SN_System_ID, systems.name system_name,systems.is_current,'Disaster_Recovery_Gap' as attribute_type, Disaster_Recovery_Gap sn_value from
+          (
+          select * from servicenow.servicenow_cmbd_ci_business_app
+          union
+          select * from servicenow.servicenow_cmbd_ci_service
+          union
+          select * from servicenow.servicenow_cmbd_ci_service_discovered
+          ) systems
+          join collibra.collibra_assets assets on assets.Name = systems.SN_System_ID
 
-        union
+          union
 
+          select Asset_ID,SN_System_ID, systems.name system_name,systems.is_current,'Disaster_Recovery_Gap' as attribute_type, Disaster_Recovery_Gap sn_value from
+          (
+          select * from servicenow.servicenow_cmbd_ci_business_app
+          union
+          select * from servicenow.servicenow_cmbd_ci_service
+          union
+          select * from servicenow.servicenow_cmbd_ci_service_discovered
+          ) systems
+          join collibra.collibra_assets assets on assets.Name = systems.SN_System_ID
 
+          union
 
-        select collibra_assets.Attribute_ID, collibra_assets.Asset_ID, collibra_assets.Name, Description, Attribute_Name, Install_Status, Attribute_Value, CI_Number,
-        Owned_By, IT_Owner, Business_Criticality, Disaster_Recovery_Gap, Export_Control, [Regulatory_And_Compliance_Standards],
-        [Legal_Hold], APM_Data_Sensitivity, Supported_By, collibra_assets.is_current,
-        sn_service_discovered.is_current, URL from (
-        SELECT [Asset_ID]
-          ,[Name]
-          ,[Display_Name]
-          ,assets.[is_current]
-          ,[Status]
-          ,[Asset_Type]
-          ,[Domain_Name]
-          ,[Domain_ID]
-          ,attributes.[Attribute_Name],
-          attributes.Attribute_Value
-          ,attributes.[Attribute_ID]
-        FROM [EXL_MDSDev].collibra.[collibra_assets] assets
-        join collibra.collibra_attributes attributes on assets.[Asset_ID] = attributes.Parent_Asset_ID
-        Where Domain_ID = '{0}'
-        and attributes.is_current=1 and assets.is_current = 1
-        ) collibra_assets
+          select Asset_ID,SN_System_ID, systems.name system_name,systems.is_current,'Records_Retention' as attribute_type, Records_Retention sn_value from
+          (
+         select * from servicenow.servicenow_cmbd_ci_business_app
+          union
+          select * from servicenow.servicenow_cmbd_ci_service
+          union
+          select * from servicenow.servicenow_cmbd_ci_service_discovered
+          ) systems
+          join collibra.collibra_assets assets on assets.Name = systems.SN_System_ID
 
-        join
-        servicenow.servicenow_cmbd_ci_service_discovered sn_service_discovered
-        on sn_service_discovered.Name + '_' + SN_System_ID = collibra_assets.name
+          ) system_attributes
 
-        where
-        sn_service_discovered.is_current = 1
-        and
+          left join
+          (select Attribute_Name, attribute_id, Attribute_Value collibra_value, Parent_Asset_ID,  Attribute_Type_ID from collibra.collibra_attributes collibra_attributes where collibra_attributes.is_current = 1)
+          collibra_attributes
+          on collibra_attributes.Parent_Asset_ID = system_attributes.Asset_ID and attribute_type = Attribute_Name
 
-        (
+          where system_attributes.is_current = 1
+          and
+          (
+          collibra_value != sn_value
+          or collibra_value is null
+          or sn_value is null
+          )
+          and SN_System_ID not in
 
-          (Attribute_Name = 'Number' and Attribute_Value != CI_Number)
-        or (Attribute_Name = 'Business Owner' and Attribute_Value != Owned_By)
-        or (Attribute_Name = 'URL' and Attribute_Value != URL)
-        or (Attribute_Name = 'Application Contact' and Attribute_Value != Supported_By)
-        or (Attribute_Name = 'IT Application Owner' and Attribute_Value != IT_Owner)
-        or (Attribute_Name = 'Application Status' and Attribute_Value != Install_Status)
-        or (Attribute_Name = 'Regulatory_And_Compliance_Standards' and Attribute_Value != [Regulatory_And_Compliance_Standards])
-        or (Attribute_Name = 'Legal Hold' and Attribute_Value != [Legal_Hold])
-        or (Attribute_Name = 'Data Sensitivity' and Attribute_Value != APM_Data_Sensitivity)
-        or (Attribute_Name = 'Disaster Recovery Required' and Attribute_Value != Disaster_Recovery_Gap)
-        or (Attribute_Name = 'Records Retention' and Attribute_Value != [Records_Retention])
-        or (Attribute_Name = 'Business Criticality' and Attribute_Value != Business_Criticality)
-        or (Attribute_Name = 'Export Control' and Attribute_Value != Export_Control)
-        )
+          ( select
+          [SN_System_ID]
+          from servicenow.servicenow_cmbd_ci_business_app
+          as sn_business_apps
+          left join
+          (select * from collibra.collibra_assets where is_current=1 and
+          Domain_ID ='{0}') collibra_assets on SN_System_ID =
+          collibra_assets.name where collibra_assets.Name is null and sn_business_apps.is_current = 1
+
+          Union
+
+          select
+          [SN_System_ID]
+          from servicenow.servicenow_cmbd_ci_service_discovered
+          as sn_service_discovered
+          left Join
+          (select * from collibra.collibra_assets where is_current=1 and
+          Domain_ID ='{0}') collibra_assets on  SN_System_ID =
+          collibra_assets.name where collibra_assets.Name is null and sn_service_discovered.is_current = 1
+
+          Union
+
+          select
+          [SN_System_ID]
+          from servicenow.servicenow_cmbd_ci_service
+          as sn_services
+          left Join
+          (select * from collibra.collibra_assets where is_current=1 and
+          Domain_ID ='{0}') collibra_assets on  SN_System_ID =
+          collibra_assets.name where collibra_assets.Name is null and sn_services.is_current = 1
+          )
+          order by Attribute_Name desc
 
   VARCHAR_LENGTH: 8000
 COLLIBRA_DETAILS:
@@ -223,7 +231,6 @@ COLLIBRA_DETAILS:
   System_Asset_Type_ID: 00000000-0000-0000-0000-000000031302
   Regulatory_And_Compliance_Standards: cc0f2616-907a-4098-9ea8-091ed2117068
 
-
 SERVICE_NOW:
   ENVIRONMENT: goredev
   USERNAME: CollibraServiceNow
@@ -232,4 +239,4 @@ SERVICE_NOW:
   CLIENT_SECRET: kWG**2P-%24K
   COOKIE: BIGipServerpool_goredev=a9e38fd365549b0c2c33897783bb1723; JSESSIONID=5BE2DB2FFD81BD35C9CB7A3F4CB3523C; glide_user_activity=U0N2M18xOmF3WElJdWl2VmxKWm4vUE5ZdGtEdVExNmpuU2ZWR0I5Z2dyQjFsbk9BckE9Om5HMitOZ1lxMXV1SWVDZXpYaWlXdWdMd3Fxb2czZWdmTTFYb3FEdXBqV2M9; glide_user_route=glide.c2430e9397ea43e166882ffdb6b97fa1
 LOGGER:
-  LOCATION: logs/log
+  LOCATION: log
