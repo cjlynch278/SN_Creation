@@ -118,8 +118,8 @@ class Collibra_Operations:
 
             os._exit(1)
 
-        print(response.status_code)
-        logging.info("Assets Created: " + response.status_code)
+        print("Assets Created Status Code: " + str(response.status_code))
+        logging.info("Assets Created: " + str(response.status_code))
         return response.json()
 
     def add_collibra_attributes(self, attribute_dict):
@@ -133,8 +133,8 @@ class Collibra_Operations:
         }
 
         response = requests.request("POST", url, headers=headers, data=payload)
-        print(response.status_code)
-        logging.info("Attributes Created response: " + response.status_code)
+        print("Attributes Created response: " + str(response.status_code))
+        logging.info("Attributes Created response: " + str(response.status_code))
 
     def add_asset_ids_to_df(self, dataframe, json_response):
         # Add asset_id column
@@ -211,9 +211,6 @@ class Collibra_Operations:
             # Update here attribute_ID not null
 
             if "attribute_id" in row and not pandas.isnull(row["attribute_id"]):
-                print("I would update: " + str(row["system_name"]))
-                print(row["attribute_id"])
-                # self.collibra_attribute_patch(row['attribute_id'], row['sn_value'])
                 current_attribute_dict = {
                     "id": row["attribute_id"],
                     "value": row["sn_value"],
@@ -224,8 +221,6 @@ class Collibra_Operations:
                 not (row["sn_value"] in ["Unknown", "None", None, "nan"])
                 and row["sn_value"] == row["sn_value"]
             ):
-                print("I need to create attribute for " + (row["system_name"]))
-                print(row["attribute_id"])
                 current_attribute_dict = {
                     "assetId": row["Asset_ID"],
                     "typeId": self.column_map[row["attribute_type"]],
