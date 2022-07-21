@@ -75,7 +75,6 @@ class Collibra_Operations:
         self.column_map = {
             "asset_name": self.asset_name,
             "CI_Number": self.ci_number,
-            "Number": self.ci_number,
             "Description": self.description,
             "Install_Status": self.install_status,
             "Business_Criticality": self.business_criticality,
