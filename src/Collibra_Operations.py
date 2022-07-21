@@ -132,6 +132,20 @@ class Collibra_Operations:
         }
 
         response = requests.request("POST", url, headers=headers, data=payload)
+
+
+        try:
+            response.raise_for_status()
+        except requests.exceptions.HTTPError:
+            print("Adding assets was unsuccessful")
+            logging.info("Adding assets was unsuccessful")
+            print(response.json()["titleMessage"])
+            logging.info(response.json()["titleMessage"])
+            print(response.json()["userMessage"])
+            logging.info(response.json()["userMessage"])
+            logging.info(json.dumps(attribute_dict))
+
+            os._exit(1)
         print("Attributes Created response: " + str(response.status_code))
         logging.info("Attributes Created response: " + str(response.status_code))
 
