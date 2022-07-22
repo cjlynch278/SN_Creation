@@ -60,6 +60,9 @@ class SqlOperationsTest(unittest.TestCase):
         self.updates_dataframe_4 = pandas.read_csv(
             "src/tests/test_files/newest_updates.csv"
         )
+        self.updates_dataframe_5 = pandas.read_csv(
+            "src/tests/test_files/updates_v5.csv"
+        )
 
     def test_create_assets_and_attributes(self):
         self.collibra_operations.create_assets_and_attributes(self.six_test)
@@ -101,7 +104,7 @@ class SqlOperationsTest(unittest.TestCase):
         print("response")
 
     def test_update_collibra(self):
-        self.collibra_operations.update_collibra(self.updates_dataframe_4)
+        self.collibra_operations.update_collibra(self.updates_dataframe_5)
 
     def test_collibra_post(self):
         self.collibra_operations.collibra_attribute_patch(
