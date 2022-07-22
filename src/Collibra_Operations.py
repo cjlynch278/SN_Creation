@@ -137,8 +137,8 @@ class Collibra_Operations:
         try:
             response.raise_for_status()
         except requests.exceptions.HTTPError:
-            print("Adding assets was unsuccessful")
-            logging.info("Adding assets was unsuccessful")
+            print("Adding attributes was unsuccessful")
+            logging.info("Adding attributes was unsuccessful")
             print(response.json()["titleMessage"])
             logging.info(response.json()["titleMessage"])
             print(response.json()["userMessage"])
@@ -236,7 +236,7 @@ class Collibra_Operations:
             ):
                 current_attribute_dict = {
                     "assetId": row["Asset_ID"],
-                    "typeId": self.column_map[row["attribute_type"]],
+                    "typeId": self.attributes_map[self.column_map[row["attribute_type"]]],
                     "value": row["sn_value"],
                 }
                 create_list.append(current_attribute_dict)
