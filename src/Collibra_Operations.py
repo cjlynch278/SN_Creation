@@ -56,7 +56,7 @@ class Collibra_Operations:
                 "Supported By": "Supported_By",
                 "SN Regulatory & Compliance Standards": "Regulatory_And_Compliance_Standards",
                 "Legal Hold": "Legal_Hold",
-                "APM Data Sensitivity": "APM_Data_Sensitivity",
+                "Data Sensitivity": "APM_Data_Sensitivity",
                 "Disaster Recovery Gap": "Disaster_Recovery_Gap",
                 "Records Retention": "Records_Retention",
                 "Business Criticality": "Business_Criticality",
