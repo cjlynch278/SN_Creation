@@ -236,7 +236,7 @@ class Collibra_Operations:
             ):
                 current_attribute_dict = {
                     "assetId": row["Asset_ID"],
-                    "typeId": self.attributes_map[self.column_map[row["attribute_type"]]],
+                    "typeId": self.column_map[self.attributes_map[row["attribute_type"]]],
                     "value": row["sn_value"],
                 }
                 create_list.append(current_attribute_dict)
