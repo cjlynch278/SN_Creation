@@ -69,13 +69,14 @@ class MainClass:
     def run(self):
         create_dataframe = self.sql_operations.read_sql(self.create_sql_query)
         logging.info("Create Sql read successfully")
-        self.collibra_operations.create_assets_and_attributes(create_dataframe)
+        self.collibra_operations.create_assets(create_dataframe)
         logging.info("Assets and attributes created")
 
         update_dataframe = self.sql_operations.read_sql(self.update_sql_query)
         logging.info("Create Sql read successfully")
         self.collibra_operations.update_collibra(update_dataframe)
         logging.info("Collibra Updated")
+
 
 if __name__ == "__main__":
     # Run main class
