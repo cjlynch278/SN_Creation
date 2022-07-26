@@ -53,7 +53,8 @@ class Collibra_Operations:
                 "Application Status": "Install_Status",
                 "Business Owner": "Owned_By",
                 "IT Application Owner": "IT_Owner",
-                "Application Contact": "Supported_By",
+                #channge from application contact to supported by
+                "Supported By": "Supported_By",
                 "SN Regulatory & Compliance Standards": "Regulatory_And_Compliance_Standards",
                 "Legal Hold": "Legal_Hold",
                 "Data Sensitivity": "APM_Data_Sensitivity",
