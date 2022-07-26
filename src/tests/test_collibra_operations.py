@@ -63,6 +63,9 @@ class SqlOperationsTest(unittest.TestCase):
         self.updates_dataframe_5 = pandas.read_csv(
             "src/tests/test_files/updates_v5.csv"
         )
+        self.updates_dataframe_6 = pandas.read_csv(
+            "src/tests/test_files/updates_v6.csv"
+        )
 
     def test_create_assets_and_attributes(self):
         self.collibra_operations.create_assets(self.six_test)
@@ -104,15 +107,6 @@ class SqlOperationsTest(unittest.TestCase):
         print("response")
 
     def test_update_collibra(self):
-        self.collibra_operations.update_collibra(self.updates_dataframe_5)
+        self.collibra_operations.update_collibra(self.updates_dataframe_6)
 
-    def test_collibra_post(self):
-        self.collibra_operations.collibra_attribute_patch_api(
-            "dcff9343-b785-4fd3-bfc7-a9312e7d89ec", "Posted"
-        )
-        self.collibra_operations.collibra_attribute_patch_api(
-            "dcff9343-b785-4fd3-bfc7-a9312e7d89ec", ""
-        )
-        self.collibra_operations.collibra_attribute_patch_api(
-            "dcff9343-b785-4fd3-bfc7-a9312e7d89edsac", ""
-        )
+
