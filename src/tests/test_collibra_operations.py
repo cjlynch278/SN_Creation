@@ -107,6 +107,4 @@ class SqlOperationsTest(unittest.TestCase):
         print("response")
 
     def test_update_collibra(self):
-        self.collibra_operations.update_collibra(self.updates_dataframe_6)
-
-
+        self.collibra_operations.create_attributes(self.updates_dataframe_6)

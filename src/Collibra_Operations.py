@@ -1,7 +1,6 @@
 import logging
 from urllib.parse import quote_plus as url_quote
 import json
-
 import pandas
 import requests
 from src.Access_Token import AccessToken
@@ -97,6 +96,12 @@ class Collibra_Operations:
         self.bulk_assets_url = "https://" + self.environment + "/rest/2.0/assets/bulk"
 
     def create_assets(self, dataframe):
+        """
+        :param dataframe: This is the dataframe that gets returned by the asset dataframe. It
+            consists all of the assets that will need to be created/updated in Collibra to
+            match SNOW
+        :return: nothing
+        """
         # get all columns except asset name for attributes
         attribute_columns = dataframe.drop(columns=["asset_name", "SN_System_ID"])
 
@@ -118,14 +123,16 @@ class Collibra_Operations:
                 # "excludedFromAutoHyperlinking": "true",
             }
             asset_list.append(current_asset_dict)
-        self.collibra_api_call(
-            "POST", self.bulk_assets_url, asset_list
-        )
+        self.collibra_api_call("POST", self.bulk_assets_url, asset_list)
         logging.info("Assets Created Dataframe: " + dataframe["asset_name"])
 
-
-    # Go through all attributes that need to be updated
-    def update_collibra(self, dataframe):
+    def create_attributes(self, dataframe):
+        """
+        :param dataframe: This is the dataframe that gets returned by the attribute dataframe. It
+            consists all of the attributes that will need to be created/updated in Collibra to
+            match SNOW
+        :return: nothing
+        """
         logging.info("--------------------------------------")
         logging.info("-----------------Updates-----------------")
         logging.info("--------------------------------------")
@@ -179,11 +186,12 @@ class Collibra_Operations:
     def collibra_api_call(self, method_type, url, item_list):
         """
         This method generically calls Collibra's api
-        The url param is to specify which collibra needs to be called
-        the item list attribute is a list containing dicts of what should be in the
-        body of the api call
-        The method_type paramter determines what type of api call is being sent e.g. patch,
-        post, get etc..
+        :param url: to specify which collibra needs to be called
+        :param item_list: a list containing dicts of what should be in the
+            body of the api call
+        :param method_type: determines what type of api call is being sent e.g. patch,
+            post, get etc..
+        :return: the json response of the api call
         """
 
         payload = json.dumps(item_list)

@@ -74,13 +74,11 @@ class MainClass:
 
         update_dataframe = self.sql_operations.read_sql(self.update_sql_query)
         logging.info("Create Sql read successfully")
-        self.collibra_operations.update_collibra(update_dataframe)
+        self.collibra_operations.create_attributes(update_dataframe)
         logging.info("Collibra Updated")
 
 
 if __name__ == "__main__":
     # Run main class
-
     main = MainClass("config.yml")
     main.run()
-    # mainClass = MainClass("")
