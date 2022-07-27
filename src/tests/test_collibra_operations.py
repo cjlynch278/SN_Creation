@@ -42,13 +42,27 @@ class SqlOperationsTest(unittest.TestCase):
         self.six_test = pandas.read_csv("src/tests/test_files/six_test.csv")
         self.empty_test_df = pandas.DataFrame()
         self.collibra_operations = Collibra_Operations(
-            self.admin_only_domain_id, self.environment, self.token_auth, "./src/tests/test_files/test_config.yml"
+            self.admin_only_domain_id,
+            self.environment,
+            self.token_auth,
+            "./src/tests/test_files/test_config.yml",
         )
         self.test_2 = pandas.read_csv("src/tests/test_files/test_2.csv")
-        self.updates_dataframe = pandas.read_csv("src/tests/test_files/test_updates.csv")
-        self.updates_dataframe_2 = pandas.read_csv("src/tests/test_files/test_updates_2.csv")
-        self.updates_dataframe_3 = pandas.read_csv("src/tests/test_files/test_updates_3.csv")
-
+        self.updates_dataframe = pandas.read_csv(
+            "src/tests/test_files/test_updates.csv"
+        )
+        self.updates_dataframe_2 = pandas.read_csv(
+            "src/tests/test_files/test_updates_2.csv"
+        )
+        self.updates_dataframe_3 = pandas.read_csv(
+            "src/tests/test_files/test_updates_3.csv"
+        )
+        self.updates_dataframe_4 = pandas.read_csv(
+            "src/tests/test_files/newest_updates.csv"
+        )
+        self.updates_dataframe_5 = pandas.read_csv(
+            "src/tests/test_files/updates_v5.csv"
+        )
 
     def test_create_assets_and_attributes(self):
         self.collibra_operations.create_assets_and_attributes(self.six_test)
@@ -90,9 +104,15 @@ class SqlOperationsTest(unittest.TestCase):
         print("response")
 
     def test_update_collibra(self):
-        self.collibra_operations.update_collibra(self.updates_dataframe_3)
+        self.collibra_operations.update_collibra(self.updates_dataframe_5)
 
     def test_collibra_post(self):
-        self.collibra_operations.collibra_post('dcff9343-b785-4fd3-bfc7-a9312e7d89ec', 'Posted')
-        self.collibra_operations.collibra_post('dcff9343-b785-4fd3-bfc7-a9312e7d89ec', '')
-        self.collibra_operations.collibra_post('dcff9343-b785-4fd3-bfc7-a9312e7d89edsac', '')
+        self.collibra_operations.collibra_attribute_patch(
+            "dcff9343-b785-4fd3-bfc7-a9312e7d89ec", "Posted"
+        )
+        self.collibra_operations.collibra_attribute_patch(
+            "dcff9343-b785-4fd3-bfc7-a9312e7d89ec", ""
+        )
+        self.collibra_operations.collibra_attribute_patch(
+            "dcff9343-b785-4fd3-bfc7-a9312e7d89edsac", ""
+        )

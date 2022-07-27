@@ -15,8 +15,12 @@ class MainClass:
                 print(exc)
         try:
             self.admin_only_domain_id = config["COLLIBRA_DETAILS"]["ADMIN_DOMAIN_ID"]
-            self.create_sql_query = config["MYSQL_CONNECTION_DETAILS"]["CREATE_SQL_QUERY"]
-            self.update_sql_query = config["MYSQL_CONNECTION_DETAILS"]["UPDATE_SQL_QUERY"]
+            self.create_sql_query = config["MYSQL_CONNECTION_DETAILS"][
+                "CREATE_SQL_QUERY"
+            ].format(self.admin_only_domain_id)
+            self.update_sql_query = config["MYSQL_CONNECTION_DETAILS"][
+                "UPDATE_SQL_QUERY"
+            ].format(self.admin_only_domain_id)
             self.token_auth = config["AUTH"]["token_auth_header"]
             self.database_name = str(
                 config["MYSQL_CONNECTION_DETAILS"]["DATABASE_NAME"]
@@ -72,7 +76,6 @@ class MainClass:
         logging.info("Create Sql read successfully")
         self.collibra_operations.update_collibra(update_dataframe)
         logging.info("Collibra Updated")
-
 
 if __name__ == "__main__":
     # Run main class

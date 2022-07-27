@@ -21,35 +21,46 @@ class Collibra_Operations:
             self.ci_number = config["COLLIBRA_DETAILS"]["CI_Number"]
             self.description = config["COLLIBRA_DETAILS"]["Description"]
             self.install_status = config["COLLIBRA_DETAILS"]["Install_Status"]
-            self.business_criticality = config["COLLIBRA_DETAILS"]["Business_Criticality"]
+            self.business_criticality = config["COLLIBRA_DETAILS"][
+                "Business_Criticality"
+            ]
             self.url = config["COLLIBRA_DETAILS"]["URL"]
             self.owned_by = config["COLLIBRA_DETAILS"]["Owned_By"]
             self.it_owner = config["COLLIBRA_DETAILS"]["IT_Owner"]
             self.supported_by = config["COLLIBRA_DETAILS"]["Supported_By"]
             self.export_control = config["COLLIBRA_DETAILS"]["Export_Control"]
             self.legal_hold = config["COLLIBRA_DETAILS"]["Legal_Hold"]
-            self.apm_data_sensitivity = config["COLLIBRA_DETAILS"]["APM_Data_Sensitivity"]
-            self.disaster_recovery_gap = config["COLLIBRA_DETAILS"]["Disaster_Recovery_Gap"]
+            self.apm_data_sensitivity = config["COLLIBRA_DETAILS"][
+                "APM_Data_Sensitivity"
+            ]
+            self.disaster_recovery_gap = config["COLLIBRA_DETAILS"][
+                "Disaster_Recovery_Gap"
+            ]
+            self.regulatory_and_compliance_standards = config["COLLIBRA_DETAILS"][
+                "Regulatory_And_Compliance_Standards"
+            ]
             self.records_retention = config["COLLIBRA_DETAILS"]["Records_Retention"]
             self.description = config["COLLIBRA_DETAILS"]["Description"]
-            self.system_asset_type_id = config["COLLIBRA_DETAILS"]["System_Asset_Type_ID"]
+            self.system_asset_type_id = config["COLLIBRA_DETAILS"][
+                "System_Asset_Type_ID"
+            ]
             self.system_status_id = config["COLLIBRA_DETAILS"]["System_Status_ID"]
 
-
             self.attributes_map = {
-                'URL': 'URL',
-                'Number': 'CI_Number',
-                'Application Status': 'Install_Status',
-                'Business Owner': 'Owned_By',
-                'IT Application Owner': 'IT_Owner',
-                'Application Contact': 'Supported_By',
-                'Regulatory And Compliance Standards': 'Regulatory_And_Compliance_Standards',
-                'Legal Hold': 'Legal_Hold',
-                'Data Sensitivity': 'APM_Data_Sensitivity',
-                'Disaster Recovery Required': 'Disaster_Recovery_Gap',
-                'Records Retention': 'Records_Retention',
-                'Business Criticality': 'Business_Criticality',
-                'Export Control': 'Export_Control'
+                "URL": "URL",
+                "Number": "CI_Number",
+                "Description": "Description",
+                "Application Status": "Install_Status",
+                "Business Owner": "Owned_By",
+                "IT Application Owner": "IT_Owner",
+                "Supported By": "Supported_By",
+                "SN Regulatory & Compliance Standards": "Regulatory_And_Compliance_Standards",
+                "Legal Hold": "Legal_Hold",
+                "Data Sensitivity": "APM_Data_Sensitivity",
+                "Disaster Recovery Gap": "Disaster_Recovery_Gap",
+                "Records Retention": "Records_Retention",
+                "Business Criticality": "Business_Criticality",
+                "Export Control": "Export_Control",
             }
 
         except KeyError as e:
@@ -68,6 +79,7 @@ class Collibra_Operations:
             "Description": self.description,
             "Install_Status": self.install_status,
             "Business_Criticality": self.business_criticality,
+            "Regulatory_And_Compliance_Standards": self.regulatory_and_compliance_standards,
             "URL": self.url,
             "Owned_By": self.owned_by,
             "IT_Owner": self.it_owner,
@@ -77,7 +89,6 @@ class Collibra_Operations:
             "APM_Data_Sensitivity": self.apm_data_sensitivity,
             "Disaster_Recovery_Gap": self.disaster_recovery_gap,
             "Records_Retention": self.records_retention,
-
         }
         self.target_domain_id = self.admin_only_id
 
@@ -107,8 +118,8 @@ class Collibra_Operations:
 
             os._exit(1)
 
-        print(response.status_code)
-        logging.info("Assets Created: " + response.text)
+        print("Assets Created Status Code: " + str(response.status_code))
+        logging.info("Assets Created: " + str(response.status_code))
         return response.json()
 
     def add_collibra_attributes(self, attribute_dict):
@@ -122,31 +133,50 @@ class Collibra_Operations:
         }
 
         response = requests.request("POST", url, headers=headers, data=payload)
-        print(response.text)
-        logging.info("Attributes Created: " + response.text)
+
+
+        try:
+            response.raise_for_status()
+        except requests.exceptions.HTTPError:
+            print("Adding attributes was unsuccessful")
+            logging.info("Adding attributes was unsuccessful")
+            print(response.json()["titleMessage"])
+            logging.info(response.json()["titleMessage"])
+            print(response.json()["userMessage"])
+            logging.info(response.json()["userMessage"])
+            logging.info(json.dumps(attribute_dict))
+
+            os._exit(1)
+        print("Attributes Created response: " + str(response.status_code))
+        logging.info("Attributes Created response: " + str(response.status_code))
 
     def add_asset_ids_to_df(self, dataframe, json_response):
         # Add asset_id column
         dataframe["asset_id"] = None
         for asset in json_response:
             # add asset_ids from json response to dataframe
-            dataframe_row = dataframe.loc[dataframe["asset_name"] + "_" + dataframe["SN_System_ID"] == asset["name"], "asset_id"]
+            dataframe_row = dataframe.loc[
+                dataframe["asset_name"] + "_" + dataframe["SN_System_ID"]
+                == asset["name"],
+                "asset_id",
+            ]
             if not dataframe_row.empty:
-                dataframe.loc[dataframe["asset_name"] + "_" + dataframe["SN_System_ID"] == asset["name"], "asset_id"] = asset[
-                    "id"
-                ]
-            #Accounts for rows where assset_name is empty
+                dataframe.loc[
+                    dataframe["asset_name"] + "_" + dataframe["SN_System_ID"]
+                    == asset["name"],
+                    "asset_id",
+                ] = asset["id"]
+            # Accounts for rows where assset_name is empty
             else:
 
-                dataframe.loc["_" + dataframe["SN_System_ID"] == asset["name"], "asset_id"] = asset[
-                    "id"
-                ]
+                dataframe.loc[
+                    "_" + dataframe["SN_System_ID"] == asset["name"], "asset_id"
+                ] = asset["id"]
         return dataframe
 
     def create_assets_and_attributes(self, dataframe):
         # get all columns except asset name for attributes
-        attribute_columns = dataframe.drop(columns = ["asset_name", "SN_System_ID"])
-
+        attribute_columns = dataframe.drop(columns=["asset_name", "SN_System_ID"])
 
         asset_list = []
         for index, row in dataframe.iterrows():
@@ -185,22 +215,64 @@ class Collibra_Operations:
         return self.add_collibra_attributes(attribute_list)
 
     def update_collibra(self, dataframe):
+        logging.info("--------------------------------------")
+        logging.info("-----------------Updates-----------------")
+        logging.info("--------------------------------------")
+
+        update_list = []
+        create_list = []
         for index, row in dataframe.iterrows():
-            self.collibra_post(row['Attribute_ID'],
-                               row[self.attributes_map[row['Attribute_Name']]])
+            # Update here attribute_ID not null
 
+            if "attribute_id" in row and not pandas.isnull(row["attribute_id"]):
+                current_attribute_dict = {
+                    "id": row["attribute_id"],
+                    "value": row["sn_value"],
+                }
+                update_list.append(current_attribute_dict)
 
-    def collibra_post(self, attribute_id, new_value):
-        url = "https://" + self.environment + "/rest/2.0/attributes/" + attribute_id
+            if (
+                not (row["sn_value"] in ["Unknown", "None", None, "nan"])
+                and row["sn_value"] == row["sn_value"]
+            ):
+                current_attribute_dict = {
+                    "assetId": row["Asset_ID"],
+                    "typeId": self.column_map[self.attributes_map[row["attribute_type"]]],
+                    "value": row["sn_value"],
+                }
+                create_list.append(current_attribute_dict)
 
-        payload = json.dumps({
-            "id": attribute_id,
-            "value": new_value
-        })
+        self.add_collibra_attributes(create_list)
+        self.collibra_attribute_patch(update_list)
+
+        logging.info("Attributes Created")
+        for dict in create_list:
+            logging.info(
+                dict["typeId"]
+                + "Attribute added to asset "
+                + dict["assetId"]
+                + " with value "
+                + dict["value"]
+            )
+
+        logging.info("Attributes Updated")
+        for dict in create_list:
+            logging.info(
+                dict["typeId"]
+                + "Attribute added to asset "
+                + dict["assetId"]
+                + " with value "
+                + dict["value"]
+            )
+
+    def collibra_attribute_patch(self, update_list):
+        url = "https://" + self.environment + "/rest/2.0/attributes/bulk"
+
+        payload = json.dumps(update_list)
         headers = {
-            'Authorization': self.collibra_auth,
-            'Content-Type': 'application/json',
-            'Cookie': 'AWSALBTG=fXKe2gPjziB8JKidvImZqUflXpwoukyxOAQdWJWinBToRlwy0jAnUFitKSv7+fpqgif8y9WUYDnejXAtxw+p4SJlhwUE3yAkaj2VRj3iZgpDOzhH0cGYRod650nDcTnWTuMJ/y9x68Y6KvkhUvs550iE9t1L62RfphNjhkhiMCYOhLT4zq4=; AWSALBTGCORS=fXKe2gPjziB8JKidvImZqUflXpwoukyxOAQdWJWinBToRlwy0jAnUFitKSv7+fpqgif8y9WUYDnejXAtxw+p4SJlhwUE3yAkaj2VRj3iZgpDOzhH0cGYRod650nDcTnWTuMJ/y9x68Y6KvkhUvs550iE9t1L62RfphNjhkhiMCYOhLT4zq4=; JSESSIONID=918efa55-b2b6-439f-877c-5967cef63ce2'
+            "Authorization": self.collibra_auth,
+            "Content-Type": "application/json",
+            "Cookie": "AWSALBTG=fXKe2gPjziB8JKidvImZqUflXpwoukyxOAQdWJWinBToRlwy0jAnUFitKSv7+fpqgif8y9WUYDnejXAtxw+p4SJlhwUE3yAkaj2VRj3iZgpDOzhH0cGYRod650nDcTnWTuMJ/y9x68Y6KvkhUvs550iE9t1L62RfphNjhkhiMCYOhLT4zq4=; AWSALBTGCORS=fXKe2gPjziB8JKidvImZqUflXpwoukyxOAQdWJWinBToRlwy0jAnUFitKSv7+fpqgif8y9WUYDnejXAtxw+p4SJlhwUE3yAkaj2VRj3iZgpDOzhH0cGYRod650nDcTnWTuMJ/y9x68Y6KvkhUvs550iE9t1L62RfphNjhkhiMCYOhLT4zq4=; JSESSIONID=918efa55-b2b6-439f-877c-5967cef63ce2",
         }
         try:
             response = requests.request("PATCH", url, headers=headers, data=payload)
@@ -210,10 +282,6 @@ class Collibra_Operations:
             response = requests.request("PATCH", url, headers=headers, data=payload)
 
         if response.status_code == 404:
-            logging.error("Error when modifying attribute: " + attribute_id)
-            print("Error when modifying attribute: " + attribute_id)
+            logging.error("Error when modifying attributes")
+            print("Error when modifying attributes")
             return response.text
-
-        print(response.text)
-
-
