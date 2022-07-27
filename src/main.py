@@ -1,9 +1,11 @@
 from src.SQLOperations import SQLOperations
 from src.Collibra_Operations import Collibra_Operations
+from src.Email import Email_Class
 import yaml
 import os
 import logging
 from datetime import datetime
+from io import StringIO
 
 
 class MainClass:
@@ -34,6 +36,7 @@ class MainClass:
             self.environment = config["ENVIRONMENT"]["gore"]
             self.auth = config["AUTH"]["auth-header"]
             self.logger_location = config["LOGGER"]["LOCATION"]
+            self.log_stream = StringIO()
 
         except KeyError as e:
             print("The config file is incorrectly setup: " + str(e))
@@ -42,6 +45,7 @@ class MainClass:
             filename=self.logger_location + "_" + str(datetime.today().date()) + ".log",
             filemode="a",
             format="%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s",
+            stream=self.log_stream,
             datefmt="%H:%M:%S",
             level=logging.DEBUG,
         )
@@ -76,6 +80,10 @@ class MainClass:
         logging.info("Create Sql read successfully")
         self.collibra_operations.create_attributes(update_dataframe)
         logging.info("Collibra Updated")
+
+        email_class = Email_Class("smtp.wlgore.com", 25)
+        email_class.send_mail(self.log_stream.getvalue(), "chlynch@wlgore.com")
+        print("email sent!")
 
 
 if __name__ == "__main__":

@@ -160,21 +160,53 @@ class Collibra_Operations:
                 }
                 create_list.append(current_attribute_dict)
 
-        self.collibra_api_call("POST", self.bulk_attributes_url, create_list)
-        self.collibra_api_call("PATCH", self.bulk_attributes_url, update_list)
+        attribute_create_response = self.collibra_api_call(
+            "POST", self.bulk_attributes_url, create_list
+        )
+        if attribute_create_response.status_code in [200, 201]:
+            logging.info("Attributes Created")
+            for dict in create_list:
+                logging.info(
+                    dict["typeId"]
+                    + "Attribute added to asset "
+                    + dict["assetId"]
+                    + " with value "
+                    + dict["value"]
+                    + "\n"
+                )
 
-        logging.info("Attributes Created")
-        for dict in create_list:
-            logging.info(
-                dict["typeId"]
-                + "Attribute added to asset "
-                + dict["assetId"]
-                + " with value "
-                + dict["value"]
-            )
+        else:
+            logging.error("Error Creating attributes")
+            print("Error Creating attributes")
+            logging.info(attribute_create_response.json()["titleMessage"])
+            print(attribute_create_response.json()["userMessage"])
+            logging.info(attribute_create_response.json()["userMessage"])
+            print(attribute_create_response.json()["userMessage"])
 
+        attribute_update_response = self.collibra_api_call(
+            "PATCH", self.bulk_attributes_url, update_list
+        )
+        if attribute_update_response.status_code in [200, 201]:
+            logging.info("Attributes updated")
+            for dict in create_list:
+                logging.info(
+                    dict["typeId"]
+                    + "Attribute added to asset "
+                    + dict["assetId"]
+                    + " with value "
+                    + dict["value"]
+                    + "\n"
+                )
+
+        else:
+            logging.error("Error updating attributes")
+            print("Error updating attributes")
+            logging.info(attribute_create_response.json()["titleMessage"])
+            print(attribute_create_response.json()["userMessage"])
+            logging.info(attribute_create_response.json()["userMessage"])
+            print(attribute_create_response.json()["userMessage"])
         logging.info("Attributes Updated")
-        for dict in create_list:
+        for dict in update_list:
             logging.info(
                 dict["typeId"]
                 + "Attribute added to asset "
@@ -209,16 +241,10 @@ class Collibra_Operations:
             response = requests.request(method_type, url, headers=headers, data=payload)
         try:
             response.raise_for_status()
-        except requests.exceptions.HTTPError:
+        except requests.exceptions.HTTPError as e:
             print("API call was unsuccessful")
             logging.info("API call was unsuccessful")
-            print(response.json()["titleMessage"])
-            logging.info(response.json()["titleMessage"])
-            print(response.json()["userMessage"])
-            logging.info(response.json()["userMessage"])
-
-            os._exit(1)
 
         print("API Call Status Code: " + str(response.status_code))
         logging.info("API Call Status Code: " + str(response.status_code))
-        return response.json()
+        return response
