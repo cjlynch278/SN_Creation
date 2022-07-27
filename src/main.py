@@ -5,7 +5,6 @@ import yaml
 import os
 import logging
 from datetime import datetime
-from io import StringIO
 
 
 class MainClass:
@@ -36,16 +35,15 @@ class MainClass:
             self.environment = config["ENVIRONMENT"]["gore"]
             self.auth = config["AUTH"]["auth-header"]
             self.logger_location = config["LOGGER"]["LOCATION"]
-            self.log_stream = StringIO()
 
         except KeyError as e:
             print("The config file is incorrectly setup: " + str(e))
             os._exit(1)
+        self.log_file_name = self.logger_location + "_" + str(datetime.today().date()) + ".log"
         logging.basicConfig(
-            filename=self.logger_location + "_" + str(datetime.today().date()) + ".log",
+            filename=self.log_file_name,
             filemode="a",
             format="%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s",
-            stream=self.log_stream,
             datefmt="%H:%M:%S",
             level=logging.DEBUG,
         )
@@ -70,6 +68,13 @@ class MainClass:
         )
         logging.info("Collibra Operations setup")
 
+    def prepare_and_send_email(self):
+        log_file = open(self.log_file_name, "r")
+        email_contents = log_file.read()
+        email_class = Email_Class("smtp.wlgore.com", 25)
+        email_class.send_mail(email_contents, "chlynch@wlgore.com")
+        print("email sent!")
+
     def run(self):
         create_dataframe = self.sql_operations.read_sql(self.create_sql_query)
         logging.info("Create Sql read successfully")
@@ -81,9 +86,7 @@ class MainClass:
         self.collibra_operations.create_attributes(update_dataframe)
         logging.info("Collibra Updated")
 
-        email_class = Email_Class("smtp.wlgore.com", 25)
-        email_class.send_mail(self.log_stream.getvalue(), "chlynch@wlgore.com")
-        print("email sent!")
+        self.prepare_and_send_email()
 
 
 if __name__ == "__main__":
