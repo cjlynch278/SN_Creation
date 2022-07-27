@@ -63,12 +63,15 @@ class SqlOperationsTest(unittest.TestCase):
         self.updates_dataframe_5 = pandas.read_csv(
             "src/tests/test_files/updates_v5.csv"
         )
+        self.updates_dataframe_6 = pandas.read_csv(
+            "src/tests/test_files/updates_v6.csv"
+        )
 
     def test_create_assets_and_attributes(self):
-        self.collibra_operations.create_assets_and_attributes(self.six_test)
+        self.collibra_operations.create_assets(self.six_test)
 
     def test_make_all_assets(self):
-        self.collibra_operations.create_assets_and_attributes(self.small_test_df)
+        self.collibra_operations.create_assets(self.small_test_df)
 
     def test_add_collibra_attribute(self):
         test_id = "9fbc86d2-f69b-420d-a8a3-456172027a87"
@@ -104,15 +107,4 @@ class SqlOperationsTest(unittest.TestCase):
         print("response")
 
     def test_update_collibra(self):
-        self.collibra_operations.update_collibra(self.updates_dataframe_5)
-
-    def test_collibra_post(self):
-        self.collibra_operations.collibra_attribute_patch(
-            "dcff9343-b785-4fd3-bfc7-a9312e7d89ec", "Posted"
-        )
-        self.collibra_operations.collibra_attribute_patch(
-            "dcff9343-b785-4fd3-bfc7-a9312e7d89ec", ""
-        )
-        self.collibra_operations.collibra_attribute_patch(
-            "dcff9343-b785-4fd3-bfc7-a9312e7d89edsac", ""
-        )
+        self.collibra_operations.create_attributes(self.updates_dataframe_6)

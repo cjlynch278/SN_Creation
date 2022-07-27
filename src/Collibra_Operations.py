@@ -1,7 +1,6 @@
 import logging
 from urllib.parse import quote_plus as url_quote
 import json
-
 import pandas
 import requests
 from src.Access_Token import AccessToken
@@ -53,7 +52,7 @@ class Collibra_Operations:
                 "Application Status": "Install_Status",
                 "Business Owner": "Owned_By",
                 "IT Application Owner": "IT_Owner",
-                "Supported By": "Supported_By",
+                "Application Contact": "Supported_By",
                 "SN Regulatory & Compliance Standards": "Regulatory_And_Compliance_Standards",
                 "Legal Hold": "Legal_Hold",
                 "Data Sensitivity": "APM_Data_Sensitivity",
@@ -91,90 +90,18 @@ class Collibra_Operations:
             "Records_Retention": self.records_retention,
         }
         self.target_domain_id = self.admin_only_id
+        self.bulk_attributes_url = (
+            "https://" + self.environment + "/rest/2.0/attributes/bulk"
+        )
+        self.bulk_assets_url = "https://" + self.environment + "/rest/2.0/assets/bulk"
 
-    def make_collibra_assets(self, asset_list):
-        url = "https://" + self.environment + "/rest/2.0/assets/bulk"
-
-        payload = json.dumps(asset_list)
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": self.collibra_auth,
-            "Cookie": "AWSALBTG=Xx66ouqWMBuXDDec5OSvqFCQP/PUHcQk4/bdJiR94rGzG/V5WRcMBzuU3pJlVYu4HU/n7EHRJzBq62YNY3YiIq8OMg9muLvH/0Lvx0LTA1YmNk+cncExFCbfBICAgwfP2CNp8y1lJYd4waxnTeYxClL7N8tdx1vyud+OkNC3BYKjOmzkz8I=; AWSALBTGCORS=Xx66ouqWMBuXDDec5OSvqFCQP/PUHcQk4/bdJiR94rGzG/V5WRcMBzuU3pJlVYu4HU/n7EHRJzBq62YNY3YiIq8OMg9muLvH/0Lvx0LTA1YmNk+cncExFCbfBICAgwfP2CNp8y1lJYd4waxnTeYxClL7N8tdx1vyud+OkNC3BYKjOmzkz8I=",
-        }
-
-        response = requests.request("POST", url, headers=headers, data=payload)
-
-        try:
-            response.raise_for_status()
-        except requests.exceptions.HTTPError:
-            print("Adding assets was unsuccessful")
-            logging.info("Adding assets was unsuccessful")
-            print(response.json()["titleMessage"])
-            logging.info(response.json()["titleMessage"])
-            print(response.json()["userMessage"])
-            logging.info(response.json()["userMessage"])
-            print(json.dumps(asset_list))
-            logging.info(json.dumps(asset_list))
-
-            os._exit(1)
-
-        print("Assets Created Status Code: " + str(response.status_code))
-        logging.info("Assets Created: " + str(response.status_code))
-        return response.json()
-
-    def add_collibra_attributes(self, attribute_dict):
-        url = "https://" + self.environment + "/rest/2.0/attributes/bulk"
-
-        payload = json.dumps(attribute_dict)
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": self.collibra_auth,
-            "Cookie": "AWSALBTG=hTSJN5tR+qrcy/5TGPlei2wxCvnVmYpT+BhxuML79+Jes7EGaoDtfmZScPgxcvqw7ZpbdUlu2cifoe/9ycd51Ni2OBPXr0MPn+KQGO+0bQoz775F3TtsUHjzrZJZ4Z9aKy9TWKjTPtlFeAF5JJCvJPkvYJTLp6aYx6TjsUX2z89U5dJy7Zo=; AWSALBTGCORS=hTSJN5tR+qrcy/5TGPlei2wxCvnVmYpT+BhxuML79+Jes7EGaoDtfmZScPgxcvqw7ZpbdUlu2cifoe/9ycd51Ni2OBPXr0MPn+KQGO+0bQoz775F3TtsUHjzrZJZ4Z9aKy9TWKjTPtlFeAF5JJCvJPkvYJTLp6aYx6TjsUX2z89U5dJy7Zo=",
-        }
-
-        response = requests.request("POST", url, headers=headers, data=payload)
-
-
-        try:
-            response.raise_for_status()
-        except requests.exceptions.HTTPError:
-            print("Adding attributes was unsuccessful")
-            logging.info("Adding attributes was unsuccessful")
-            print(response.json()["titleMessage"])
-            logging.info(response.json()["titleMessage"])
-            print(response.json()["userMessage"])
-            logging.info(response.json()["userMessage"])
-            logging.info(json.dumps(attribute_dict))
-
-            os._exit(1)
-        print("Attributes Created response: " + str(response.status_code))
-        logging.info("Attributes Created response: " + str(response.status_code))
-
-    def add_asset_ids_to_df(self, dataframe, json_response):
-        # Add asset_id column
-        dataframe["asset_id"] = None
-        for asset in json_response:
-            # add asset_ids from json response to dataframe
-            dataframe_row = dataframe.loc[
-                dataframe["asset_name"] + "_" + dataframe["SN_System_ID"]
-                == asset["name"],
-                "asset_id",
-            ]
-            if not dataframe_row.empty:
-                dataframe.loc[
-                    dataframe["asset_name"] + "_" + dataframe["SN_System_ID"]
-                    == asset["name"],
-                    "asset_id",
-                ] = asset["id"]
-            # Accounts for rows where assset_name is empty
-            else:
-
-                dataframe.loc[
-                    "_" + dataframe["SN_System_ID"] == asset["name"], "asset_id"
-                ] = asset["id"]
-        return dataframe
-
-    def create_assets_and_attributes(self, dataframe):
+    def create_assets(self, dataframe):
+        """
+        :param dataframe: This is the dataframe that gets returned by the asset dataframe. It
+            consists all of the assets that will need to be created/updated in Collibra to
+            match SNOW
+        :return: nothing
+        """
         # get all columns except asset name for attributes
         attribute_columns = dataframe.drop(columns=["asset_name", "SN_System_ID"])
 
@@ -196,25 +123,16 @@ class Collibra_Operations:
                 # "excludedFromAutoHyperlinking": "true",
             }
             asset_list.append(current_asset_dict)
-        asset_response = self.make_collibra_assets(asset_list)
-        dataframe = self.add_asset_ids_to_df(dataframe, asset_response)
+        self.collibra_api_call("POST", self.bulk_assets_url, asset_list)
         logging.info("Assets Created Dataframe: " + dataframe["asset_name"])
-        attribute_list = []
-        for index, row in dataframe.iterrows():
 
-            for attribute in attribute_columns:
-                value = row[attribute]
-                if not (value in ["Unknown", "None", None, "nan"]) and value == value:
-                    current_attribute_dict = {
-                        "assetId": row["asset_id"],
-                        "typeId": self.column_map[attribute],
-                        "value": value,
-                    }
-                    attribute_list.append(current_attribute_dict)
-
-        return self.add_collibra_attributes(attribute_list)
-
-    def update_collibra(self, dataframe):
+    def create_attributes(self, dataframe):
+        """
+        :param dataframe: This is the dataframe that gets returned by the attribute dataframe. It
+            consists all of the attributes that will need to be created/updated in Collibra to
+            match SNOW
+        :return: nothing
+        """
         logging.info("--------------------------------------")
         logging.info("-----------------Updates-----------------")
         logging.info("--------------------------------------")
@@ -222,8 +140,6 @@ class Collibra_Operations:
         update_list = []
         create_list = []
         for index, row in dataframe.iterrows():
-            # Update here attribute_ID not null
-
             if "attribute_id" in row and not pandas.isnull(row["attribute_id"]):
                 current_attribute_dict = {
                     "id": row["attribute_id"],
@@ -231,19 +147,21 @@ class Collibra_Operations:
                 }
                 update_list.append(current_attribute_dict)
 
-            if (
+            elif (
                 not (row["sn_value"] in ["Unknown", "None", None, "nan"])
                 and row["sn_value"] == row["sn_value"]
             ):
                 current_attribute_dict = {
                     "assetId": row["Asset_ID"],
-                    "typeId": self.column_map[self.attributes_map[row["attribute_type"]]],
+                    "typeId": self.column_map[
+                        self.attributes_map[row["attribute_type"]]
+                    ],
                     "value": row["sn_value"],
                 }
                 create_list.append(current_attribute_dict)
 
-        self.add_collibra_attributes(create_list)
-        self.collibra_attribute_patch(update_list)
+        self.collibra_api_call("POST", self.bulk_attributes_url, create_list)
+        self.collibra_api_call("PATCH", self.bulk_attributes_url, update_list)
 
         logging.info("Attributes Created")
         for dict in create_list:
@@ -265,23 +183,42 @@ class Collibra_Operations:
                 + dict["value"]
             )
 
-    def collibra_attribute_patch(self, update_list):
-        url = "https://" + self.environment + "/rest/2.0/attributes/bulk"
+    def collibra_api_call(self, method_type, url, item_list):
+        """
+        This method generically calls Collibra's api
+        :param url: to specify which collibra needs to be called
+        :param item_list: a list containing dicts of what should be in the
+            body of the api call
+        :param method_type: determines what type of api call is being sent e.g. patch,
+            post, get etc..
+        :return: the json response of the api call
+        """
 
-        payload = json.dumps(update_list)
+        payload = json.dumps(item_list)
         headers = {
-            "Authorization": self.collibra_auth,
             "Content-Type": "application/json",
-            "Cookie": "AWSALBTG=fXKe2gPjziB8JKidvImZqUflXpwoukyxOAQdWJWinBToRlwy0jAnUFitKSv7+fpqgif8y9WUYDnejXAtxw+p4SJlhwUE3yAkaj2VRj3iZgpDOzhH0cGYRod650nDcTnWTuMJ/y9x68Y6KvkhUvs550iE9t1L62RfphNjhkhiMCYOhLT4zq4=; AWSALBTGCORS=fXKe2gPjziB8JKidvImZqUflXpwoukyxOAQdWJWinBToRlwy0jAnUFitKSv7+fpqgif8y9WUYDnejXAtxw+p4SJlhwUE3yAkaj2VRj3iZgpDOzhH0cGYRod650nDcTnWTuMJ/y9x68Y6KvkhUvs550iE9t1L62RfphNjhkhiMCYOhLT4zq4=; JSESSIONID=918efa55-b2b6-439f-877c-5967cef63ce2",
+            "Authorization": self.collibra_auth,
+            "Cookie": "AWSALBTG=Xx66ouqWMBuXDDec5OSvqFCQP/PUHcQk4/bdJiR94rGzG/V5WRcMBzuU3pJlVYu4HU/n7EHRJzBq62YNY3YiIq8OMg9muLvH/0Lvx0LTA1YmNk+cncExFCbfBICAgwfP2CNp8y1lJYd4waxnTeYxClL7N8tdx1vyud+OkNC3BYKjOmzkz8I=; AWSALBTGCORS=Xx66ouqWMBuXDDec5OSvqFCQP/PUHcQk4/bdJiR94rGzG/V5WRcMBzuU3pJlVYu4HU/n7EHRJzBq62YNY3YiIq8OMg9muLvH/0Lvx0LTA1YmNk+cncExFCbfBICAgwfP2CNp8y1lJYd4waxnTeYxClL7N8tdx1vyud+OkNC3BYKjOmzkz8I=",
         }
+
         try:
-            response = requests.request("PATCH", url, headers=headers, data=payload)
+            response = requests.request(method_type, url, headers=headers, data=payload)
 
         # Retry request if ssl error
         except requests.exceptions.SSLError:
-            response = requests.request("PATCH", url, headers=headers, data=payload)
+            response = requests.request(method_type, url, headers=headers, data=payload)
+        try:
+            response.raise_for_status()
+        except requests.exceptions.HTTPError:
+            print("API call was unsuccessful")
+            logging.info("API call was unsuccessful")
+            print(response.json()["titleMessage"])
+            logging.info(response.json()["titleMessage"])
+            print(response.json()["userMessage"])
+            logging.info(response.json()["userMessage"])
 
-        if response.status_code == 404:
-            logging.error("Error when modifying attributes")
-            print("Error when modifying attributes")
-            return response.text
+            os._exit(1)
+
+        print("API Call Status Code: " + str(response.status_code))
+        logging.info("API Call Status Code: " + str(response.status_code))
+        return response.json()

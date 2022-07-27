@@ -7,7 +7,8 @@ from src.main import MainClass
 
 class MainClassTest(unittest.TestCase):
     def setUp(self):
-        print('Starting')
+        print("Starting")
+
     def test_sql_format(self):
         with open("./src/tests/test_files/test_config.yml", "r") as stream:
             try:
