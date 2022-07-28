@@ -1,5 +1,6 @@
 from src.SQLOperations import SQLOperations
 from src.Collibra_Operations import Collibra_Operations
+from src.Email import Email_Class
 import yaml
 import os
 import logging
@@ -38,12 +39,13 @@ class MainClass:
         except KeyError as e:
             print("The config file is incorrectly setup: " + str(e))
             os._exit(1)
+        self.log_file_name = self.logger_location + "_" + str(datetime.today().date()) + ".log"
         logging.basicConfig(
-            filename=self.logger_location + "_" + str(datetime.today().date()) + ".log",
+            filename=self.log_file_name,
             filemode="a",
             format="%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s",
             datefmt="%H:%M:%S",
-            level=logging.DEBUG,
+            level=logging.INFO,
         )
         logging.info("--------------------------------------\n")
         logging.info("Push To Collibra App started")
@@ -57,14 +59,21 @@ class MainClass:
             self.admin_only_domain_id,
             self.environment,
         )
-        logging.info("Sql operations setup")
+        logging.debug("Sql operations setup")
         self.sql_operations.connect_to_sql()
-        logging.info("SQL connected")
+        logging.debug("SQL connected")
 
         self.collibra_operations = Collibra_Operations(
             self.admin_only_domain_id, self.environment, self.token_auth, config_file
         )
-        logging.info("Collibra Operations setup")
+        logging.debug("Collibra Operations setup")
+
+    def prepare_and_send_email(self):
+        log_file = open(self.log_file_name, "r")
+        email_contents = log_file.read()
+        email_class = Email_Class("smtp.wlgore.com", 25)
+        email_class.send_mail(email_contents, "chlynch@wlgore.com")
+        print("email sent!")
 
     def run(self):
         create_dataframe = self.sql_operations.read_sql(self.create_sql_query)
@@ -76,6 +85,11 @@ class MainClass:
         logging.info("Create Sql read successfully")
         self.collibra_operations.create_attributes(update_dataframe)
         logging.info("Collibra Updated")
+
+        try:
+            self.prepare_and_send_email()
+        except Exception as e:
+            logging.error("Could not setup email")
 
 
 if __name__ == "__main__":
