@@ -56,7 +56,7 @@ class Collibra_Operations:
                 "SN Regulatory & Compliance Standards": "Regulatory_And_Compliance_Standards",
                 "Legal Hold": "Legal_Hold",
                 "Data Sensitivity": "APM_Data_Sensitivity",
-                "Disaster Recovery Gap": "Disaster_Recovery_Gap",
+                "Disaster Recovery Required": "Disaster_Recovery_Gap",
                 "Records Retention": "Records_Retention",
                 "Business Criticality": "Business_Criticality",
                 "Export Control": "Export_Control",
