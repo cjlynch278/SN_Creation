@@ -123,8 +123,25 @@ class Collibra_Operations:
                 # "excludedFromAutoHyperlinking": "true",
             }
             asset_list.append(current_asset_dict)
-        self.collibra_api_call("POST", self.bulk_assets_url, asset_list)
-        logging.info("Assets Created Dataframe: " + dataframe["asset_name"])
+        asset_create_response = self.collibra_api_call("POST", self.bulk_assets_url, asset_list)
+
+        if asset_create_response.status_code in [200, 201]:
+            logging.info("Assets Created")
+            for dict in asset_list:
+                logging.info(
+                    "Asset Created: "
+                    + dict["displayName"]
+                    + " with an SN System ID of "
+                    + dict["name"]
+                )
+
+        else:
+            logging.error("Error Creating Assets")
+            print("Error Creating Assets")
+            logging.info(asset_create_response.json()["titleMessage"])
+            print(asset_create_response.json()["userMessage"])
+            logging.info(asset_create_response.json()["userMessage"])
+            print(asset_create_response.json()["userMessage"])
 
     def create_attributes(self, dataframe):
         """
@@ -168,11 +185,10 @@ class Collibra_Operations:
             for dict in create_list:
                 logging.info(
                     dict["typeId"]
-                    + "Attribute added to asset "
+                    + " Attribute added to asset "
                     + dict["assetId"]
                     + " with value "
                     + dict["value"]
-                    + "\n"
                 )
 
         else:
@@ -191,11 +207,10 @@ class Collibra_Operations:
             for dict in create_list:
                 logging.info(
                     dict["typeId"]
-                    + "Attribute added to asset "
+                    + " Attribute added to asset "
                     + dict["assetId"]
                     + " with value "
                     + dict["value"]
-                    + "\n"
                 )
 
         else:

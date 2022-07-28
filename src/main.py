@@ -45,7 +45,7 @@ class MainClass:
             filemode="a",
             format="%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s",
             datefmt="%H:%M:%S",
-            level=logging.DEBUG,
+            level=logging.INFO,
         )
         logging.info("--------------------------------------\n")
         logging.info("Push To Collibra App started")
@@ -59,14 +59,14 @@ class MainClass:
             self.admin_only_domain_id,
             self.environment,
         )
-        logging.info("Sql operations setup")
+        logging.debug("Sql operations setup")
         self.sql_operations.connect_to_sql()
-        logging.info("SQL connected")
+        logging.debug("SQL connected")
 
         self.collibra_operations = Collibra_Operations(
             self.admin_only_domain_id, self.environment, self.token_auth, config_file
         )
-        logging.info("Collibra Operations setup")
+        logging.debug("Collibra Operations setup")
 
     def prepare_and_send_email(self):
         log_file = open(self.log_file_name, "r")
@@ -86,7 +86,10 @@ class MainClass:
         self.collibra_operations.create_attributes(update_dataframe)
         logging.info("Collibra Updated")
 
-        self.prepare_and_send_email()
+        try:
+            self.prepare_and_send_email()
+        except Exception as e:
+            logging.error("Could not setup email")
 
 
 if __name__ == "__main__":
