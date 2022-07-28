@@ -205,15 +205,6 @@ class Collibra_Operations:
             print(attribute_create_response.json()["userMessage"])
             logging.info(attribute_create_response.json()["userMessage"])
             print(attribute_create_response.json()["userMessage"])
-        logging.info("Attributes Updated")
-        for dict in update_list:
-            logging.info(
-                dict["typeId"]
-                + "Attribute added to asset "
-                + dict["assetId"]
-                + " with value "
-                + dict["value"]
-            )
 
     def collibra_api_call(self, method_type, url, item_list):
         """
