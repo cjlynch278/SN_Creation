@@ -81,17 +81,15 @@ class MainClass:
         create_dataframe = self.sql_operations.read_sql(self.create_sql_query)
         logging.info("Create Sql read successfully")
         self.collibra_operations.create_assets(create_dataframe)
-        logging.info("Assets and attributes created")
 
         update_dataframe = self.sql_operations.read_sql(self.update_sql_query)
-        logging.info("Create Sql read successfully")
+        logging.info("Update Sql read successfully")
         self.collibra_operations.update_attributes(update_dataframe)
-        logging.info("Collibra Updated")
 
         try:
             self.prepare_and_send_email()
         except Exception as e:
-            logging.error("Could not setup email")
+            logging.error("Could not setup email: " + str(e))
 
 
 if __name__ == "__main__":
