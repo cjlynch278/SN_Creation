@@ -205,9 +205,9 @@ class Collibra_Operations:
             match SNOW
         :return: nothing
         """
-        logging.info("--------------------------------------")
-        logging.info("-----------------Updates-----------------")
-        logging.info("--------------------------------------")
+        #logging.info("--------------------------------------")
+        #logging.info("-----------------Updates-----------------")
+       # logging.info("--------------------------------------")
 
         update_list = []
         create_list = []
