@@ -72,7 +72,7 @@ class Collibra_Operations:
             "Disaster Recovery Gap": self.disaster_recovery_gap,
             "Records Retention": self.records_retention,
         }
-        self.column_map = {
+        self.attribute_map = {
             "asset_name": self.asset_name,
             "CI_Number": self.ci_number,
             "Description": self.description,
@@ -172,7 +172,7 @@ class Collibra_Operations:
                 if not (value in ["Unknown", "None", None, "nan"]) and value == value:
                     current_attribute_dict = {
                         "assetId": row["asset_id"],
-                        "typeId": self.column_map[attribute],
+                        "typeId": self.attribute_map[attribute],
                         "value": value,
                     }
                     attribute_list.append(current_attribute_dict)
