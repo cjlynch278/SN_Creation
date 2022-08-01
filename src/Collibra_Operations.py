@@ -78,6 +78,7 @@ class Collibra_Operations:
             "Description": self.description,
             "Install_Status": self.install_status,
             "Business_Criticality": self.business_criticality,
+            "Regulatory_And_Compliance_Standards": self.regulatory_and_compliance_standards,
             "URL": self.url,
             "Owned_By": self.owned_by,
             "IT_Owner": self.it_owner,
