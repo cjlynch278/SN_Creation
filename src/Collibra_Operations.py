@@ -95,6 +95,10 @@ class Collibra_Operations:
             "https://" + self.environment + "/rest/2.0/attributes/bulk"
         )
         self.bulk_assets_url = "https://" + self.environment + "/rest/2.0/assets/bulk"
+        self.create_assets_result = False
+        self.create_attributes_result = False
+        self.update_assets_result = False
+        self.update_attributes_result = False
 
     def create_assets(self, dataframe):
         """
@@ -119,7 +123,6 @@ class Collibra_Operations:
                 "domainId": self.target_domain_id,
                 "typeId": self.system_asset_type_id,
                 "statusId": self.system_status_id
-                # "excludedFromAutoHyperlinking": "true",
             }
             asset_list.append(current_asset_dict)
         asset_create_response = self.collibra_api_call(
@@ -127,6 +130,7 @@ class Collibra_Operations:
         )
 
         if asset_create_response.status_code in [200, 201]:
+            self.create_assets_result = True
             logging.info("Assets Created")
             for dict in asset_list:
                 logging.info(
@@ -180,6 +184,7 @@ class Collibra_Operations:
         attribute_create_response = self.collibra_api_call("POST", self.bulk_attributes_url, attribute_list)
 
         if attribute_create_response.status_code in [200, 201]:
+            self.create_attributes_result = True
             logging.info("Attributes Created")
             for dict in attribute_list:
                 logging.info(
@@ -191,6 +196,7 @@ class Collibra_Operations:
                 )
 
         else:
+            self.create_attributes_result = False
             logging.error("Error Creating attributes")
             print("Error Creating attributes")
             logging.info(attribute_create_response.json()["titleMessage"])
@@ -206,9 +212,6 @@ class Collibra_Operations:
             match SNOW
         :return: nothing
         """
-        #logging.info("--------------------------------------")
-        #logging.info("-----------------Updates-----------------")
-       # logging.info("--------------------------------------")
 
         update_list = []
         create_list = []
@@ -235,6 +238,7 @@ class Collibra_Operations:
             "POST", self.bulk_attributes_url, create_list
         )
         if attribute_create_response.status_code in [200, 201]:
+            self.update_assets_result = True
             logging.info("Attributes Created")
             for dict in create_list:
                 logging.info(
@@ -246,6 +250,7 @@ class Collibra_Operations:
                 )
 
         else:
+            self.update_assets_result = False
             logging.error("Error Creating attributes")
             print("Error Creating attributes")
             logging.info(attribute_create_response.json()["titleMessage"])
@@ -257,6 +262,8 @@ class Collibra_Operations:
             "PATCH", self.bulk_attributes_url, update_list
         )
         if attribute_update_response.status_code in [200, 201]:
+            self.update_attributes_result = True
+
             logging.info("Attributes updated")
             for dict in create_list:
                 logging.info(
@@ -268,6 +275,7 @@ class Collibra_Operations:
                 )
 
         else:
+            self.update_attributes_result = False
             logging.error("Error updating attributes")
             print("Error updating attributes")
             logging.info(attribute_create_response.json()["titleMessage"])
