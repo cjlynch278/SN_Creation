@@ -39,7 +39,9 @@ class MainClass:
         except KeyError as e:
             print("The config file is incorrectly setup: " + str(e))
             os._exit(1)
-        self.log_file_name = self.logger_location + "_" + str(datetime.today().date()) + ".log"
+        self.log_file_name = (
+            self.logger_location + "_" + str(datetime.today().date()) + ".log"
+        )
         logging.basicConfig(
             filename=self.log_file_name,
             filemode="a",
@@ -79,17 +81,15 @@ class MainClass:
         create_dataframe = self.sql_operations.read_sql(self.create_sql_query)
         logging.info("Create Sql read successfully")
         self.collibra_operations.create_assets(create_dataframe)
-        logging.info("Assets and attributes created")
 
         update_dataframe = self.sql_operations.read_sql(self.update_sql_query)
-        logging.info("Create Sql read successfully")
-        self.collibra_operations.create_attributes(update_dataframe)
-        logging.info("Collibra Updated")
+        logging.info("Update Sql read successfully")
+        self.collibra_operations.update_attributes(update_dataframe)
 
         try:
             self.prepare_and_send_email()
         except Exception as e:
-            logging.error("Could not setup email")
+            logging.error("Could not setup email: " + str(e))
 
 
 if __name__ == "__main__":
