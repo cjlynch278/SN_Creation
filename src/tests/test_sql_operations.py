@@ -35,7 +35,6 @@ class SqlOperationsTest(unittest.TestCase):
             os._exit(1)
 
         self.test_dataframe = pandas.read_csv("src/tests/test_files/test.csv")
-        self.small_test_df = pandas.read_csv("src/tests/test_files/small_test.csv")
         self.empty_test_df = pandas.DataFrame()
 
     def test_sql_format(self):

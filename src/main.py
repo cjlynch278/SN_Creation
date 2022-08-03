@@ -69,7 +69,6 @@ class MainClass:
         )
         logging.debug("Collibra Operations setup")
 
-
     def prepare_and_send_email(self):
         log_file = open(self.log_file_name, "r")
         email_contents = log_file.read()
@@ -87,10 +86,22 @@ class MainClass:
         self.collibra_operations.update_attributes(update_dataframe)
 
         logging.info("================ SUMMARY ================")
-        logging.info("Assets Created Succesfully: " + str(self.collibra_operations.create_assets_result))
-        logging.info("Attributes Created Succesfully: " + str(self.collibra_operations.create_attributes_result))
-        logging.info("Assets Updated Succesfully: " + str(self.collibra_operations.update_attributes_result))
-        logging.info("Attributes Updated Succesfully: " + str(self.collibra_operations.update_attributes_result))
+        logging.info(
+            "Assets Created Successfully: "
+            + str(self.collibra_operations.create_assets_result)
+        )
+        logging.info(
+            "Attributes Created Successfully: "
+            + str(self.collibra_operations.create_attributes_result)
+        )
+        logging.info(
+            "Assets Updated Successfully: "
+            + str(self.collibra_operations.update_attributes_result)
+        )
+        logging.info(
+            "Attributes Updated Successfully: "
+            + str(self.collibra_operations.update_attributes_result)
+        )
         try:
             self.prepare_and_send_email()
         except Exception as e:

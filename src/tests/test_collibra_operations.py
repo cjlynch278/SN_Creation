@@ -4,10 +4,10 @@ import pytest
 import yaml
 import os
 import json
-
-
+import requests
 from src.SQLOperations import SQLOperations
 from src.Collibra_Operations import Collibra_Operations
+from src.Access_Token import AccessToken
 
 
 class SqlOperationsTest(unittest.TestCase):
@@ -24,7 +24,7 @@ class SqlOperationsTest(unittest.TestCase):
             self.admin_only_domain_id = config["COLLIBRA_DETAILS"]["ADMIN_DOMAIN_ID"]
             self.token_auth = config["AUTH"]["token_auth_header"]
         except KeyError:
-            print("The config file is incorrectly setup: " + KeyError)
+            print("The config file is incorrectly setup: " + str(KeyError))
             os._exit(1)
 
         self.sql_operations = SQLOperations(
@@ -36,84 +36,141 @@ class SqlOperationsTest(unittest.TestCase):
             self.admin_only_domain_id,
             self.environment,
         )
-        self.test_dataframe = pandas.read_csv("src/tests/test_files/test.csv")
-        self.small_test_df = pandas.read_csv("src/tests/test_files/small_test.csv")
-        self.ten_test_df = pandas.read_csv("src/tests/test_files/10_rows_test.csv")
         self.six_test = pandas.read_csv("src/tests/test_files/six_test.csv")
         self.empty_test_df = pandas.DataFrame()
+        self.access_token = AccessToken(self.token_auth)
         self.collibra_operations = Collibra_Operations(
             self.admin_only_domain_id,
             self.environment,
             self.token_auth,
             "./src/tests/test_files/test_config.yml",
         )
-        self.test_2 = pandas.read_csv("src/tests/test_files/test_2.csv")
-        self.updates_dataframe = pandas.read_csv(
-            "src/tests/test_files/test_updates.csv"
+        self.full_create_df = pandas.read_csv(
+            "src/tests/test_files/full_asset_test.csv"
         )
-        self.updates_dataframe_2 = pandas.read_csv(
-            "src/tests/test_files/test_updates_2.csv"
-        )
-        self.updates_dataframe_3 = pandas.read_csv(
-            "src/tests/test_files/test_updates_3.csv"
-        )
-        self.updates_dataframe_4 = pandas.read_csv(
-            "src/tests/test_files/newest_updates.csv"
-        )
-        self.updates_dataframe_5 = pandas.read_csv(
-            "src/tests/test_files/updates_v5.csv"
-        )
-        self.updates_dataframe_6 = pandas.read_csv(
-            "src/tests/test_files/updates_v6.csv"
-        )
-        self.creates_v1 = pandas.read_csv(
-            "src/tests/test_files/creates_v1.csv"
-        )
+        self.create_1_df = pandas.read_csv("src/tests/test_files/create_1.csv")
+        self.error_test = pandas.read_csv("src/tests/test_files/erroring_test.csv")
+        self.token = "Bearer " + self.access_token.get_bearer_token()
 
+    def test_create_and_update(self):
+        # Empty test
+        self.collibra_operations.create_assets(self.empty_test_df)
+        assert self.collibra_operations.create_assets_result
+        self.delete_collibra_test_assets()
+        self.collibra_operations.create_assets_result = False
 
-    def test_create_assets_and_attributes(self):
         self.collibra_operations.create_assets(self.six_test)
+        self.update_collibra()
+        assert self.collibra_operations.update_attributes_result
+        assert self.collibra_operations.update_assets_result
+        assert self.collibra_operations.create_assets_result
+        self.collibra_operations.create_assets_result = False
+        self.collibra_operations.update_assets_result = False
+        self.collibra_operations.update_attributes_result = False
 
-    def test_make_all_assets(self):
-        self.collibra_operations.create_assets(self.small_test_df)
+        #  Assert duplication fails
+        self.collibra_operations.create_assets(self.six_test)
+        assert not self.collibra_operations.create_assets_result
+        self.delete_collibra_test_assets()
+        self.collibra_operations.create_assets_result = False
 
-    def test_add_collibra_attribute(self):
-        test_id = "9fbc86d2-f69b-420d-a8a3-456172027a87"
-        test_attribute = "00000000-0000-0000-0000-000000000258"
-        test_value = "google.com3"
-        self.collibra_operations.add_collibra_attributes(
-            test_id, test_attribute, test_value
+        self.collibra_operations.create_assets(self.create_1_df)
+        assert self.collibra_operations.create_assets_result
+        self.update_collibra()
+        assert self.collibra_operations.update_attributes_result
+        assert self.collibra_operations.update_assets_result
+        self.delete_collibra_test_assets()
+
+        self.collibra_operations.create_assets(self.error_test)
+
+    def update_collibra(self):
+        ids = self.get_snow_assets()
+        update_dataframe = self.create_update_dataframe(ids)
+        self.collibra_operations.update_attributes(update_dataframe)
+
+    def create_update_dataframe(self, ids):
+        attributes_ids = []
+        for i in range(3):
+            id = ids[i]
+            url = (
+                "https://wlgore-dev.collibra.com/rest/2.0/attributes?offset=0&limit=0&countLimit=-1&assetId="
+                + id
+            )
+
+            payload = ""
+            headers = {
+                "Authorization": self.token,
+                "Cookie": "AWSALBTG=2YOdjNyLf3WKfSVeBJSZMZbMFnYoDLRtRLQvA/lFM3tNe9oxHBg7vLPGwV46nLg9eE+Mv2G0ZEd3Jg43UCgPwMR7WgWnVB7T+RiR/muB6rgmhHQcbXXQctbJQx92G+8JpDbxZ+jJYNzefDgJjB22vedKHE1TdamvyFmY9saPcsgVvT9LSC4=; AWSALBTGCORS=2YOdjNyLf3WKfSVeBJSZMZbMFnYoDLRtRLQvA/lFM3tNe9oxHBg7vLPGwV46nLg9eE+Mv2G0ZEd3Jg43UCgPwMR7WgWnVB7T+RiR/muB6rgmhHQcbXXQctbJQx92G+8JpDbxZ+jJYNzefDgJjB22vedKHE1TdamvyFmY9saPcsgVvT9LSC4=",
+            }
+
+            response = requests.request("GET", url, headers=headers, data=payload)
+            for item in response.json()["results"]:
+                attributes_ids.append(item["id"])
+
+        data = {"attribute_id": attributes_ids, "sn_value": "New value"}
+        attribute_dataframe = pandas.DataFrame(data)
+        return attribute_dataframe
+
+    def get_snow_domain(self):
+        url = (
+            "https://wlgore-dev.collibra.com/rest/2.0/domains?offset=0&limit=100000&countLimit=100000&"
+            "name=ServiceNow%20Applications&nameMatchMode=EXACT&excludeMeta=true&includeSubCommunities=false"
         )
 
-    def test_add_asset_ids_to_df(self):
-        dataframe = self.small_test_df
-        json_response = json.load(open("src/tests/test_files/small_test_response.json"))
-        self.collibra_operations.add_asset_ids_to_df(dataframe, json_response)
-
-    def to_delete_test_remove_all_assets_from_domain(self):
-        import requests
-
-        token_request = self.collibra_operations.collibra_auth
-        url = "https://wlgore-dev.collibra.com/rest/2.0/assets?offset=0&limit=0&countLimit=-1&nameMatchMode=ANYWHERE&domainId=ba4a4398-1ced-40ed-9869-d463bc6ccf53&typeInheritance=true&excludeMeta=true&sortField=NAME&sortOrder=ASC"
-
-        payload = ""
+        payload = json.dumps(
+            {
+                "sourceId": "f5b47f1b-8977-4361-b22a-1f555f774b3a",
+                "targetId": "2be0d8f4-4356-44b2-af6d-f99b082e8666",
+                "typeId": "00000000-0000-0000-0000-000000007021",
+                "startingDate": 1488016800,
+                "endingDate": 1658021800,
+            }
+        )
         headers = {
-            "Authorization": "Bearer " + token_request,
-            "Cookie": "AWSALBTG=HfJKzmujWnqqP2yMWhcH8DbOeivMW9m1E9oIHA43ZAOqAz9bfwUwkmoTAQfqt7tcN691yuxci9+0JGY9H7OaGWNcA+88mI3cZGAYIacG0Wp2g7ojTiEyT0kLGSU6L5DVFM8pIwFcswGF1XJN4QAAmgtntqVorfP8uPDLx0KG8xI0fA5BXhc=; AWSALBTGCORS=HfJKzmujWnqqP2yMWhcH8DbOeivMW9m1E9oIHA43ZAOqAz9bfwUwkmoTAQfqt7tcN691yuxci9+0JGY9H7OaGWNcA+88mI3cZGAYIacG0Wp2g7ojTiEyT0kLGSU6L5DVFM8pIwFcswGF1XJN4QAAmgtntqVorfP8uPDLx0KG8xI0fA5BXhc=",
+            "accept": "application/json",
+            "Authorization": self.token,
+            "Content-Type": "application/json",
+            "Cookie": "AWSALBTG=GWm6VeMc+axfFnucFaWXhD8yOnrFEmMyGG51aScZNlX7cLcuVm33dayv89R1KLcDhqK3ASotGOZHrEPY25onpaR2+Yw+zLotv74rt0Gzr7jWBw3bXwtfd6can6JJ3z1cTljG4sEC/93cHZ+2mcHCgFYPL1M4G5WBd9mnREsqA9VrA23A9zw=; AWSALBTGCORS=GWm6VeMc+axfFnucFaWXhD8yOnrFEmMyGG51aScZNlX7cLcuVm33dayv89R1KLcDhqK3ASotGOZHrEPY25onpaR2+Yw+zLotv74rt0Gzr7jWBw3bXwtfd6can6JJ3z1cTljG4sEC/93cHZ+2mcHCgFYPL1M4G5WBd9mnREsqA9VrA23A9zw=",
         }
 
         response = requests.request("GET", url, headers=headers, data=payload)
-        assets = response.json()["results"]
-        asset_ids = [d["id"] for d in assets]
-        print(response.text)
+        return response.json()["results"][0]["id"]
+
+    def get_snow_assets(
+        self,
+    ):
+        snow_domain_id = self.get_snow_domain()
+        url = (
+            "https://wlgore-dev.collibra.com/rest/2.0/assets?offset=0&limit=100000&countLimit=-1&nameMatchMode=ANYWHERE&domainId="
+            + snow_domain_id
+        )
+
+        payload = ""
+        headers = {
+            "Authorization": self.token,
+            "Cookie": "AWSALBTG=NGu2Y1tqf3kx2cvru7Q7R+Xl26ieD8wIlmz2GXPSO3lkHSPkP78g1+avOYLNvzboeg57tcX9T1RAlcMljiKacW1QRAH1ihTNvdvXOQeE/SZSqbTpEIJ7/rMIysDOsab5hLCp8jtoPZZzx4BSL3XApJwNDVHmw11VF93iG4Zy2vpiQ+jXAuU=; AWSALBTGCORS=NGu2Y1tqf3kx2cvru7Q7R+Xl26ieD8wIlmz2GXPSO3lkHSPkP78g1+avOYLNvzboeg57tcX9T1RAlcMljiKacW1QRAH1ihTNvdvXOQeE/SZSqbTpEIJ7/rMIysDOsab5hLCp8jtoPZZzx4BSL3XApJwNDVHmw11VF93iG4Zy2vpiQ+jXAuU=",
+        }
+
+        response = requests.request("GET", url, headers=headers, data=payload)
+        ids = []
+        for asset in response.json()["results"]:
+            ids.append(asset["id"])
+        return ids
+
+    def delete_collibra_test_assets(self):
+        ids = self.get_snow_assets()
+
         url = "https://wlgore-dev.collibra.com/rest/2.0/assets/bulk"
-        response = requests.request("DELETE", url, headers=headers, data=asset_ids)
-        print("response")
 
-    def test_update_collibra(self):
-        self.collibra_operations.update_attributes(self.updates_dataframe_6)
+        payload = json.dumps(ids)
+        headers = {
+            "Authorization": self.token,
+            "Content-Type": "application/json",
+            "Cookie": "AWSALBTG=DMCQl/00w7h7BumdGw1kkyCsxPouua2BuMlFFwfDzcnoRuewJufXA/IccTs2C97xtrYtQrLeh0zErhQ3xWHk2i1WoKAvxMwxm5PoLWADqr7+3KwvXLap9heDB2hvEBSkTvwUnu7xJ9YrDB6Ayt/5gGMiI9puTHzT1ZlPLPleUGDhh4HcIpY=; AWSALBTGCORS=DMCQl/00w7h7BumdGw1kkyCsxPouua2BuMlFFwfDzcnoRuewJufXA/IccTs2C97xtrYtQrLeh0zErhQ3xWHk2i1WoKAvxMwxm5PoLWADqr7+3KwvXLap9heDB2hvEBSkTvwUnu7xJ9YrDB6Ayt/5gGMiI9puTHzT1ZlPLPleUGDhh4HcIpY=",
+        }
 
-    def test_create_attributes(self):
-       # self.creates_v1 = self.creates_v1.drop(columns=["asset_name", "SN_System_ID"])
+        response = requests.request("DELETE", url, headers=headers, data=payload)
 
-        self.collibra_operations.create_assets(self.creates_v1)
+        print(response.text)
+
+        print("Done")

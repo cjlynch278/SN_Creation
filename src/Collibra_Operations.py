@@ -88,7 +88,6 @@ class Collibra_Operations:
             "APM_Data_Sensitivity": self.apm_data_sensitivity,
             "Disaster_Recovery_Gap": self.disaster_recovery_gap,
             "Records_Retention": self.records_retention,
-
         }
         self.target_domain_id = self.admin_only_id
         self.bulk_attributes_url = (
@@ -107,24 +106,34 @@ class Collibra_Operations:
             match SNOW
         :return: nothing
         """
+        if dataframe.empty:
+            self.create_attributes_result = True
+            self.create_assets_result = True
+            return
 
         asset_list = []
         for index, row in dataframe.iterrows():
-            if not (row["asset_name"] in ["Unknown", "None", None, "nan", ""]):
-                print("Adding row: " + str(row["asset_name"]))
-                asset_name = str(row["asset_name"])
-            else:
-                asset_name = str(row["SN_System_ID"])
-            asset_backend_name = str(row["SN_System_ID"])
+            try:
+                if not (row["asset_name"] in ["Unknown", "None", None, "nan", ""]):
+                    print("Adding row: " + str(row["asset_name"]))
+                    asset_name = str(row["asset_name"])
+                else:
+                    asset_name = str(row["SN_System_ID"])
+                asset_backend_name = str(row["SN_System_ID"])
 
-            current_asset_dict = {
-                "name": asset_backend_name,
-                "displayName": asset_name,
-                "domainId": self.target_domain_id,
-                "typeId": self.system_asset_type_id,
-                "statusId": self.system_status_id
-            }
-            asset_list.append(current_asset_dict)
+                current_asset_dict = {
+                    "name": asset_backend_name,
+                    "displayName": asset_name,
+                    "domainId": self.target_domain_id,
+                    "typeId": self.system_asset_type_id,
+                    "statusId": self.system_status_id,
+                }
+                asset_list.append(current_asset_dict)
+            except KeyError as e:
+                logging.error(
+                    "Create asset dataframe configured incorrectly: " + str(e)
+                )
+                return
         asset_create_response = self.collibra_api_call(
             "POST", self.bulk_assets_url, asset_list
         )
@@ -165,9 +174,12 @@ class Collibra_Operations:
         for asset in json_response:
             # add asset_ids from json response to dataframe
             dataframe_row = dataframe.loc[
-                dataframe["SN_System_ID"] == asset["name"], "asset_id"]
+                dataframe["SN_System_ID"] == asset["name"], "asset_id"
+            ]
             if not dataframe_row.empty:
-                dataframe.loc[dataframe["SN_System_ID"] == asset["name"], "asset_id"] = asset["id"]
+                dataframe.loc[
+                    dataframe["SN_System_ID"] == asset["name"], "asset_id"
+                ] = asset["id"]
 
         # Create new dataframe of attributes based on the created SNOW assets
         attribute_list = []
@@ -181,7 +193,9 @@ class Collibra_Operations:
                         "value": value,
                     }
                     attribute_list.append(current_attribute_dict)
-        attribute_create_response = self.collibra_api_call("POST", self.bulk_attributes_url, attribute_list)
+        attribute_create_response = self.collibra_api_call(
+            "POST", self.bulk_attributes_url, attribute_list
+        )
 
         if attribute_create_response.status_code in [200, 201]:
             self.create_attributes_result = True
@@ -203,7 +217,6 @@ class Collibra_Operations:
             print(attribute_create_response.json()["userMessage"])
             logging.info(attribute_create_response.json()["userMessage"])
             print(attribute_create_response.json()["userMessage"])
-
 
     def update_attributes(self, dataframe):
         """
