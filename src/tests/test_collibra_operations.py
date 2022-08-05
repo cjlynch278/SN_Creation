@@ -23,6 +23,7 @@ class SqlOperationsTest(unittest.TestCase):
             self.environment = config["ENVIRONMENT"]["gore"]
             self.admin_only_domain_id = config["COLLIBRA_DETAILS"]["ADMIN_DOMAIN_ID"]
             self.token_auth = config["AUTH"]["token_auth_header"]
+            self.status_attribute_id = config["COLLIBRA_DETAILS"]["Install_Status"]
         except KeyError:
             print("The config file is incorrectly setup: " + str(KeyError))
             os._exit(1)
@@ -48,12 +49,16 @@ class SqlOperationsTest(unittest.TestCase):
         self.full_create_df = pandas.read_csv(
             "src/tests/test_files/full_asset_test.csv"
         )
+        self.error_attribute_update = pandas.read_csv(
+            "src/tests/test_files/erroneous_attribute_update.csv"
+        )
         self.create_1_df = pandas.read_csv("src/tests/test_files/create_1.csv")
         self.error_test = pandas.read_csv("src/tests/test_files/erroring_test.csv")
+        self.delete_test = pandas.read_csv("src/tests/test_files/test_delete.csv")
         self.token = "Bearer " + self.access_token.get_bearer_token()
 
     def test_create_and_update(self):
-        # Empty test
+        #Empty test
         self.collibra_operations.create_assets(self.empty_test_df)
         assert self.collibra_operations.create_assets_result
         self.delete_collibra_test_assets()
@@ -67,21 +72,25 @@ class SqlOperationsTest(unittest.TestCase):
         self.collibra_operations.create_assets_result = False
         self.collibra_operations.update_assets_result = False
         self.collibra_operations.update_attributes_result = False
-
         #  Assert duplication fails
         self.collibra_operations.create_assets(self.six_test)
         assert not self.collibra_operations.create_assets_result
+
         self.delete_collibra_test_assets()
         self.collibra_operations.create_assets_result = False
+        self.delete_collibra_test_assets()
+        self.collibra_operations.update_attributes(self.error_attribute_update)
+        assert not self.collibra_operations.update_attributes_result
 
+        self.delete_collibra_test_assets()
+        self.collibra_operations.create_assets(self.error_test)
+
+    def test_fill_test_domain(self):
         self.collibra_operations.create_assets(self.create_1_df)
         assert self.collibra_operations.create_assets_result
         self.update_collibra()
         assert self.collibra_operations.update_attributes_result
         assert self.collibra_operations.update_assets_result
-        self.delete_collibra_test_assets()
-
-        self.collibra_operations.create_assets(self.error_test)
 
     def update_collibra(self):
         ids = self.get_snow_assets()
@@ -110,6 +119,39 @@ class SqlOperationsTest(unittest.TestCase):
         data = {"attribute_id": attributes_ids, "sn_value": "New value"}
         attribute_dataframe = pandas.DataFrame(data)
         return attribute_dataframe
+
+
+
+
+
+    def get_status_attribute(self, type_id, asset_id ):
+        url = "https://wlgore-dev.collibra.com/rest/2.0/attributes?offset=0&limit=0&countLimit=-1&typeIds=" + type_id + "&assetId=" + asset_id
+
+        payload = ""
+        headers = {
+            'Authorization': self.token,
+            'Cookie': 'AWSALBTG=PGaX74x4Pac8jXXw6SfC60hQ9Ct/2A/xV+VpsonLHUUnyvkk54pml/IS2X+F3aQ+WRxKfUuzXLk6J18z6EGHxQNnKePxua92G7ylsHRbbhKgPWCQ3tw9FU61KPejPOwY4oHIBCnZSZ9dKe4dISktnHjzl56/za/Gth6RZYq/6VkeBe4ceY0=; AWSALBTGCORS=PGaX74x4Pac8jXXw6SfC60hQ9Ct/2A/xV+VpsonLHUUnyvkk54pml/IS2X+F3aQ+WRxKfUuzXLk6J18z6EGHxQNnKePxua92G7ylsHRbbhKgPWCQ3tw9FU61KPejPOwY4oHIBCnZSZ9dKe4dISktnHjzl56/za/Gth6RZYq/6VkeBe4ceY0='
+        }
+
+        response = requests.request("GET", url, headers=headers, data=payload)
+        json_response = response.json()
+        return json_response["results"][0]["id"]
+
+    def test_delete_assets(self):
+        self.delete_collibra_test_assets()
+        self.collibra_operations.create_assets(self.six_test)
+
+        ids = self.get_snow_assets()
+        status_id = self.get_status_attribute(self.status_attribute_id, ids[0])
+        data = {
+            "Attribute_ID": [status_id],
+            "Asset_ID": [ids[0]]
+        }
+        self.test_df = pandas.DataFrame(data)
+        self.collibra_operations.delete_assets(self.test_df)
+        assert(self.collibra_operations.delete_asset_response )
+        self.collibra_operations.delete_asset_response = False
+        self.collibra_operations.delete_assets(self.empty_test_df)
 
     def get_snow_domain(self):
         url = (
@@ -174,3 +216,15 @@ class SqlOperationsTest(unittest.TestCase):
         print(response.text)
 
         print("Done")
+
+    def test_collibra_api(self):
+        url = "https://wlgore-dev.collibra.com/rest/2.0/assets?offset=0&limit=10&countLimit=10&"
+        headers = {
+            "Authorization": self.token,
+            "Content-Type": "application/json",
+            "Cookie": "AWSALBTG=DMCQl/00w7h7BumdGw1kkyCsxPouua2BuMlFFwfDzcnoRuewJufXA/IccTs2C97xtrYtQrLeh0zErhQ3xWHk2i1WoKAvxMwxm5PoLWADqr7+3KwvXLap9heDB2hvEBSkTvwUnu7xJ9YrDB6Ayt/5gGMiI9puTHzT1ZlPLPleUGDhh4HcIpY=; AWSALBTGCORS=DMCQl/00w7h7BumdGw1kkyCsxPouua2BuMlFFwfDzcnoRuewJufXA/IccTs2C97xtrYtQrLeh0zErhQ3xWHk2i1WoKAvxMwxm5PoLWADqr7+3KwvXLap9heDB2hvEBSkTvwUnu7xJ9YrDB6Ayt/5gGMiI9puTHzT1ZlPLPleUGDhh4HcIpY=",
+        }
+
+        response = requests.request("GET", url, headers=headers)
+
+        print(response.text)

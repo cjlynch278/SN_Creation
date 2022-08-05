@@ -6,6 +6,7 @@ import requests
 from src.Access_Token import AccessToken
 import os
 import yaml
+import math
 
 
 class Collibra_Operations:
@@ -98,6 +99,39 @@ class Collibra_Operations:
         self.create_attributes_result = False
         self.update_assets_result = False
         self.update_attributes_result = False
+        self.delete_asset_response = False
+
+    def delete_assets(self, dataframe):
+        """
+        :param dataframe:  Dataframe that consists of all of the collibra applications that aren't in
+        snow. These are assets that have been removed by snow
+        :return: nothing
+        """
+        update_status_list = []
+        create_status_list = []
+        for index, row in dataframe.iterrows():
+            if str(row["Attribute_ID"]) in ["Unknown", "None", None, "nan", "", float('nan')]:
+                create_status_list.append(
+                    {
+                        "assetId": row["Asset_ID"],
+                        "typeId": self.column_map["Application Status"] ,
+                        "value": "Retired-Decommissioned",
+                    }
+            )
+
+            else:
+                update_status_list.append(
+                    {
+                        "id": row["Attribute_ID"],
+                        "value": "Retired-Decommissioned",
+                    }
+                )
+        response = self.collibra_api_call("POST", self.bulk_attributes_url,create_status_list)
+        self.log_result(response, "Create Status")
+        if response.status_code in [200, 201]: self.delete_asset_response = True
+        response = self.collibra_api_call("PATCH", self.bulk_attributes_url,update_status_list)
+        self.log_result(response, "Update Status")
+        if response.status_code not in [200, 201]: self.delete_asset_response = False
 
     def create_assets(self, dataframe):
         """
@@ -150,6 +184,7 @@ class Collibra_Operations:
                 )
             self.create_attributes(dataframe, asset_create_response.json())
         else:
+            self.create_assets_result = False
             logging.error("Error Creating Assets")
             print("Error Creating Assets")
             logging.info(asset_create_response.json()["titleMessage"])
@@ -228,25 +263,30 @@ class Collibra_Operations:
 
         update_list = []
         create_list = []
-        for index, row in dataframe.iterrows():
-            if "attribute_id" in row and not pandas.isnull(row["attribute_id"]):
-                current_attribute_dict = {
-                    "id": row["attribute_id"],
-                    "value": row["sn_value"],
-                }
-                update_list.append(current_attribute_dict)
+        try:
+            for index, row in dataframe.iterrows():
+                if "attribute_id" in row and not pandas.isnull(row["attribute_id"]):
+                    current_attribute_dict = {
+                        "id": row["attribute_id"],
+                        "value": row["sn_value"],
+                    }
+                    update_list.append(current_attribute_dict)
 
-            elif (
-                not (row["sn_value"] in ["Unknown", "None", None, "nan"])
-                and row["sn_value"] == row["sn_value"]
-            ):
-                current_attribute_dict = {
-                    "assetId": row["Asset_ID"],
-                    "typeId": self.column_map[row["attribute_type"]],
-                    "value": row["sn_value"],
-                }
-                create_list.append(current_attribute_dict)
-
+                elif (
+                    not (row["sn_value"] in ["Unknown", "None", None, "nan"])
+                    and row["sn_value"] == row["sn_value"]
+                ):
+                    current_attribute_dict = {
+                        "assetId": row["Asset_ID"],
+                        "typeId": self.column_map[row["attribute_type"]],
+                        "value": row["sn_value"],
+                    }
+                    create_list.append(current_attribute_dict)
+        except KeyError as e:
+            self.update_assets_result = False
+            self.update_attributes_result = False
+            logging.error("Update dataframe configured incorrectly: " + str(e))
+            return
         attribute_create_response = self.collibra_api_call(
             "POST", self.bulk_attributes_url, create_list
         )
@@ -291,10 +331,32 @@ class Collibra_Operations:
             self.update_attributes_result = False
             logging.error("Error updating attributes")
             print("Error updating attributes")
-            logging.info(attribute_create_response.json()["titleMessage"])
-            print(attribute_create_response.json()["userMessage"])
-            logging.info(attribute_create_response.json()["userMessage"])
-            print(attribute_create_response.json()["userMessage"])
+            logging.info(attribute_update_response.json()["titleMessage"])
+            print(attribute_update_response.json()["userMessage"])
+            logging.info(attribute_update_response.json()["userMessage"])
+            print(attribute_update_response.json()["userMessage"])
+
+    def log_result(self, response, type_of_call):
+        """
+
+        :param response: response of the api call
+        :param type_of_call: This is simply a string for logging puposes
+        :param object_list: list of what was created
+        :return: Nothing
+        """
+        if response.status_code in [200, 201]:
+            self.update_assets_result = True
+            logging.info(type_of_call + " successful")
+            print(type_of_call + " successful")
+        else:
+            self.update_assets_result = False
+            logging.error(type_of_call + "Error")
+            print(type_of_call + "Error")
+            logging.info(response.json()["titleMessage"])
+            print(response.json()["userMessage"])
+            logging.info(response.json()["userMessage"])
+            print(response.json()["userMessage"])
+
 
     def collibra_api_call(self, method_type, url, item_list):
         """

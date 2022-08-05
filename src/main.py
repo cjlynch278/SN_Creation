@@ -22,6 +22,9 @@ class MainClass:
             self.update_sql_query = config["MYSQL_CONNECTION_DETAILS"][
                 "UPDATE_SQL_QUERY"
             ].format(self.admin_only_domain_id)
+            self.update_sql_query = config["MYSQL_CONNECTION_DETAILS"][
+                "DELETE_SQL_QUERY"
+            ].format(self.admin_only_domain_id)
             self.token_auth = config["AUTH"]["token_auth_header"]
             self.database_name = str(
                 config["MYSQL_CONNECTION_DETAILS"]["DATABASE_NAME"]
@@ -84,6 +87,10 @@ class MainClass:
         update_dataframe = self.sql_operations.read_sql(self.update_sql_query)
         logging.info("Update Sql read successfully")
         self.collibra_operations.update_attributes(update_dataframe)
+
+        delete_dataframe = self.sql_operations.read_sql(self.delete_sql_query)
+        logging.info("Update Sql read successfully")
+        self.collibra_operations.delete_assets(delete_dataframe)
 
         logging.info("================ SUMMARY ================")
         logging.info(

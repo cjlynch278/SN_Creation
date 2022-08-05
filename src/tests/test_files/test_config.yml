@@ -209,6 +209,7 @@ MYSQL_CONNECTION_DETAILS:
           collibra_assets.name where collibra_assets.Name is null and sn_services.is_current = 1
           )
           order by Attribute_Name desc
+  DELETE_SQL_QUERY: Test
 
   VARCHAR_LENGTH: 8000
 COLLIBRA_DETAILS:
