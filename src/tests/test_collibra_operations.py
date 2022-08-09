@@ -86,11 +86,13 @@ class SqlOperationsTest(unittest.TestCase):
         self.collibra_operations.create_assets(self.error_test)
 
     def test_fill_test_domain(self):
+        self.delete_collibra_test_assets()
         self.collibra_operations.create_assets(self.create_1_df)
         assert self.collibra_operations.create_assets_result
         self.update_collibra()
         assert self.collibra_operations.update_attributes_result
         assert self.collibra_operations.update_assets_result
+        self.delete_collibra_test_assets()
 
     def update_collibra(self):
         ids = self.get_snow_assets()

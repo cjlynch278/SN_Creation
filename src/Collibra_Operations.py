@@ -144,7 +144,6 @@ class Collibra_Operations:
         for index, row in dataframe.iterrows():
             try:
                 if not (row["asset_name"] in ["Unknown", "None", None, "nan", ""]):
-                    print("Adding row: " + str(row["asset_name"]))
                     asset_name = str(row["asset_name"])
                 else:
                     asset_name = str(row["SN_System_ID"])
