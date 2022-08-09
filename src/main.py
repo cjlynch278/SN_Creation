@@ -22,7 +22,7 @@ class MainClass:
             self.update_sql_query = config["MYSQL_CONNECTION_DETAILS"][
                 "UPDATE_SQL_QUERY"
             ].format(self.admin_only_domain_id)
-            self.update_sql_query = config["MYSQL_CONNECTION_DETAILS"][
+            self.delete_sql_query = config["MYSQL_CONNECTION_DETAILS"][
                 "DELETE_SQL_QUERY"
             ].format(self.admin_only_domain_id)
             self.token_auth = config["AUTH"]["token_auth_header"]
