@@ -36,9 +36,6 @@ class Collibra_Operations:
             self.disaster_recovery_gap = config["COLLIBRA_DETAILS"][
                 "Disaster_Recovery_Gap"
             ]
-            self.regulatory_and_compliance_standards = config["COLLIBRA_DETAILS"][
-                "Regulatory_And_Compliance_Standards"
-            ]
             self.records_retention = config["COLLIBRA_DETAILS"]["Records_Retention"]
             self.description = config["COLLIBRA_DETAILS"]["Description"]
             self.system_asset_type_id = config["COLLIBRA_DETAILS"][
@@ -62,7 +59,6 @@ class Collibra_Operations:
             "Description": self.description,
             "Application Status": self.install_status,
             "Business Criticality": self.business_criticality,
-            "SN Regulatory & Compliance Standards": self.regulatory_and_compliance_standards,
             "URL": self.url,
             "Business Owner": self.owned_by,
             "IT Application Owner": self.it_owner,
@@ -79,7 +75,6 @@ class Collibra_Operations:
             "Description": self.description,
             "Install_Status": self.install_status,
             "Business_Criticality": self.business_criticality,
-            "Regulatory_And_Compliance_Standards": self.regulatory_and_compliance_standards,
             "URL": self.url,
             "Owned_By": self.owned_by,
             "IT_Owner": self.it_owner,
