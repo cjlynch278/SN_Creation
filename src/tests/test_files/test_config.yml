@@ -16,7 +16,8 @@ MYSQL_CONNECTION_DETAILS:
   CREATE_SQL_QUERY: >
       select [SN_System_ID], sn_business_apps.[Name] asset_name ,[CI_Number],[Install_Status],
         [Business_Criticality] ,[URL],[Owned_By],[IT_Owner],[Supported_By],
-        [Export_Control],[Legal_Hold],[APM_Data_Sensitivity],[Disaster_Recovery_Gap],[Records_Retention], [Description]
+        [Export_Control],[Legal_Hold],[APM_Data_Sensitivity],[Disaster_Recovery_Gap],[Records_Retention],
+        [Description], [CI_Type]
         from servicenow.servicenow_cmbd_ci_business_app
         as sn_business_apps
         left join
@@ -29,7 +30,8 @@ MYSQL_CONNECTION_DETAILS:
         select
         [SN_System_ID], sn_service_discovered.[Name] asset_name,[CI_Number],[Install_Status],
         [Business_Criticality] ,[URL],[Owned_By],[IT_Owner],[Supported_By],
-        [Export_Control],[Legal_Hold],[APM_Data_Sensitivity],[Disaster_Recovery_Gap],[Records_Retention], [Description]
+        [Export_Control],[Legal_Hold],[APM_Data_Sensitivity],[Disaster_Recovery_Gap],[Records_Retention],
+        [Description], [CI_Type]
 
         from servicenow.servicenow_cmbd_ci_service_discovered
         as sn_service_discovered
@@ -44,7 +46,7 @@ MYSQL_CONNECTION_DETAILS:
         [SN_System_ID], sn_services.[Name] asset_name,[CI_Number],[Install_Status],
         [Business_Criticality] ,[URL],[Owned_By],[IT_Owner],[Supported_By],
         [Export_Control],[Legal_Hold],[APM_Data_Sensitivity],[Disaster_Recovery_Gap],[Records_Retention], [Description]
-
+        , [CI_Type]
         from servicenow.servicenow_cmbd_ci_service
         as sn_services
         left Join
@@ -187,6 +189,18 @@ MYSQL_CONNECTION_DETAILS:
 
       union
 
+      select assets.is_current asset_currrent, Asset_ID,SN_System_ID, systems.name system_name,systems.is_current,'CI Type' as attribute_type, CI_Type sn_value from
+      (
+      select * from servicenow.servicenow_cmbd_ci_business_app
+      union
+      select * from servicenow.servicenow_cmbd_ci_service
+      union
+      select * from servicenow.servicenow_cmbd_ci_service_discovered
+      ) systems
+      join collibra.collibra_assets assets on assets.Name = systems.SN_System_ID
+
+      union
+
       select assets.is_current asset_currrent,Asset_ID,SN_System_ID, systems.name system_name,systems.is_current,'Application Status' as attribute_type, Install_Status sn_value from
       (
       select * from servicenow.servicenow_cmbd_ci_business_app
@@ -261,28 +275,28 @@ MYSQL_CONNECTION_DETAILS:
       collibra_assets.name where collibra_assets.Name is null and sn_services.is_current = 1
       )
        and sn_value not in ('None', 'Unknown')
-  
+
   DELETE_SQL_QUERY: >
      select assets_to_change.is_current, Attribute_ID, Name, Asset_ID, Attribute_Name, Attribute_Value, Display_Name
      from (  select assets.is_current, Name, Display_Name, SN_System_ID, Asset_ID from (select * from collibra.collibra_assets where is_current=1 and
-     Domain_ID in ('{0}', '{1}')  ) assets  
-     
-     
-     left join 
+     Domain_ID in ('{0}', '{1}')  ) assets
+
+
+     left join
      ( select SN_System_ID, is_current from servicenow.servicenow_cmbd_ci_service
-     
+
      union
-     select SN_System_ID, is_current  from servicenow.servicenow_cmbd_ci_service_discovered 
-     
+     select SN_System_ID, is_current  from servicenow.servicenow_cmbd_ci_service_discovered
+
      union
-     select SN_System_ID, is_current  from servicenow.servicenow_cmbd_ci_business_app 
-     
-     ) snow_apps on snow_apps.SN_System_ID = assets.name 
-     and   snow_apps.is_current = 1 
+     select SN_System_ID, is_current  from servicenow.servicenow_cmbd_ci_business_app
+
+     ) snow_apps on snow_apps.SN_System_ID = assets.name
+     and   snow_apps.is_current = 1
      where SN_System_ID IS NULL
-     ) assets_to_change 
+     ) assets_to_change
      left join collibra.collibra_attributes on Parent_Asset_ID = Asset_ID
-     
+
      and attribute_name = 'Application Status'
      and Attribute_Value != 'Retired-Decommissioned'
   VARCHAR_LENGTH: 8000
@@ -308,6 +322,7 @@ COLLIBRA_DETAILS:
   System_Status_ID: a669d696-06c4-46cc-abac-cd95bc27d374
 
   System_Asset_Type_ID: 00000000-0000-0000-0000-000000031302
+  CI_Type: 554a0af6-08f2-4c8f-86b2-5edbf2edace1
 
 SERVICE_NOW:
   ENVIRONMENT: goredev

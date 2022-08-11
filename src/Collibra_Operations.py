@@ -42,6 +42,7 @@ class Collibra_Operations:
                 "System_Asset_Type_ID"
             ]
             self.system_status_id = config["COLLIBRA_DETAILS"]["System_Status_ID"]
+            self.ci_type = config["COLLIBRA_DETAILS"]["CI_Type"]
 
         except KeyError as e:
             print("The config file is incorrectly setup: " + str(e))
@@ -68,6 +69,7 @@ class Collibra_Operations:
             "Data Sensitivity": self.apm_data_sensitivity,
             "Disaster Recovery Gap": self.disaster_recovery_gap,
             "Records Retention": self.records_retention,
+            "CI Type": self.ci_type,
         }
         self.attribute_map = {
             "asset_name": self.asset_name,
@@ -84,6 +86,7 @@ class Collibra_Operations:
             "APM_Data_Sensitivity": self.apm_data_sensitivity,
             "Disaster_Recovery_Gap": self.disaster_recovery_gap,
             "Records_Retention": self.records_retention,
+            "CI_Type": self.ci_type
         }
         self.target_domain_id = self.admin_only_id
         self.bulk_attributes_url = (
