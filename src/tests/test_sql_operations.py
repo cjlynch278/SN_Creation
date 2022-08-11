@@ -17,19 +17,30 @@ class SqlOperationsTest(unittest.TestCase):
             except yaml.YAMLError as exc:
                 print(exc)
         try:
-            self.token_auth = config["AUTH"]["token_auth_header"]
+            self.admin_only_domain_id = config["COLLIBRA_DETAILS"]["ADMIN_DOMAIN_ID"]
+            self.systems_domain_id = config["COLLIBRA_DETAILS"]["Systems_Domain_ID"]
             self.create_sql_query = config["MYSQL_CONNECTION_DETAILS"][
                 "CREATE_SQL_QUERY"
-            ].format("hello")
-            self.create_sql_query = config["MYSQL_CONNECTION_DETAILS"][
-                "CREATE_SQL_QUERY"
-            ].format(config["COLLIBRA_DETAILS"]["ADMIN_DOMAIN_ID"])
+            ].format(self.admin_only_domain_id, self.systems_domain_id)
             self.update_sql_query = config["MYSQL_CONNECTION_DETAILS"][
                 "UPDATE_SQL_QUERY"
-            ]
-            self.environment = config["ENVIRONMENT"]["gore"]
-            self.admin_only_domain_id = config["COLLIBRA_DETAILS"]["ADMIN_DOMAIN_ID"]
+            ].format(self.admin_only_domain_id, self.systems_domain_id)
+            self.delete_sql_query = config["MYSQL_CONNECTION_DETAILS"][
+                "DELETE_SQL_QUERY"
+            ].format(self.admin_only_domain_id, self.systems_domain_id)
             self.token_auth = config["AUTH"]["token_auth_header"]
+            self.database_name = str(
+                config["MYSQL_CONNECTION_DETAILS"]["DATABASE_NAME"]
+            )
+            self.server_name = config["MYSQL_CONNECTION_DETAILS"]["SERVER_NAME"]
+            self.sql_user = config["MYSQL_CONNECTION_DETAILS"]["LOGIN"]
+            self.sql_password = config["MYSQL_CONNECTION_DETAILS"]["PASSWORD"]
+            self.cookie = config["AUTH"]["cookie"]
+            self.token_auth = config["AUTH"]["token_auth_header"]
+            self.schema = "extract"
+            self.environment = config["ENVIRONMENT"]["gore"]
+            self.auth = config["AUTH"]["auth-header"]
+            self.logger_location = config["LOGGER"]["LOCATION"]
         except KeyError as e:
             print("The test config file is incorrectly setup: " + str(e))
             os._exit(1)
@@ -40,6 +51,7 @@ class SqlOperationsTest(unittest.TestCase):
     def test_sql_format(self):
         print("setup")
         print(self.create_sql_query)
+
 
     def dtest_to_delete(self):
         self.test_dataframe = pandas.read_csv("src/tests/test_files/create_1.csv")
