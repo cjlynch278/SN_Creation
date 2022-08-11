@@ -181,28 +181,13 @@ class Collibra_Operations:
             return True
 
         # This object list will be sent in the body of the api call
-        object_list = []
-        for index, row in dataframe.iterrows():
-            try:
-                if not (row["asset_name"] in ["Unknown", "None", None, "nan", ""]):
-                    asset_name = str(row["asset_name"])
-                else:
-                    asset_name = str(row["SN_System_ID"])
-                asset_backend_name = str(row["SN_System_ID"])
 
-                current_asset_dict = {
-                    "name": asset_backend_name,
-                    "displayName": asset_name,
-                    "domainId": self.target_domain_id,
-                    "typeId": self.system_asset_type_id,
-                    "statusId": self.system_status_id,
-                }
-                object_list.append(current_asset_dict)
-            except KeyError as e:
-                logging.error(
-                    "Create asset dataframe configured incorrectly: " + str(e)
-                )
-                return
+        #-------------------------------------------------------------------------------
+        #This single line of code is super important - creating the json body
+        #-------------------------------------------------------------------------------
+        object_list = dataframe.to_dict('records')
+
+
         asset_create_response = self.collibra_api_call(
             "POST", self.bulk_assets_url, object_list
         )

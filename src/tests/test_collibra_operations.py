@@ -123,6 +123,9 @@ class SqlOperationsTest(unittest.TestCase):
         return attribute_dataframe
 
 
+    def test_create_dataframe(self):
+        self.collibra_operations.create_dataframe(self.six_test, [])
+
 
     def test_delete_existing_systems(self):
         delete_ids = []
