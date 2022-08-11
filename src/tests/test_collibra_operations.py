@@ -124,6 +124,32 @@ class SqlOperationsTest(unittest.TestCase):
 
 
 
+    def test_delete_existing_systems(self):
+        delete_ids = []
+        delete_df = pandas.read_csv("src/tests/test_files/update_existing_systems.csv")
+        url = "https://wlgore-dev.collibra.com/rest/2.0/assets/bulk"
+
+        for index, row in delete_df.iterrows():
+            if str(row['to_be_deleted']) not in ["Unknown", "None", None, "nan", ""]:
+                delete_ids.append(row['to_be_deleted'])
+
+        response =  self.collibra_operations.collibra_api_call("DELETE", url, delete_ids)
+        print(response)
+    def test_update_sn_number(self):
+        self.sn_number_df = pandas.read_csv("src/tests/test_files/update_existing_systems.csv")
+        #self.collibra_operations.update_attributes(self.sn_number_df)
+        update_list = []
+        for index, row in self.sn_number_df.iterrows():
+            update_list.append(
+                {
+                    "id": row['Asset_ID'],
+                    "name": row['sn_value']
+                }
+            )
+        response = self.collibra_operations.collibra_api_call("PATCH",
+                                                   "https://wlgore-dev.collibra.com/rest/2.0/assets/bulk",
+                                                   update_list)
+        print(update_list)
 
 
     def get_status_attribute(self, type_id, asset_id ):

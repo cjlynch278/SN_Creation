@@ -167,24 +167,49 @@ class Collibra_Operations:
         )
 
         if asset_create_response.status_code in [200, 201]:
-            self.create_assets_result = True
-            logging.info("Assets Created")
-            for dict in asset_list:
-                logging.info(
-                    "Asset Created: "
-                    + dict["displayName"]
-                    + " with an SN System ID of "
-                    + dict["name"]
-                )
             self.create_attributes(dataframe, asset_create_response.json())
-        else:
-            self.create_assets_result = False
-            logging.error("Error Creating Assets")
-            print("Error Creating Assets")
-            logging.info(asset_create_response.json()["titleMessage"])
-            print(asset_create_response.json()["userMessage"])
-            logging.info(asset_create_response.json()["userMessage"])
-            print(asset_create_response.json()["userMessage"])
+        self.log_result(asset_create_response,"Assets Created")
+
+    def create_dataframe(self, dataframe, attribute_list):
+        """
+
+        :param dataframe:
+        :param attribute_list:
+        :return: a boolean representing if the call was succesful
+        """
+        if dataframe.empty:
+            return True
+
+        # This object list will be sent in the body of the api call
+        object_list = []
+        for index, row in dataframe.iterrows():
+            try:
+                if not (row["asset_name"] in ["Unknown", "None", None, "nan", ""]):
+                    asset_name = str(row["asset_name"])
+                else:
+                    asset_name = str(row["SN_System_ID"])
+                asset_backend_name = str(row["SN_System_ID"])
+
+                current_asset_dict = {
+                    "name": asset_backend_name,
+                    "displayName": asset_name,
+                    "domainId": self.target_domain_id,
+                    "typeId": self.system_asset_type_id,
+                    "statusId": self.system_status_id,
+                }
+                object_list.append(current_asset_dict)
+            except KeyError as e:
+                logging.error(
+                    "Create asset dataframe configured incorrectly: " + str(e)
+                )
+                return
+        asset_create_response = self.collibra_api_call(
+            "POST", self.bulk_assets_url, object_list
+        )
+
+        if asset_create_response.status_code in [200, 201]:
+            self.create_attributes(dataframe, asset_create_response.json())
+        self.log_result(asset_create_response,"Assets Created")
 
     def create_attributes(self, dataframe, json_response):
         """
@@ -334,7 +359,7 @@ class Collibra_Operations:
         """
 
         :param response: response of the api call
-        :param type_of_call: This is simply a string for logging puposes
+        :param type_of_call: This is simply a string for logging purposes
         :param object_list: list of what was created
         :return: Nothing
         """
