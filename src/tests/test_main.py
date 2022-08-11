@@ -17,7 +17,7 @@ class MainClassTest(unittest.TestCase):
                 print(exc)
 
         self.admin_only_domain_id = config["COLLIBRA_DETAILS"]["ADMIN_DOMAIN_ID"]
-
+        self.systems_domain_id = config["COLLIBRA_DETAILS"]["Systems_Domain_ID"]
         self.update_sql_query = config["MYSQL_CONNECTION_DETAILS"][
             "UPDATE_SQL_QUERY"
         ].format(self.admin_only_domain_id)

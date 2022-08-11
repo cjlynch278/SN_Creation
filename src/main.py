@@ -16,15 +16,16 @@ class MainClass:
                 print(exc)
         try:
             self.admin_only_domain_id = config["COLLIBRA_DETAILS"]["ADMIN_DOMAIN_ID"]
+            self.systems_domain_id = config["COLLIBRA_DETAILS"]["Systems_Domain_ID"]
             self.create_sql_query = config["MYSQL_CONNECTION_DETAILS"][
                 "CREATE_SQL_QUERY"
-            ].format(self.admin_only_domain_id)
+            ].format(self.admin_only_domain_id,self.systems_domain_id)
             self.update_sql_query = config["MYSQL_CONNECTION_DETAILS"][
                 "UPDATE_SQL_QUERY"
-            ].format(self.admin_only_domain_id)
+            ].format(self.admin_only_domain_id,self.systems_domain_id)
             self.delete_sql_query = config["MYSQL_CONNECTION_DETAILS"][
                 "DELETE_SQL_QUERY"
-            ].format(self.admin_only_domain_id)
+            ].format(self.admin_only_domain_id,self.systems_domain_id)
             self.token_auth = config["AUTH"]["token_auth_header"]
             self.database_name = str(
                 config["MYSQL_CONNECTION_DETAILS"]["DATABASE_NAME"]
