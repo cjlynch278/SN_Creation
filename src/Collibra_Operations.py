@@ -86,7 +86,7 @@ class Collibra_Operations:
             "APM_Data_Sensitivity": self.apm_data_sensitivity,
             "Disaster_Recovery_Gap": self.disaster_recovery_gap,
             "Records_Retention": self.records_retention,
-            "CI_Type": self.ci_type
+            "CI_Type": self.ci_type,
         }
         self.target_domain_id = self.admin_only_id
         self.bulk_attributes_url = (
@@ -108,14 +108,21 @@ class Collibra_Operations:
         update_status_list = []
         create_status_list = []
         for index, row in dataframe.iterrows():
-            if str(row["Attribute_ID"]) in ["Unknown", "None", None, "nan", "", float('nan')]:
+            if str(row["Attribute_ID"]) in [
+                "Unknown",
+                "None",
+                None,
+                "nan",
+                "",
+                float("nan"),
+            ]:
                 create_status_list.append(
                     {
                         "assetId": row["Asset_ID"],
-                        "typeId": self.column_map["Application Status"] ,
+                        "typeId": self.column_map["Application Status"],
                         "value": "Retired-Decommissioned",
                     }
-            )
+                )
 
             else:
                 update_status_list.append(
@@ -124,12 +131,18 @@ class Collibra_Operations:
                         "value": "Retired-Decommissioned",
                     }
                 )
-        response = self.collibra_api_call("POST", self.bulk_attributes_url,create_status_list)
+        response = self.collibra_api_call(
+            "POST", self.bulk_attributes_url, create_status_list
+        )
         self.log_result(response, "Create Status")
-        if response.status_code in [200, 201]: self.delete_asset_response = True
-        response = self.collibra_api_call("PATCH", self.bulk_attributes_url,update_status_list)
+        if response.status_code in [200, 201]:
+            self.delete_asset_response = True
+        response = self.collibra_api_call(
+            "PATCH", self.bulk_attributes_url, update_status_list
+        )
         self.log_result(response, "Update Status")
-        if response.status_code not in [200, 201]: self.delete_asset_response = False
+        if response.status_code not in [200, 201]:
+            self.delete_asset_response = False
 
     def create_assets(self, dataframe):
         """
@@ -353,7 +366,6 @@ class Collibra_Operations:
             print(response.json()["userMessage"])
             logging.info(response.json()["userMessage"])
             print(response.json()["userMessage"])
-
 
     def collibra_api_call(self, method_type, url, item_list):
         """
