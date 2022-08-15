@@ -17,15 +17,6 @@ class MainClass:
         try:
             self.admin_only_domain_id = config["COLLIBRA_DETAILS"]["ADMIN_DOMAIN_ID"]
             self.systems_domain_id = config["COLLIBRA_DETAILS"]["Systems_Domain_ID"]
-            self.create_sql_query = config["MYSQL_CONNECTION_DETAILS"][
-                "CREATE_SQL_QUERY"
-            ].format(self.admin_only_domain_id,self.systems_domain_id)
-            self.update_sql_query = config["MYSQL_CONNECTION_DETAILS"][
-                "UPDATE_SQL_QUERY"
-            ].format(self.admin_only_domain_id,self.systems_domain_id)
-            self.delete_sql_query = config["MYSQL_CONNECTION_DETAILS"][
-                "DELETE_SQL_QUERY"
-            ].format(self.admin_only_domain_id,self.systems_domain_id)
             self.token_auth = config["AUTH"]["token_auth_header"]
             self.database_name = str(
                 config["MYSQL_CONNECTION_DETAILS"]["DATABASE_NAME"]
@@ -39,6 +30,7 @@ class MainClass:
             self.environment = config["ENVIRONMENT"]["gore"]
             self.auth = config["AUTH"]["auth-header"]
             self.logger_location = config["LOGGER"]["LOCATION"]
+            self.status_attribute_id = config["COLLIBRA_DETAILS"]["Install_Status"]
 
         except KeyError as e:
             print("The config file is incorrectly setup: " + str(e))
@@ -65,14 +57,30 @@ class MainClass:
             self.environment,
         )
         logging.debug("Sql operations setup")
-        self.sql_operations.connect_to_sql()
-        logging.debug("SQL connected")
+
 
         self.collibra_operations = Collibra_Operations(
             self.admin_only_domain_id, self.environment, self.token_auth, config_file
         )
         logging.debug("Collibra Operations setup")
 
+        with open("./src/queries/create_query.sql", "r") as create_sql_file:
+            self.create_sql_query = (
+                create_sql_file.read()
+                .format(self.admin_only_domain_id, self.systems_domain_id)
+            )
+
+        with open("./src/queries/update_query.sql", "r") as update_sql_file:
+            self.update_sql_query = (
+                update_sql_file.read()
+                .format(self.admin_only_domain_id, self.systems_domain_id)
+            )
+
+        with open("./src/queries/delete_query.sql", "r") as delete_sql_file:
+            self.delete_sql_query = (
+                delete_sql_file.read()
+                .format(self.admin_only_domain_id, self.systems_domain_id)
+            )
     def prepare_and_send_email(self):
         log_file = open(self.log_file_name, "r")
         email_contents = log_file.read()
@@ -81,6 +89,9 @@ class MainClass:
         print("email sent!")
 
     def run(self):
+        self.sql_operations.connect_to_sql()
+        logging.debug("SQL connected")
+
         create_dataframe = self.sql_operations.read_sql(self.create_sql_query)
         logging.info("Create Sql read successfully")
         self.collibra_operations.create_assets(create_dataframe)

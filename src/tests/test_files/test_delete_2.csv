@@ -1,0 +1,14 @@
+is_current,Attribute_ID,Name,Asset_ID,Attribute_Name,Attribute_Value,Display_Name
+1,NULL,Salesforce ,26d34396-b75f-4711-b100-3c50017e2cf6,NULL,NULL,Salesforce 
+1,NULL,CAMSTAR,27f04300-b033-48fd-ab5f-90a5987c613c,NULL,NULL,CAMSTAR
+1,NULL,Salesforce Customer 360 Data Manager,3156ca63-acb9-4053-8ae9-b0873acd14f2,NULL,NULL,Salesforce Customer 360 Data Manager
+1,NULL,Taleo,35417c8a-ed85-4943-bb43-eee7bcbc0662,NULL,NULL,Taleo
+1,NULL,GTIN Generator,3f444c78-ac16-496d-b8e7-4f3cff690196,NULL,NULL,GTIN Generator
+1,NULL,Salesforce,6190f186-df70-4f51-b2af-27ba68853cc4,NULL,NULL,Salesforce
+1,NULL,IPG XLS,6d7faf04-4cef-4385-b6f4-ac6eafedf68d,NULL,NULL,IPG XLS
+1,NULL,Matter Management,7d85b39b-25a5-42e0-944e-c847544e5cae,NULL,NULL,Matter Management
+1,NULL,Infor EAM,80ab7770-c81d-4394-8d04-390990c110f7,NULL,NULL,Infor EAM
+1,NULL,Portfolio Portal/Project Time Tracking,8fa86716-8e87-43ed-a020-1a1c382f85c9,NULL,NULL,Portfolio Portal/Project Time Tracking
+1,NULL,Test System,b3e2d9b0-b469-428e-b2d6-9b74b8426c39,NULL,NULL,Test System
+1,NULL,LPS File System,c5eb0231-58d4-4041-b982-3303ffc6d641,NULL,NULL,LPS File System
+1,NULL,Commerce Cloud Mapping File,e358359d-5a81-4cb9-9012-66a38e4d6d57,NULL,NULL,Commerce Cloud Mapping File
