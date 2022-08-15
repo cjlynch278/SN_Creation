@@ -1952,3 +1952,54 @@
 09:02:27,843 root INFO Update Status successful
 10:01:05,67 root INFO Push To Collibra App started
 10:01:05,67 root INFO Config File Read
+10:01:26,268 root INFO Push To Collibra App started
+10:01:26,268 root INFO Config File Read
+10:01:32,644 root INFO API Call Status Code: 201
+10:01:32,645 root INFO Assets Created
+10:01:32,645 root INFO Asset Created: test Integration ITEM with an SN System ID of 6bf3a0861b3f01d03457caae6e4bcb26
+10:01:32,646 root INFO Asset Created: 3dcs test 3 with an SN System ID of 772339c41b3b81d0973dfd115b4bcbfd
+10:01:32,646 root INFO Asset Created: test integration 2 with an SN System ID of 91e76c821b7f01d03457caae6e4bcb4b
+10:01:32,646 root INFO Asset Created: 3dcs test 5 with an SN System ID of ad9479c81b3b81d0973dfd115b4bcbb5
+10:01:32,646 root INFO Asset Created: BitLocker Test1 with an SN System ID of bceb5f83dbacb0103ee31cec689619f8
+10:01:32,647 root INFO Asset Created: nan with an SN System ID of d2ae75041bbb81d0973dfd115b4bcbd4
+10:01:33,514 root INFO API Call Status Code: 201
+10:01:33,514 root INFO Attributes Created
+10:01:33,514 root INFO dda874d3-610e-4460-b4d1-7ef304605392 Attribute added to asset 3c10f7b3-1f1e-41ff-87ed-e0ed304cb5e3 with value APM0003880
+10:01:33,514 root INFO 8eeeae37-e6cc-4cd9-a65d-c5b6c3a72c36 Attribute added to asset 3c10f7b3-1f1e-41ff-87ed-e0ed304cb5e3 with value Operational - Maintain
+10:01:33,514 root INFO 12d0118b-6d7b-4ef2-86aa-a44b5552dad9 Attribute added to asset 3c10f7b3-1f1e-41ff-87ed-e0ed304cb5e3 with value Critical
+10:01:33,515 root INFO 00000000-0000-0000-0000-000000000258 Attribute added to asset 3c10f7b3-1f1e-41ff-87ed-e0ed304cb5e3 with value https://gore.service-now.com/nav_to.do?uri=cmdb_ci_business_app.do?sys_id=6bf3a0861b3f01d03457caae6e4bcb26
+10:01:33,515 root INFO 554a0af6-08f2-4c8f-86b2-5edbf2edace1 Attribute added to asset 3c10f7b3-1f1e-41ff-87ed-e0ed304cb5e3 with value Business Application
+10:01:33,515 root INFO dda874d3-610e-4460-b4d1-7ef304605392 Attribute added to asset a8cdc213-8327-489e-9be9-2f90a45bf77e with value APM0003876
+10:01:33,515 root INFO 8eeeae37-e6cc-4cd9-a65d-c5b6c3a72c36 Attribute added to asset a8cdc213-8327-489e-9be9-2f90a45bf77e with value Operational - Maintain
+10:01:33,515 root INFO 00000000-0000-0000-0000-000000000258 Attribute added to asset a8cdc213-8327-489e-9be9-2f90a45bf77e with value https://gore.service-now.com/nav_to.do?uri=cmdb_ci_business_app.do?sys_id=772339c41b3b81d0973dfd115b4bcbfd
+10:01:33,515 root INFO 554a0af6-08f2-4c8f-86b2-5edbf2edace1 Attribute added to asset a8cdc213-8327-489e-9be9-2f90a45bf77e with value Business Application
+10:01:33,515 root INFO dda874d3-610e-4460-b4d1-7ef304605392 Attribute added to asset 733c368c-9799-462e-af01-b6eef9673d29 with value APM0003881
+10:01:33,515 root INFO 8eeeae37-e6cc-4cd9-a65d-c5b6c3a72c36 Attribute added to asset 733c368c-9799-462e-af01-b6eef9673d29 with value Operational - Maintain
+10:01:33,515 root INFO 12d0118b-6d7b-4ef2-86aa-a44b5552dad9 Attribute added to asset 733c368c-9799-462e-af01-b6eef9673d29 with value Critical
+10:01:33,515 root INFO 00000000-0000-0000-0000-000000000258 Attribute added to asset 733c368c-9799-462e-af01-b6eef9673d29 with value https://gore.service-now.com/nav_to.do?uri=cmdb_ci_business_app.do?sys_id=91e76c821b7f01d03457caae6e4bcb4b
+10:01:33,515 root INFO 554a0af6-08f2-4c8f-86b2-5edbf2edace1 Attribute added to asset 733c368c-9799-462e-af01-b6eef9673d29 with value Business Application
+10:01:33,515 root INFO dda874d3-610e-4460-b4d1-7ef304605392 Attribute added to asset dff81f59-d888-40f4-b903-08a8b4fe8b65 with value APM0003877
+10:01:33,515 root INFO 8eeeae37-e6cc-4cd9-a65d-c5b6c3a72c36 Attribute added to asset dff81f59-d888-40f4-b903-08a8b4fe8b65 with value Operational - Maintain
+10:01:33,515 root INFO 00000000-0000-0000-0000-000000000258 Attribute added to asset dff81f59-d888-40f4-b903-08a8b4fe8b65 with value https://gore.service-now.com/nav_to.do?uri=cmdb_ci_business_app.do?sys_id=ad9479c81b3b81d0973dfd115b4bcbb5
+10:01:33,515 root INFO 23c90dd8-eba5-4a0b-8d2e-98ef071963c8 Attribute added to asset dff81f59-d888-40f4-b903-08a8b4fe8b65 with value Steve Loritz
+10:01:33,515 root INFO 554a0af6-08f2-4c8f-86b2-5edbf2edace1 Attribute added to asset dff81f59-d888-40f4-b903-08a8b4fe8b65 with value Business Application
+10:01:33,515 root INFO dda874d3-610e-4460-b4d1-7ef304605392 Attribute added to asset 0a3bfbbe-0f5b-4d62-bcf1-9229893fb9ad with value APM0003474
+10:01:33,516 root INFO 8eeeae37-e6cc-4cd9-a65d-c5b6c3a72c36 Attribute added to asset 0a3bfbbe-0f5b-4d62-bcf1-9229893fb9ad with value Operational - Maintain
+10:01:33,516 root INFO 00000000-0000-0000-0000-000000000258 Attribute added to asset 0a3bfbbe-0f5b-4d62-bcf1-9229893fb9ad with value https://gore.service-now.com/nav_to.do?uri=cmdb_ci_business_app.do?sys_id=bceb5f83dbacb0103ee31cec689619f8
+10:01:33,516 root INFO eff75d33-cba0-44d8-9c2a-f4c3fc589693 Attribute added to asset 0a3bfbbe-0f5b-4d62-bcf1-9229893fb9ad with value Chuck Bartenbach
+10:01:33,516 root INFO 23c90dd8-eba5-4a0b-8d2e-98ef071963c8 Attribute added to asset 0a3bfbbe-0f5b-4d62-bcf1-9229893fb9ad with value John Mushet
+10:01:33,516 root INFO 42203189-d926-4fb6-b809-829e9596bc28 Attribute added to asset 0a3bfbbe-0f5b-4d62-bcf1-9229893fb9ad with value Wolfgang Neuner
+10:01:33,516 root INFO 270d4a3d-fd4e-45b8-b2bc-57b0bc31b12d Attribute added to asset 0a3bfbbe-0f5b-4d62-bcf1-9229893fb9ad with value Not Applicable
+10:01:33,516 root INFO 554a0af6-08f2-4c8f-86b2-5edbf2edace1 Attribute added to asset 0a3bfbbe-0f5b-4d62-bcf1-9229893fb9ad with value Business Application
+10:01:33,516 root INFO dda874d3-610e-4460-b4d1-7ef304605392 Attribute added to asset 4814d611-da25-4279-90c8-515b516e825c with value APM0003878
+10:01:33,516 root INFO 8eeeae37-e6cc-4cd9-a65d-c5b6c3a72c36 Attribute added to asset 4814d611-da25-4279-90c8-515b516e825c with value Operational - Maintain
+10:01:33,516 root INFO 00000000-0000-0000-0000-000000000258 Attribute added to asset 4814d611-da25-4279-90c8-515b516e825c with value https://gore.service-now.com/nav_to.do?uri=cmdb_ci_business_app.do?sys_id=d2ae75041bbb81d0973dfd115b4bcbd4
+10:01:33,516 root INFO 554a0af6-08f2-4c8f-86b2-5edbf2edace1 Attribute added to asset 4814d611-da25-4279-90c8-515b516e825c with value Business Application
+10:01:35,993 root INFO API Call Status Code: 201
+10:01:35,993 root INFO Create Status successful
+10:01:36,680 root INFO API Call Status Code: 200
+10:01:36,680 root INFO Update Status successful
+10:01:37,384 root INFO API Call Status Code: 201
+10:01:37,384 root INFO Create Status successful
+10:01:38,43 root INFO API Call Status Code: 200
+10:01:38,44 root INFO Update Status successful
