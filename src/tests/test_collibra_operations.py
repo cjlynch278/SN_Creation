@@ -108,10 +108,10 @@ class SqlOperationsTest(unittest.TestCase):
         attribute_dataframe = pandas.DataFrame(data)
         return attribute_dataframe
 
-<<<<<<< HEAD
 
     def test_create_dataframe(self):
-        self.collibra_operations.create_dataframe(self.six_test, [])
+        self.delete_collibra_test_assets()
+        self.collibra_operations.create_dataframe(self.six_test)
 
 
     def test_delete_existing_systems(self):
@@ -249,3 +249,13 @@ class SqlOperationsTest(unittest.TestCase):
         response = requests.request("GET", url, headers=headers)
 
         print(response.text)
+
+    def atest_fix_tests(self):
+        create_dataframe =   pandas.read_csv("src/tests/test_files/six_test.csv")
+        create_dataframe = create_dataframe.filter(['SN_System_ID','asset_name'])
+        create_dataframe.columns = ['name','displayName']
+        create_dataframe['domainId'] = self.collibra_operations.target_domain_id
+        create_dataframe["typeId"] = self.collibra_operations.system_asset_type_id
+        create_dataframe["statusId"] = self.collibra_operations.system_status_id
+        create_dataframe.to_csv("src/tests/test_files/six_test.csv", index=False)
+

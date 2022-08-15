@@ -2003,3 +2003,89 @@
 10:01:37,384 root INFO Create Status successful
 10:01:38,43 root INFO API Call Status Code: 200
 10:01:38,44 root INFO Update Status successful
+10:13:47,841 root INFO Push To Collibra App started
+10:13:47,841 root INFO Config File Read
+10:13:53,500 root INFO Push To Collibra App started
+10:13:53,500 root INFO Config File Read
+10:13:58,328 root INFO API call was unsuccessful
+10:13:58,329 root INFO API Call Status Code: 400
+10:14:24,445 root INFO Push To Collibra App started
+10:14:24,445 root INFO Config File Read
+10:24:30,709 root INFO Push To Collibra App started
+10:24:30,709 root INFO Config File Read
+10:24:43,376 root INFO Push To Collibra App started
+10:24:43,377 root INFO Config File Read
+10:25:02,425 root INFO Push To Collibra App started
+10:25:02,426 root INFO Config File Read
+10:25:13,464 root INFO Push To Collibra App started
+10:25:13,464 root INFO Config File Read
+10:26:32,368 root INFO Push To Collibra App started
+10:26:32,368 root INFO Config File Read
+10:27:15,247 root INFO Push To Collibra App started
+10:27:15,247 root INFO Config File Read
+10:27:18,903 root INFO API call was unsuccessful
+10:27:18,904 root INFO API Call Status Code: 400
+10:27:35,211 root INFO Push To Collibra App started
+10:27:35,211 root INFO Config File Read
+10:29:02,873 root INFO Push To Collibra App started
+10:29:02,873 root INFO Config File Read
+11:08:42,414 root INFO Push To Collibra App started
+11:08:42,414 root INFO Config File Read
+11:43:48,84 root INFO Push To Collibra App started
+11:43:48,85 root INFO Config File Read
+11:45:22,500 root INFO Push To Collibra App started
+11:45:22,500 root INFO Config File Read
+11:47:47,588 root INFO Push To Collibra App started
+11:47:47,588 root INFO Config File Read
+11:47:58,1 root INFO Push To Collibra App started
+11:47:58,2 root INFO Config File Read
+11:48:43,989 root INFO Push To Collibra App started
+11:48:43,989 root INFO Config File Read
+11:50:02,789 root INFO Push To Collibra App started
+11:50:02,790 root INFO Config File Read
+11:51:11,345 root INFO Push To Collibra App started
+11:51:11,345 root INFO Config File Read
+12:05:38,554 root INFO Push To Collibra App started
+12:05:38,554 root INFO Config File Read
+12:05:44,189 root INFO API call was unsuccessful
+12:05:44,189 root INFO API Call Status Code: 400
+12:05:44,189 root ERROR Assets CreatedError
+12:05:44,190 root INFO Value not allowed
+12:05:44,190 root INFO An asset with signifier '6bf3a0861b3f01d03457caae6e4bcb26' already exists for domain 'ServiceNow Applications'.
+12:06:10,92 root INFO Push To Collibra App started
+12:06:10,92 root INFO Config File Read
+12:06:21,90 root INFO API Call Status Code: 201
+12:06:21,91 root INFO Assets Created successful
+12:06:33,818 root INFO API Call Status Code: 201
+12:06:33,822 root INFO Attributes Created
+12:06:33,823 root INFO dda874d3-610e-4460-b4d1-7ef304605392 Attribute added to asset a70ec77d-df56-4d42-8da3-060694889443 with value APM0003880
+12:06:33,824 root INFO 8eeeae37-e6cc-4cd9-a65d-c5b6c3a72c36 Attribute added to asset a70ec77d-df56-4d42-8da3-060694889443 with value Operational - Maintain
+12:06:33,825 root INFO 12d0118b-6d7b-4ef2-86aa-a44b5552dad9 Attribute added to asset a70ec77d-df56-4d42-8da3-060694889443 with value Critical
+12:06:33,826 root INFO 00000000-0000-0000-0000-000000000258 Attribute added to asset a70ec77d-df56-4d42-8da3-060694889443 with value https://gore.service-now.com/nav_to.do?uri=cmdb_ci_business_app.do?sys_id=6bf3a0861b3f01d03457caae6e4bcb26
+12:06:33,827 root INFO 554a0af6-08f2-4c8f-86b2-5edbf2edace1 Attribute added to asset a70ec77d-df56-4d42-8da3-060694889443 with value Business Application
+12:06:33,827 root INFO dda874d3-610e-4460-b4d1-7ef304605392 Attribute added to asset 48e5e6e8-458a-40b2-9a71-b1dfd0dcc628 with value APM0003876
+12:06:33,828 root INFO 8eeeae37-e6cc-4cd9-a65d-c5b6c3a72c36 Attribute added to asset 48e5e6e8-458a-40b2-9a71-b1dfd0dcc628 with value Operational - Maintain
+12:06:33,829 root INFO 00000000-0000-0000-0000-000000000258 Attribute added to asset 48e5e6e8-458a-40b2-9a71-b1dfd0dcc628 with value https://gore.service-now.com/nav_to.do?uri=cmdb_ci_business_app.do?sys_id=772339c41b3b81d0973dfd115b4bcbfd
+12:06:33,829 root INFO 554a0af6-08f2-4c8f-86b2-5edbf2edace1 Attribute added to asset 48e5e6e8-458a-40b2-9a71-b1dfd0dcc628 with value Business Application
+12:06:33,830 root INFO dda874d3-610e-4460-b4d1-7ef304605392 Attribute added to asset 70b54c97-3ec2-432b-90f8-f3a99ccc6ce9 with value APM0003881
+12:06:33,831 root INFO 8eeeae37-e6cc-4cd9-a65d-c5b6c3a72c36 Attribute added to asset 70b54c97-3ec2-432b-90f8-f3a99ccc6ce9 with value Operational - Maintain
+12:06:33,832 root INFO 12d0118b-6d7b-4ef2-86aa-a44b5552dad9 Attribute added to asset 70b54c97-3ec2-432b-90f8-f3a99ccc6ce9 with value Critical
+12:06:33,832 root INFO 00000000-0000-0000-0000-000000000258 Attribute added to asset 70b54c97-3ec2-432b-90f8-f3a99ccc6ce9 with value https://gore.service-now.com/nav_to.do?uri=cmdb_ci_business_app.do?sys_id=91e76c821b7f01d03457caae6e4bcb4b
+12:06:33,833 root INFO 554a0af6-08f2-4c8f-86b2-5edbf2edace1 Attribute added to asset 70b54c97-3ec2-432b-90f8-f3a99ccc6ce9 with value Business Application
+12:06:33,834 root INFO dda874d3-610e-4460-b4d1-7ef304605392 Attribute added to asset d765cb00-5767-412e-b22b-fe7161c5f87f with value APM0003877
+12:06:33,835 root INFO 8eeeae37-e6cc-4cd9-a65d-c5b6c3a72c36 Attribute added to asset d765cb00-5767-412e-b22b-fe7161c5f87f with value Operational - Maintain
+12:06:33,836 root INFO 00000000-0000-0000-0000-000000000258 Attribute added to asset d765cb00-5767-412e-b22b-fe7161c5f87f with value https://gore.service-now.com/nav_to.do?uri=cmdb_ci_business_app.do?sys_id=ad9479c81b3b81d0973dfd115b4bcbb5
+12:06:33,836 root INFO 23c90dd8-eba5-4a0b-8d2e-98ef071963c8 Attribute added to asset d765cb00-5767-412e-b22b-fe7161c5f87f with value Steve Loritz
+12:06:33,838 root INFO 554a0af6-08f2-4c8f-86b2-5edbf2edace1 Attribute added to asset d765cb00-5767-412e-b22b-fe7161c5f87f with value Business Application
+12:06:33,838 root INFO dda874d3-610e-4460-b4d1-7ef304605392 Attribute added to asset a2722d31-6377-48fb-95d8-c6e65e83c15d with value APM0003474
+12:06:33,840 root INFO 8eeeae37-e6cc-4cd9-a65d-c5b6c3a72c36 Attribute added to asset a2722d31-6377-48fb-95d8-c6e65e83c15d with value Operational - Maintain
+12:06:33,841 root INFO 00000000-0000-0000-0000-000000000258 Attribute added to asset a2722d31-6377-48fb-95d8-c6e65e83c15d with value https://gore.service-now.com/nav_to.do?uri=cmdb_ci_business_app.do?sys_id=bceb5f83dbacb0103ee31cec689619f8
+12:06:33,842 root INFO eff75d33-cba0-44d8-9c2a-f4c3fc589693 Attribute added to asset a2722d31-6377-48fb-95d8-c6e65e83c15d with value Chuck Bartenbach
+12:06:33,842 root INFO 23c90dd8-eba5-4a0b-8d2e-98ef071963c8 Attribute added to asset a2722d31-6377-48fb-95d8-c6e65e83c15d with value John Mushet
+12:06:33,844 root INFO 42203189-d926-4fb6-b809-829e9596bc28 Attribute added to asset a2722d31-6377-48fb-95d8-c6e65e83c15d with value Wolfgang Neuner
+12:06:33,845 root INFO 270d4a3d-fd4e-45b8-b2bc-57b0bc31b12d Attribute added to asset a2722d31-6377-48fb-95d8-c6e65e83c15d with value Not Applicable
+12:06:33,845 root INFO 554a0af6-08f2-4c8f-86b2-5edbf2edace1 Attribute added to asset a2722d31-6377-48fb-95d8-c6e65e83c15d with value Business Application
+12:06:33,846 root INFO dda874d3-610e-4460-b4d1-7ef304605392 Attribute added to asset c68ad4ae-96b2-4a39-8e0a-ef68c9a6cb4f with value APM0003878
+12:06:33,846 root INFO 8eeeae37-e6cc-4cd9-a65d-c5b6c3a72c36 Attribute added to asset c68ad4ae-96b2-4a39-8e0a-ef68c9a6cb4f with value Operational - Maintain
+12:06:33,847 root INFO 00000000-0000-0000-0000-000000000258 Attribute added to asset c68ad4ae-96b2-4a39-8e0a-ef68c9a6cb4f with value https://gore.service-now.com/nav_to.do?uri=cmdb_ci_business_app.do?sys_id=d2ae75041bbb81d0973dfd115b4bcbd4
+12:06:33,848 root INFO 554a0af6-08f2-4c8f-86b2-5edbf2edace1 Attribute added to asset c68ad4ae-96b2-4a39-8e0a-ef68c9a6cb4f with value Business Application

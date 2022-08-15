@@ -42,3 +42,4 @@ class SqlOperationsTest(unittest.TestCase):
 
         self.test_dataframe.to_csv("src/tests/test_files/test.csv", index=False)
         print("Done")
+
