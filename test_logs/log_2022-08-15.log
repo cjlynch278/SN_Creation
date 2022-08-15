@@ -1950,3 +1950,5 @@
 09:02:27,163 root INFO Create Status successful
 09:02:27,842 root INFO API Call Status Code: 200
 09:02:27,843 root INFO Update Status successful
+10:01:05,67 root INFO Push To Collibra App started
+10:01:05,67 root INFO Config File Read
