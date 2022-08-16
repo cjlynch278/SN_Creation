@@ -13,7 +13,7 @@ from src.main import MainClass
 
 class SqlOperationsTest(unittest.TestCase):
     def setUp(self):
-        self.main = MainClass("src/tests/test_files/test_config.yml")
+        self.main = MainClass("src/tests/test_files/test_config.yml", "src/queries")
 
         self.sql_operations = SQLOperations(
             "test",

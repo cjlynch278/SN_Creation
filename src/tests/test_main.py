@@ -7,7 +7,7 @@ from src.main import MainClass
 
 class MainClassTest(unittest.TestCase):
     def setUp(self):
-        self.main = MainClass("./src/tests/test_files/test_config.yml")
+        self.main = MainClass("./src/tests/test_files/test_config.yml", "./src/queries")
         print("Starting")
 
     def test_setup(self):

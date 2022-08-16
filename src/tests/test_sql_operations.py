@@ -12,7 +12,7 @@ from src.SQLOperations import SQLOperations
 class SqlOperationsTest(unittest.TestCase):
     def setUp(self):
 
-        self.main = MainClass("src/tests/test_files/test_config.yml")
+        self.main = MainClass("src/tests/test_files/test_config.yml", "src/queries")
 
         self.test_dataframe = pandas.read_csv("./src/tests/test_files/test.csv")
         self.empty_test_df = pandas.DataFrame()
