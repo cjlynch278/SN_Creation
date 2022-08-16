@@ -2089,3 +2089,70 @@
 12:06:33,846 root INFO 8eeeae37-e6cc-4cd9-a65d-c5b6c3a72c36 Attribute added to asset c68ad4ae-96b2-4a39-8e0a-ef68c9a6cb4f with value Operational - Maintain
 12:06:33,847 root INFO 00000000-0000-0000-0000-000000000258 Attribute added to asset c68ad4ae-96b2-4a39-8e0a-ef68c9a6cb4f with value https://gore.service-now.com/nav_to.do?uri=cmdb_ci_business_app.do?sys_id=d2ae75041bbb81d0973dfd115b4bcbd4
 12:06:33,848 root INFO 554a0af6-08f2-4c8f-86b2-5edbf2edace1 Attribute added to asset c68ad4ae-96b2-4a39-8e0a-ef68c9a6cb4f with value Business Application
+12:50:39,981 root INFO Push To Collibra App started
+12:50:39,981 root INFO Config File Read
+12:50:55,513 root INFO API Call Status Code: 201
+12:50:55,513 root INFO Assets Created successful
+12:50:56,370 root INFO API Call Status Code: 201
+12:50:56,370 root INFO Attributes Created successful
+12:50:59,212 root INFO API Call Status Code: 201
+12:50:59,212 root INFO Create Status successful
+12:51:00,17 root INFO API Call Status Code: 200
+12:51:00,17 root INFO Update Status successful
+13:04:06,383 root INFO Push To Collibra App started
+13:04:06,383 root INFO Config File Read
+13:04:13,808 root INFO API Call Status Code: 201
+13:05:31,176 root INFO Assets Created successful
+13:05:37,399 root INFO API Call Status Code: 201
+13:05:37,399 root INFO Attributes Created successful
+13:06:11,30 root INFO API Call Status Code: 201
+13:06:11,30 root INFO Create Status successful
+13:06:11,734 root INFO API Call Status Code: 200
+13:06:20,65 root INFO Update Status successful
+13:06:55,297 root INFO Push To Collibra App started
+13:06:55,297 root INFO Config File Read
+13:07:01,604 root INFO API Call Status Code: 201
+13:07:06,980 root INFO Assets Created successful
+13:07:07,855 root INFO API Call Status Code: 201
+13:07:07,856 root INFO Attributes Created successful
+13:07:14,597 root INFO API Call Status Code: 201
+13:07:14,598 root INFO Create Status successful
+13:07:15,387 root INFO API Call Status Code: 200
+13:18:21,355 root INFO Update Status successful
+13:18:33,67 root INFO Push To Collibra App started
+13:18:33,67 root INFO Config File Read
+13:21:02,459 root INFO Push To Collibra App started
+13:21:02,460 root INFO Config File Read
+13:21:08,989 root INFO API Call Status Code: 201
+13:21:08,990 root INFO Assets Created successful
+13:21:09,890 root INFO API Call Status Code: 201
+13:21:09,891 root INFO Attributes Created successful
+13:21:12,480 root INFO API Call Status Code: 201
+13:21:12,481 root INFO Create Status successful
+13:21:13,171 root INFO API Call Status Code: 200
+13:47:22,642 root INFO Push To Collibra App started
+13:47:22,642 root INFO Config File Read
+13:47:34,768 root INFO Push To Collibra App started
+13:47:34,768 root INFO Config File Read
+13:48:47,368 root INFO Push To Collibra App started
+13:48:47,368 root INFO Config File Read
+13:49:00,360 root INFO API Call Status Code: 201
+13:49:00,361 root INFO Assets Created successful
+13:49:01,252 root INFO API Call Status Code: 201
+13:49:01,252 root INFO Attributes Created successful
+13:49:04,998 root INFO API Call Status Code: 201
+13:49:04,998 root INFO Attributes Created successful
+13:49:05,830 root INFO API Call Status Code: 200
+13:49:05,831 root INFO Attributes Updated successful
+13:49:06,504 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/assets/bulk
+13:49:06,506 root INFO API Call Status Code: 400
+13:49:06,506 root ERROR Assets CreatedError
+13:49:06,508 root INFO Value not allowed
+13:49:06,509 root INFO An asset with signifier '6bf3a0861b3f01d03457caae6e4bcb26' already exists for domain 'ServiceNow Applications'.
+13:49:11,923 root ERROR Update dataframe configured incorrectly: 'sn_value'
+13:57:06,917 root INFO Push To Collibra App started
+13:57:06,918 root INFO Config File Read
+14:17:55,34 root INFO Push To Collibra App started
+14:17:55,34 root INFO Config File Read
+14:18:18,653 root INFO Push To Collibra App started
+14:18:18,653 root INFO Config File Read

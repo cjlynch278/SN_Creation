@@ -12,6 +12,7 @@ class MainClassTest(unittest.TestCase):
 
     def test_setup(self):
         print("Setup")
+
     def test_sql_format(self):
         with open("./src/tests/test_files/test_config.yml", "r") as stream:
             try:

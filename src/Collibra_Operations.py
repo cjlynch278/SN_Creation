@@ -6,7 +6,6 @@ import requests
 from src.Access_Token import AccessToken
 import os
 import yaml
-import math
 
 
 class Collibra_Operations:
@@ -134,37 +133,43 @@ class Collibra_Operations:
         response = self.collibra_api_call(
             "POST", self.bulk_attributes_url, create_status_list
         )
-        self.log_result(response, "Create Status", self.delete_asset_response)
+        self.delete_asset_response = self.log_result(response, "Create Status")
 
         response = self.collibra_api_call(
             "PATCH", self.bulk_attributes_url, update_status_list
         )
-        self.log_result(response, "Update Status", self.delete_asset_response)
-
+        self.delete_asset_response = self.log_result(response, "Update Status")
 
     def create_assets(self, dataframe):
         """
         :param dataframe:
-        :param attribute_list:
-        :return: a boolean representing if the call was successful
+        :return: nothing
         """
         if dataframe.empty:
-            return True
+            self.create_assets_result = True
+            return
 
         # Manipulate our dataframe for the api call
-        create_dataframe = dataframe.filter(['SN_System_ID','asset_name'])
-        create_dataframe.columns = ['name','displayName']
-        create_dataframe['domainId'] = self.target_domain_id
-        create_dataframe["typeId"] = self.system_asset_type_id
-        create_dataframe["statusId"] = self.system_status_id
+        try:
+            create_dataframe = dataframe.filter(["SN_System_ID", "asset_name"])
+            create_dataframe.columns = ["name", "displayName"]
+            create_dataframe["domainId"] = self.target_domain_id
+            create_dataframe["typeId"] = self.system_asset_type_id
+            create_dataframe["statusId"] = self.system_status_id
+        except ValueError as e:
+            print("Create Dataframe setup incorrectly: " + str(e))
+            logging.error("Create Dataframe setup incorrectly: " + str(e))
+            return
 
         # This object list will be sent in the body of the api call
-        object_list = create_dataframe.to_dict('records')
+        object_list = create_dataframe.to_dict("records")
 
         asset_create_response = self.collibra_api_call(
             "POST", self.bulk_assets_url, object_list
         )
-        self.log_result(asset_create_response, "Assets Created", self.create_assets_result)
+        self.create_assets_result = self.log_result(
+            asset_create_response, "Assets Created"
+        )
 
         if asset_create_response.status_code in [200, 201]:
             self.create_attributes(dataframe, asset_create_response.json())
@@ -172,10 +177,9 @@ class Collibra_Operations:
     def create_attributes(self, dataframe, json_response):
         """
         This method creates the attributes that will need to be created as part of the
-        assets that are created. This method is a helper method for the create_assets
-        method
-        :param dataframe: dataframe consisting of SNOW objects with their respective
-        attributes
+        assets that are created. This method is a helper method for the create_assets method
+        :param dataframe: dataframe consisting of SNOW objects with their respective attributes
+        :param json_response: response of the api call
         :return: nothing
         """
         # get all columns except asset name for attributes
@@ -209,7 +213,9 @@ class Collibra_Operations:
             "POST", self.bulk_attributes_url, attribute_list
         )
 
-        self.log_result(attribute_create_response, "Attributes Created", self.create_attributes_result)
+        self.create_attributes_result = self.log_result(
+            attribute_create_response, "Attributes Created"
+        )
 
     def update_attributes(self, dataframe):
         """
@@ -248,34 +254,38 @@ class Collibra_Operations:
         attribute_create_response = self.collibra_api_call(
             "POST", self.bulk_attributes_url, create_list
         )
-        self.log_result(attribute_create_response, "Attributes Created", self.update_attributes_result)
+        self.update_attributes_result = self.log_result(
+            attribute_create_response, "Attributes Created"
+        )
 
         attribute_update_response = self.collibra_api_call(
             "PATCH", self.bulk_attributes_url, update_list
         )
-        self.log_result(attribute_update_response, "Attributes Updated", self.update_attributes_result)
+        self.update_attributes_result = self.log_result(
+            attribute_update_response, "Attributes Updated"
+        )
 
-    def log_result(self, response, type_of_call, boolean_object):
+    def log_result(self, response, type_of_call):
         """
         :param response: response of the api call
         :param type_of_call: This is simply a string for logging purposes
-        :param object_list: list of what was created
-        :param boolean_object: The boolean object coorelating to the call. This is for logging purposes
         :return: Nothing
         """
+        boolean_object = True
         if response.status_code in [200, 201]:
             self.update_assets_result = True
-            boolean_object = True
             logging.info(type_of_call + " successful")
             print(type_of_call + " successful")
         else:
-            boolean_object = False
             logging.error(type_of_call + "Error")
             print(type_of_call + "Error")
             logging.info(response.json()["titleMessage"])
             print(response.json()["userMessage"])
             logging.info(response.json()["userMessage"])
             print(response.json()["userMessage"])
+            boolean_object = False
+
+        return boolean_object
 
     def collibra_api_call(self, method_type, url, item_list):
         """
@@ -304,10 +314,9 @@ class Collibra_Operations:
         try:
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
-            print("API call was unsuccessful")
-            logging.info("API call was unsuccessful")
+            print("API call was unsuccessful: " + str(e))
+            logging.info("API call was unsuccessful: " + str(e))
 
         print("API Call Status Code: " + str(response.status_code))
         logging.info("API Call Status Code: " + str(response.status_code))
         return response
-
