@@ -4,7 +4,7 @@
 block_cipher = None
 
 queries = [
-         ( 'src/test.txt', '.' ),
+         ( 'test.txt', '.' ),
          ]
 a = Analysis(
     ['main.py'],
