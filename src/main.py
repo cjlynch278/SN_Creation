@@ -126,5 +126,5 @@ class MainClass:
 
 if __name__ == "__main__":
     # Run main class
-    main = MainClass("config.yml", "queries/")
+    main = MainClass("config.yml", "queries")
     main.run()
