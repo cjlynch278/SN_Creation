@@ -8,7 +8,7 @@ AUTH:
   token_auth_header: Basic Z2VuX2NvbGxpYnJhX2FwaXVzZXI6QlFiNHk1c3dNczdEcFlRRGlNTTVNSGlpcHJnaHZBN0dHcTY2bnBLYWZaZlYxd0t0SG44S2V2S29zVU5Fb0hJNg==
 ENVIRONMENT:
   gore: wlgore-dev.collibra.com
-  Queries_Location:
+  Queries_Location: src/queries
 MYSQL_CONNECTION_DETAILS:
   SERVER_NAME: anvrdmexldv03
   DATABASE_NAME: EXL_MDSDev
