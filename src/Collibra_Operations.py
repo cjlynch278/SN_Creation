@@ -10,6 +10,12 @@ import yaml
 
 class Collibra_Operations:
     def __init__(self, admin_only_id, environment, token_auth, config_file):
+        """
+        :param admin_only_id: the id of the admin domain in Collibra
+        :param environment: the collibra environment the script will process in
+        :param token_auth: the token auth provided by the config
+        :param config_file: the config file containing environment specific details
+        """
         with open(config_file, "r") as stream:
             try:
                 config = yaml.safe_load(stream)
@@ -101,7 +107,7 @@ class Collibra_Operations:
     def delete_assets(self, dataframe):
         """
         :param dataframe:  Dataframe that consists of all of the collibra applications that aren't in
-        snow. These are assets that have been removed by snow
+        snow. These are assets that have been removed in snow
         :return: nothing
         """
         update_status_list = []
@@ -142,7 +148,8 @@ class Collibra_Operations:
 
     def create_assets(self, dataframe):
         """
-        :param dataframe:
+        This method will create new assets in Collibra. It uses the create_attributes method
+        :param dataframe: dataframe of all assets that need to be created
         :return: nothing
         """
         if dataframe.empty:
@@ -219,12 +226,12 @@ class Collibra_Operations:
 
     def update_attributes(self, dataframe):
         """
+        This method will update the attributes in collibrba
         :param dataframe: This is the dataframe that gets returned by the attribute dataframe. It
             consists all of the attributes that will need to be created/updated in Collibra to
             match SNOW
         :return: nothing
         """
-
         update_list = []
         create_list = []
         try:
@@ -267,6 +274,7 @@ class Collibra_Operations:
 
     def log_result(self, response, type_of_call):
         """
+        This method writes the results of the api call to the logging file
         :param response: response of the api call
         :param type_of_call: This is simply a string for logging purposes
         :return: Nothing
