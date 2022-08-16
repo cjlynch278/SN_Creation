@@ -3,12 +3,14 @@
 
 block_cipher = None
 
-
+queries = [
+         ( 'queries/*.sql', 'queries' ),
+         ]
 a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[],
+    datas=queries,
     hiddenimports=['sqlalchemy.sql.default_comparator'],
     hookspath=[],
     runtime_hooks=[],
