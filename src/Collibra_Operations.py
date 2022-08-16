@@ -6,11 +6,16 @@ import requests
 from src.Access_Token import AccessToken
 import os
 import yaml
-import math
 
 
 class Collibra_Operations:
     def __init__(self, admin_only_id, environment, token_auth, config_file):
+        """
+        :param admin_only_id: the id of the admin domain in Collibra
+        :param environment: the collibra environment the script will process in
+        :param token_auth: the token auth provided by the config
+        :param config_file: the config file containing environment specific details
+        """
         with open(config_file, "r") as stream:
             try:
                 config = yaml.safe_load(stream)
@@ -102,7 +107,7 @@ class Collibra_Operations:
     def delete_assets(self, dataframe):
         """
         :param dataframe:  Dataframe that consists of all of the collibra applications that aren't in
-        snow. These are assets that have been removed by snow
+        snow. These are assets that have been removed in snow
         :return: nothing
         """
         update_status_list = []
@@ -134,81 +139,54 @@ class Collibra_Operations:
         response = self.collibra_api_call(
             "POST", self.bulk_attributes_url, create_status_list
         )
-        self.log_result(response, "Create Status")
-        if response.status_code in [200, 201]:
-            self.delete_asset_response = True
+        self.delete_asset_response = self.log_result(response, "Create Status")
+
         response = self.collibra_api_call(
             "PATCH", self.bulk_attributes_url, update_status_list
         )
-        self.log_result(response, "Update Status")
-        if response.status_code not in [200, 201]:
-            self.delete_asset_response = False
+        self.delete_asset_response = self.log_result(response, "Update Status")
 
     def create_assets(self, dataframe):
         """
-        :param dataframe: This is the dataframe that gets returned by the asset dataframe. It
-            consists all of the assets that will need to be created/updated in Collibra to
-            match SNOW
+        This method will create new assets in Collibra. It uses the create_attributes method
+        :param dataframe: dataframe of all assets that need to be created
         :return: nothing
         """
         if dataframe.empty:
-            self.create_attributes_result = True
             self.create_assets_result = True
             return
 
-        asset_list = []
-        for index, row in dataframe.iterrows():
-            try:
-                if not (row["asset_name"] in ["Unknown", "None", None, "nan", ""]):
-                    asset_name = str(row["asset_name"])
-                else:
-                    asset_name = str(row["SN_System_ID"])
-                asset_backend_name = str(row["SN_System_ID"])
+        # Manipulate our dataframe for the api call
+        try:
+            create_dataframe = dataframe.filter(["SN_System_ID", "asset_name"])
+            create_dataframe.columns = ["name", "displayName"]
+            create_dataframe["domainId"] = self.target_domain_id
+            create_dataframe["typeId"] = self.system_asset_type_id
+            create_dataframe["statusId"] = self.system_status_id
+        except ValueError as e:
+            print("Create Dataframe setup incorrectly: " + str(e))
+            logging.error("Create Dataframe setup incorrectly: " + str(e))
+            return
 
-                current_asset_dict = {
-                    "name": asset_backend_name,
-                    "displayName": asset_name,
-                    "domainId": self.target_domain_id,
-                    "typeId": self.system_asset_type_id,
-                    "statusId": self.system_status_id,
-                }
-                asset_list.append(current_asset_dict)
-            except KeyError as e:
-                logging.error(
-                    "Create asset dataframe configured incorrectly: " + str(e)
-                )
-                return
+        # This object list will be sent in the body of the api call
+        object_list = create_dataframe.to_dict("records")
+
         asset_create_response = self.collibra_api_call(
-            "POST", self.bulk_assets_url, asset_list
+            "POST", self.bulk_assets_url, object_list
+        )
+        self.create_assets_result = self.log_result(
+            asset_create_response, "Assets Created"
         )
 
         if asset_create_response.status_code in [200, 201]:
-            self.create_assets_result = True
-            logging.info("Assets Created")
-            for dict in asset_list:
-                logging.info(
-                    "Asset Created: "
-                    + dict["displayName"]
-                    + " with an SN System ID of "
-                    + dict["name"]
-                )
             self.create_attributes(dataframe, asset_create_response.json())
-        else:
-            self.create_assets_result = False
-            logging.error("Error Creating Assets")
-            print("Error Creating Assets")
-            logging.info(asset_create_response.json()["titleMessage"])
-            print(asset_create_response.json()["userMessage"])
-            logging.info(asset_create_response.json()["userMessage"])
-            print(asset_create_response.json()["userMessage"])
 
     def create_attributes(self, dataframe, json_response):
         """
         This method creates the attributes that will need to be created as part of the
-        assets that are created. This method is a helper method for the create_assets
-        method
-        :param dataframe: dataframe consisting of SNOW objects with their respective
-        attributes
+        assets that are created. This method is a helper method for the create_assets method
+        :param dataframe: dataframe consisting of SNOW objects with their respective attributes
+        :param json_response: response of the api call
         :return: nothing
         """
         # get all columns except asset name for attributes
@@ -242,35 +220,18 @@ class Collibra_Operations:
             "POST", self.bulk_attributes_url, attribute_list
         )
 
-        if attribute_create_response.status_code in [200, 201]:
-            self.create_attributes_result = True
-            logging.info("Attributes Created")
-            for dict in attribute_list:
-                logging.info(
-                    dict["typeId"]
-                    + " Attribute added to asset "
-                    + dict["assetId"]
-                    + " with value "
-                    + dict["value"]
-                )
-
-        else:
-            self.create_attributes_result = False
-            logging.error("Error Creating attributes")
-            print("Error Creating attributes")
-            logging.info(attribute_create_response.json()["titleMessage"])
-            print(attribute_create_response.json()["userMessage"])
-            logging.info(attribute_create_response.json()["userMessage"])
-            print(attribute_create_response.json()["userMessage"])
+        self.create_attributes_result = self.log_result(
+            attribute_create_response, "Attributes Created"
+        )
 
     def update_attributes(self, dataframe):
         """
+        This method will update the attributes in collibrba
         :param dataframe: This is the dataframe that gets returned by the attribute dataframe. It
             consists all of the attributes that will need to be created/updated in Collibra to
             match SNOW
         :return: nothing
         """
-
         update_list = []
         create_list = []
         try:
@@ -300,72 +261,39 @@ class Collibra_Operations:
         attribute_create_response = self.collibra_api_call(
             "POST", self.bulk_attributes_url, create_list
         )
-        if attribute_create_response.status_code in [200, 201]:
-            self.update_assets_result = True
-            logging.info("Attributes Created")
-            for dict in create_list:
-                logging.info(
-                    dict["typeId"]
-                    + " Attribute added to asset "
-                    + dict["assetId"]
-                    + " with value "
-                    + dict["value"]
-                )
-
-        else:
-            self.update_assets_result = False
-            logging.error("Error Creating attributes")
-            print("Error Creating attributes")
-            logging.info(attribute_create_response.json()["titleMessage"])
-            print(attribute_create_response.json()["userMessage"])
-            logging.info(attribute_create_response.json()["userMessage"])
-            print(attribute_create_response.json()["userMessage"])
+        self.update_attributes_result = self.log_result(
+            attribute_create_response, "Attributes Created"
+        )
 
         attribute_update_response = self.collibra_api_call(
             "PATCH", self.bulk_attributes_url, update_list
         )
-        if attribute_update_response.status_code in [200, 201]:
-            self.update_attributes_result = True
-
-            logging.info("Attributes updated")
-            for dict in create_list:
-                logging.info(
-                    dict["typeId"]
-                    + " Attribute added to asset "
-                    + dict["assetId"]
-                    + " with value "
-                    + dict["value"]
-                )
-
-        else:
-            self.update_attributes_result = False
-            logging.error("Error updating attributes")
-            print("Error updating attributes")
-            logging.info(attribute_update_response.json()["titleMessage"])
-            print(attribute_update_response.json()["userMessage"])
-            logging.info(attribute_update_response.json()["userMessage"])
-            print(attribute_update_response.json()["userMessage"])
+        self.update_attributes_result = self.log_result(
+            attribute_update_response, "Attributes Updated"
+        )
 
     def log_result(self, response, type_of_call):
         """
-
+        This method writes the results of the api call to the logging file
         :param response: response of the api call
-        :param type_of_call: This is simply a string for logging puposes
-        :param object_list: list of what was created
+        :param type_of_call: This is simply a string for logging purposes
         :return: Nothing
         """
+        boolean_object = True
         if response.status_code in [200, 201]:
             self.update_assets_result = True
             logging.info(type_of_call + " successful")
             print(type_of_call + " successful")
         else:
-            self.update_assets_result = False
             logging.error(type_of_call + "Error")
             print(type_of_call + "Error")
             logging.info(response.json()["titleMessage"])
             print(response.json()["userMessage"])
             logging.info(response.json()["userMessage"])
             print(response.json()["userMessage"])
+            boolean_object = False
+
+        return boolean_object
 
     def collibra_api_call(self, method_type, url, item_list):
         """
@@ -394,8 +322,8 @@ class Collibra_Operations:
         try:
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
-            print("API call was unsuccessful")
-            logging.info("API call was unsuccessful")
+            print("API call was unsuccessful: " + str(e))
+            logging.info("API call was unsuccessful: " + str(e))
 
         print("API Call Status Code: " + str(response.status_code))
         logging.info("API Call Status Code: " + str(response.status_code))

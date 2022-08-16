@@ -58,29 +58,26 @@ class MainClass:
         )
         logging.debug("Sql operations setup")
 
-
         self.collibra_operations = Collibra_Operations(
             self.admin_only_domain_id, self.environment, self.token_auth, config_file
         )
         logging.debug("Collibra Operations setup")
 
         with open("./src/queries/create_query.sql", "r") as create_sql_file:
-            self.create_sql_query = (
-                create_sql_file.read()
-                .format(self.admin_only_domain_id, self.systems_domain_id)
+            self.create_sql_query = create_sql_file.read().format(
+                self.admin_only_domain_id, self.systems_domain_id
             )
 
         with open("./src/queries/update_query.sql", "r") as update_sql_file:
-            self.update_sql_query = (
-                update_sql_file.read()
-                .format(self.admin_only_domain_id, self.systems_domain_id)
+            self.update_sql_query = update_sql_file.read().format(
+                self.admin_only_domain_id, self.systems_domain_id
             )
 
         with open("./src/queries/delete_query.sql", "r") as delete_sql_file:
-            self.delete_sql_query = (
-                delete_sql_file.read()
-                .format(self.admin_only_domain_id, self.systems_domain_id)
+            self.delete_sql_query = delete_sql_file.read().format(
+                self.admin_only_domain_id, self.systems_domain_id
             )
+
     def prepare_and_send_email(self):
         log_file = open(self.log_file_name, "r")
         email_contents = log_file.read()
