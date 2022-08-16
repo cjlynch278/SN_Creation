@@ -4,7 +4,7 @@
 block_cipher = None
 
 queries = [
-         ( './src/update_query.sql', 'queries' ),
+         ( 'update_query.sql', 'queries' ),
          ( '/queries/create_query.sql', 'queries' ),
          ]
 a = Analysis(
