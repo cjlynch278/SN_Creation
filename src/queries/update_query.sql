@@ -3,8 +3,6 @@ select  *  from ( select  assets.is_current asset_currrent, Asset_ID,SN_System_I
       select * from servicenow.servicenow_cmbd_ci_business_app
       union
       select * from servicenow.servicenow_cmbd_ci_service
-      union
-      select * from servicenow.servicenow_cmbd_ci_service_discovered
       ) systems
       join collibra.collibra_assets assets on assets.Name = systems.SN_System_ID
       union
@@ -14,8 +12,6 @@ select  *  from ( select  assets.is_current asset_currrent, Asset_ID,SN_System_I
       select * from servicenow.servicenow_cmbd_ci_business_app
       union
       select * from servicenow.servicenow_cmbd_ci_service
-      union
-      select * from servicenow.servicenow_cmbd_ci_service_discovered
       ) systems
       join collibra.collibra_assets assets on assets.Name = systems.SN_System_ID
 
@@ -27,8 +23,6 @@ select  *  from ( select  assets.is_current asset_currrent, Asset_ID,SN_System_I
       select * from servicenow.servicenow_cmbd_ci_business_app
       union
       select * from servicenow.servicenow_cmbd_ci_service
-      union
-      select * from servicenow.servicenow_cmbd_ci_service_discovered
       ) systems
       join collibra.collibra_assets assets on assets.Name = systems.SN_System_ID
 
@@ -39,8 +33,6 @@ select  *  from ( select  assets.is_current asset_currrent, Asset_ID,SN_System_I
       select * from servicenow.servicenow_cmbd_ci_business_app
       union
       select * from servicenow.servicenow_cmbd_ci_service
-      union
-      select * from servicenow.servicenow_cmbd_ci_service_discovered
       ) systems
       join collibra.collibra_assets assets on assets.Name = systems.SN_System_ID
 
@@ -51,8 +43,6 @@ select  *  from ( select  assets.is_current asset_currrent, Asset_ID,SN_System_I
       select * from servicenow.servicenow_cmbd_ci_business_app
       union
       select * from servicenow.servicenow_cmbd_ci_service
-      union
-      select * from servicenow.servicenow_cmbd_ci_service_discovered
       ) systems
       join collibra.collibra_assets assets on assets.Name = systems.SN_System_ID
 
@@ -63,8 +53,6 @@ select  *  from ( select  assets.is_current asset_currrent, Asset_ID,SN_System_I
       select * from servicenow.servicenow_cmbd_ci_business_app
       union
       select * from servicenow.servicenow_cmbd_ci_service
-      union
-      select * from servicenow.servicenow_cmbd_ci_service_discovered
       ) systems
       join collibra.collibra_assets assets on assets.Name = systems.SN_System_ID
 
@@ -76,8 +64,6 @@ select  *  from ( select  assets.is_current asset_currrent, Asset_ID,SN_System_I
       select * from servicenow.servicenow_cmbd_ci_business_app
       union
       select * from servicenow.servicenow_cmbd_ci_service
-      union
-      select * from servicenow.servicenow_cmbd_ci_service_discovered
       ) systems
       join collibra.collibra_assets assets on assets.Name = systems.SN_System_ID
 
@@ -89,8 +75,6 @@ select  *  from ( select  assets.is_current asset_currrent, Asset_ID,SN_System_I
       select * from servicenow.servicenow_cmbd_ci_business_app
       union
       select * from servicenow.servicenow_cmbd_ci_service
-      union
-      select * from servicenow.servicenow_cmbd_ci_service_discovered
       ) systems
       join collibra.collibra_assets assets on assets.Name = systems.SN_System_ID
 
@@ -101,8 +85,6 @@ select  *  from ( select  assets.is_current asset_currrent, Asset_ID,SN_System_I
       select * from servicenow.servicenow_cmbd_ci_business_app
       union
       select * from servicenow.servicenow_cmbd_ci_service
-      union
-      select * from servicenow.servicenow_cmbd_ci_service_discovered
       ) systems
       join collibra.collibra_assets assets on assets.Name = systems.SN_System_ID
 
@@ -113,8 +95,6 @@ select  *  from ( select  assets.is_current asset_currrent, Asset_ID,SN_System_I
       select * from servicenow.servicenow_cmbd_ci_business_app
       union
       select * from servicenow.servicenow_cmbd_ci_service
-      union
-      select * from servicenow.servicenow_cmbd_ci_service_discovered
       ) systems
       join collibra.collibra_assets assets on assets.Name = systems.SN_System_ID
 
@@ -125,8 +105,6 @@ select  *  from ( select  assets.is_current asset_currrent, Asset_ID,SN_System_I
       select * from servicenow.servicenow_cmbd_ci_business_app
       union
       select * from servicenow.servicenow_cmbd_ci_service
-      union
-      select * from servicenow.servicenow_cmbd_ci_service_discovered
       ) systems
       join collibra.collibra_assets assets on assets.Name = systems.SN_System_ID
 
@@ -137,8 +115,6 @@ select  *  from ( select  assets.is_current asset_currrent, Asset_ID,SN_System_I
       select * from servicenow.servicenow_cmbd_ci_business_app
       union
       select * from servicenow.servicenow_cmbd_ci_service
-      union
-      select * from servicenow.servicenow_cmbd_ci_service_discovered
       ) systems
       join collibra.collibra_assets assets on assets.Name = systems.SN_System_ID
 
@@ -149,8 +125,6 @@ select  *  from ( select  assets.is_current asset_currrent, Asset_ID,SN_System_I
       select * from servicenow.servicenow_cmbd_ci_business_app
       union
       select * from servicenow.servicenow_cmbd_ci_service
-      union
-      select * from servicenow.servicenow_cmbd_ci_service_discovered
       ) systems
       join collibra.collibra_assets assets on assets.Name = systems.SN_System_ID
 
@@ -183,16 +157,6 @@ select  *  from ( select  assets.is_current asset_currrent, Asset_ID,SN_System_I
        Domain_ID in ('{0}', '{1}')) collibra_assets on SN_System_ID =
       collibra_assets.name where collibra_assets.Name is null and sn_business_apps.is_current = 1
 
-      Union
-
-      select
-      [SN_System_ID]
-      from servicenow.servicenow_cmbd_ci_service_discovered
-      as sn_service_discovered
-      left Join
-      (select * from collibra.collibra_assets where is_current=1 and
-       Domain_ID in ('{0}', '{1}')) collibra_assets on  SN_System_ID =
-      collibra_assets.name where collibra_assets.Name is null and sn_service_discovered.is_current = 1
 
       Union
 
