@@ -8,7 +8,7 @@ from datetime import datetime
 
 
 class MainClass:
-    def __init__(self, config_file, queries_location):
+    def __init__(self, config_file):
         with open(config_file, "r") as stream:
             try:
                 config = yaml.safe_load(stream)
@@ -31,7 +31,7 @@ class MainClass:
             self.auth = config["AUTH"]["auth-header"]
             self.logger_location = config["LOGGER"]["LOCATION"]
             self.status_attribute_id = config["COLLIBRA_DETAILS"]["Install_Status"]
-
+            self.queries_location = config["ENVIRONMENT"]["Queries_Location"]
         except KeyError as e:
             print("The config file is incorrectly setup: " + str(e))
             os._exit(1)
@@ -63,17 +63,17 @@ class MainClass:
         )
         logging.debug("Collibra Operations setup")
 
-        with open(queries_location + "/create_query.sql", "r") as create_sql_file:
+        with open(self.queries_location + "/create_query.sql", "r") as create_sql_file:
             self.create_sql_query = create_sql_file.read().format(
                 self.admin_only_domain_id, self.systems_domain_id
             )
 
-        with open(queries_location + "/update_query.sql", "r") as update_sql_file:
+        with open(self.queries_location + "/update_query.sql", "r") as update_sql_file:
             self.update_sql_query = update_sql_file.read().format(
                 self.admin_only_domain_id, self.systems_domain_id
             )
 
-        with open(queries_location + "/delete_query.sql", "r") as delete_sql_file:
+        with open(self.queries_location + "/delete_query.sql", "r") as delete_sql_file:
             self.delete_sql_query = delete_sql_file.read().format(
                 self.admin_only_domain_id, self.systems_domain_id
             )
@@ -126,5 +126,5 @@ class MainClass:
 
 if __name__ == "__main__":
     # Run main class
-    main = MainClass("config.yml", "queries")
+    main = MainClass("config.yml")
     main.run()
