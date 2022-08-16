@@ -46,11 +46,11 @@ jobs:
     #    conda install pytest
      #   pytest --pdb
 
-    - name: Test Coverage
-      run: |
-        conda install coverage
-        coverage run -m pytest
-        coverage report --fail-under=70
+#    - name: Test Coverage
+ #     run: |
+  #      conda install coverage
+   #     coverage run -m pytest
+    #    coverage report --fail-under=70
 
     - uses: actions/checkout@v2
     - name: PyInstaller Windows
