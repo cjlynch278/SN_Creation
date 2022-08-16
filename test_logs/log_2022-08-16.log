@@ -1,2 +1,94 @@
 11:42:28,746 root INFO Push To Collibra App started
 11:42:28,746 root INFO Config File Read
+13:00:18,570 root INFO Push To Collibra App started
+13:00:18,570 root INFO Config File Read
+13:25:43,307 root INFO Push To Collibra App started
+13:25:43,307 root INFO Config File Read
+14:41:01,397 root INFO Push To Collibra App started
+14:41:01,398 root INFO Config File Read
+14:41:17,313 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/assets/bulk
+14:41:17,314 root INFO API Call Status Code: 400
+14:41:17,316 root ERROR Assets CreatedError
+14:41:17,319 root INFO Bad Request
+14:41:17,319 root INFO There was an error while processing JSON content
+14:45:42,640 root INFO Push To Collibra App started
+14:45:42,641 root INFO Config File Read
+14:46:00,286 root INFO Push To Collibra App started
+14:46:00,286 root INFO Config File Read
+14:46:14,944 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/assets/bulk
+14:46:14,946 root INFO API Call Status Code: 400
+14:51:50,969 root INFO Push To Collibra App started
+14:51:50,969 root INFO Config File Read
+14:51:54,292 root INFO Push To Collibra App started
+14:51:54,292 root INFO Config File Read
+14:52:09,918 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/assets/bulk
+14:52:09,919 root INFO API Call Status Code: 400
+14:52:09,919 root ERROR Assets CreatedError
+14:52:09,919 root INFO Bad Request
+14:52:09,919 root INFO There was an error while processing JSON content
+14:52:33,127 root INFO Push To Collibra App started
+14:52:33,127 root INFO Config File Read
+14:52:49,900 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/assets/bulk
+14:52:49,901 root INFO API Call Status Code: 400
+14:52:49,901 root ERROR Assets CreatedError
+14:52:49,902 root INFO Bad Request
+14:52:49,902 root INFO There was an error while processing JSON content
+14:52:59,896 root INFO Push To Collibra App started
+14:52:59,896 root INFO Config File Read
+14:53:06,613 root INFO Push To Collibra App started
+14:53:06,613 root INFO Config File Read
+14:53:21,551 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/assets/bulk
+14:53:21,551 root INFO API Call Status Code: 400
+14:54:51,364 root INFO Push To Collibra App started
+14:54:51,364 root INFO Config File Read
+14:55:08,950 root INFO Push To Collibra App started
+14:55:08,951 root INFO Config File Read
+14:55:24,175 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/assets/bulk
+14:55:24,176 root INFO API Call Status Code: 400
+14:56:05,647 root INFO Push To Collibra App started
+14:56:05,648 root INFO Config File Read
+14:56:22,884 root INFO Push To Collibra App started
+14:56:22,884 root INFO Config File Read
+14:57:02,826 root INFO Push To Collibra App started
+14:57:02,826 root INFO Config File Read
+14:58:33,908 root INFO Push To Collibra App started
+14:58:33,908 root INFO Config File Read
+14:58:41,344 root INFO API Call Status Code: 201
+14:58:41,345 root INFO Assets Created successful
+14:58:47,918 root INFO API Call Status Code: 201
+14:58:47,919 root INFO Attributes Created successful
+15:01:51,71 root INFO Push To Collibra App started
+15:01:51,71 root INFO Config File Read
+15:02:04,481 root INFO Push To Collibra App started
+15:02:04,481 root INFO Config File Read
+15:02:15,902 root INFO Push To Collibra App started
+15:02:15,902 root INFO Config File Read
+15:04:49,650 root INFO Push To Collibra App started
+15:04:49,650 root INFO Config File Read
+15:05:04,774 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/assets/bulk
+15:05:04,775 root INFO API Call Status Code: 400
+15:05:04,775 root ERROR Assets CreatedError
+15:05:04,776 root INFO Bad Request
+15:05:04,777 root INFO There was an error while processing JSON content
+15:06:26,561 root INFO Push To Collibra App started
+15:06:26,561 root INFO Config File Read
+15:08:30,275 root INFO Push To Collibra App started
+15:08:30,275 root INFO Config File Read
+15:09:00,633 root INFO Push To Collibra App started
+15:09:00,634 root INFO Config File Read
+15:09:40,954 root INFO Push To Collibra App started
+15:09:40,955 root INFO Config File Read
+15:11:07,620 root INFO Push To Collibra App started
+15:11:07,621 root INFO Config File Read
+15:11:44,282 root INFO Push To Collibra App started
+15:11:44,283 root INFO Config File Read
+15:12:49,613 root INFO Push To Collibra App started
+15:12:49,613 root INFO Config File Read
+15:15:19,381 root INFO Push To Collibra App started
+15:15:19,381 root INFO Config File Read
+15:15:34,170 root INFO Push To Collibra App started
+15:15:34,170 root INFO Config File Read
+15:16:09,278 root INFO API Call Status Code: 201
+15:16:09,278 root INFO Assets Created successful
+15:19:46,558 root INFO API Call Status Code: 201
+15:19:46,558 root INFO Attributes Created successful

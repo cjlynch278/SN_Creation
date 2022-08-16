@@ -25,6 +25,8 @@ class SqlOperationsTest(unittest.TestCase):
             self.main.environment,
         )
         self.six_test = pandas.read_csv("src/tests/test_files/six_test.csv")
+        self.full_test_2 = pandas.read_csv("src/tests/test_files/full_test_2.csv")
+
         self.empty_test_df = pandas.DataFrame()
         self.access_token = AccessToken(self.main.token_auth)
         self.collibra_operations = Collibra_Operations(
@@ -68,8 +70,11 @@ class SqlOperationsTest(unittest.TestCase):
         self.collibra_operations.update_attributes(self.error_attribute_update)
         assert not self.collibra_operations.update_attributes_result
 
-        self.delete_collibra_test_assets()
         self.collibra_operations.create_assets(self.error_test)
+        self.delete_collibra_test_assets()
+
+        self.collibra_operations.create_assets(self.full_test_2)
+        self.delete_collibra_test_assets()
 
     def test_fill_test_domain(self):
         self.delete_collibra_test_assets()
