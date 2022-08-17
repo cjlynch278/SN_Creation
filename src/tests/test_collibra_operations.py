@@ -77,8 +77,6 @@ class SqlOperationsTest(unittest.TestCase):
         self.collibra_operations.create_assets(self.error_test)
         self.delete_collibra_test_assets()
 
-        self.collibra_operations.create_assets(self.full_test_2)
-        self.delete_collibra_test_assets()
 
     def test_fill_test_domain(self):
         self.delete_collibra_test_assets()
