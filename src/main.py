@@ -32,18 +32,20 @@ class MainClass:
             self.logger_location = config["LOGGER"]["LOCATION"]
             self.status_attribute_id = config["COLLIBRA_DETAILS"]["Install_Status"]
             self.queries_location = config["ENVIRONMENT"]["Queries_Location"]
+            self.debug_level = config["LOGGER"]["LEVEL"]
         except KeyError as e:
             print("The config file is incorrectly setup: " + str(e))
             os._exit(1)
         self.log_file_name = (
             self.logger_location + "_" + str(datetime.today().date()) + ".log"
         )
+        level = logging.getLevelName(self.debug_level)
         logging.basicConfig(
             filename=self.log_file_name,
             filemode="a",
             format="%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s",
             datefmt="%H:%M:%S",
-            level=logging.INFO,
+            level= level,
         )
         logging.info("Push To Collibra App started")
         logging.info("Config File Read")
