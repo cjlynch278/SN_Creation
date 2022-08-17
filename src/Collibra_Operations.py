@@ -175,6 +175,7 @@ class Collibra_Operations:
         # This object list will be sent in the body of the api call
         object_list = create_dataframe.to_dict("records")
 
+        logging.debug(object_list)
         asset_create_response = self.collibra_api_call(
             "POST", self.bulk_assets_url, object_list
         )

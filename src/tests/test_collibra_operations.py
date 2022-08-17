@@ -45,7 +45,11 @@ class SqlOperationsTest(unittest.TestCase):
         self.error_test = pandas.read_csv("src/tests/test_files/erroring_test.csv")
         self.delete_test = pandas.read_csv("src/tests/test_files/test_delete.csv")
         self.token = "Bearer " + self.access_token.get_bearer_token()
-
+    def test_troubleshoot(self):
+        self.error_df = pandas.read_csv(
+            "src/tests/test_files/error_troubleshoot.csv"
+        )
+        self.collibra_operations.create_assets(self.error_df)
     def test_create_and_update(self):
         # Empty test
         self.collibra_operations.create_assets(self.empty_test_df)
@@ -216,7 +220,7 @@ class SqlOperationsTest(unittest.TestCase):
             ids.append(asset["id"])
         return ids
 
-    def delete_collibra_test_assets(self):
+    def test_delete_collibra_test_assets(self):
         ids = self.get_snow_assets()
 
         url = "https://wlgore-dev.collibra.com/rest/2.0/assets/bulk"
