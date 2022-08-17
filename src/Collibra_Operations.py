@@ -153,32 +153,35 @@ class Collibra_Operations:
         :return: nothing
         """
         if dataframe.empty:
+            self.create_attributes_result = True
             self.create_assets_result = True
             return
 
-        # Manipulate our dataframe for the api call
-        try:
-            create_dataframe = dataframe.filter(["SN_System_ID", "asset_name"])
-            create_dataframe.columns = ["name", "displayName"]
-            create_dataframe["domainId"] = self.target_domain_id
-            create_dataframe["typeId"] = self.system_asset_type_id
-            create_dataframe["statusId"] = self.system_status_id
-        except ValueError as e:
-            print("Create Dataframe setup incorrectly: " + str(e))
-            logging.error("Create Dataframe setup incorrectly: " + str(e))
-            return
+        asset_list = []
+        for index, row in dataframe.iterrows():
+            try:
+                if not (row["asset_name"] in ["Unknown", "None", None, "nan", ""]):
+                    asset_name = str(row["asset_name"])
+                else:
+                    asset_name = str(row["SN_System_ID"])
+                asset_backend_name = str(row["SN_System_ID"])
 
-        # Replace assets with null names with nothing
-        create_dataframe["displayName"].fillna("Null", inplace=True)
-        create_dataframe["displayName"].replace(to_replace="", value="Null")
-        create_dataframe["displayName"].replace(to_replace="nan", value="Null")
-        create_dataframe["displayName"].replace(to_replace="None", value="Null")
-
-        # This object list will be sent in the body of the api call
-        object_list = create_dataframe.to_dict("records")
+                current_asset_dict = {
+                    "name": asset_backend_name,
+                    "displayName": asset_name,
+                    "domainId": self.target_domain_id,
+                    "typeId": self.system_asset_type_id,
+                    "statusId": self.system_status_id,
+                }
+                asset_list.append(current_asset_dict)
+            except KeyError as e:
+                logging.error(
+                    "Create asset dataframe configured incorrectly: " + str(e)
+                )
+                return
 
         asset_create_response = self.collibra_api_call(
-            "POST", self.bulk_assets_url, object_list
+            "POST", self.bulk_assets_url, asset_list
         )
         self.create_assets_result = self.log_result(
             asset_create_response, "Assets Created"
