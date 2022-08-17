@@ -49,6 +49,7 @@ class SqlOperationsTest(unittest.TestCase):
         self.error_df = pandas.read_csv(
             "src/tests/test_files/error_troubleshoot.csv"
         )
+        self.delete_collibra_test_assets()
         self.collibra_operations.create_assets(self.six_test)
     def test_create_and_update(self):
         # Empty test

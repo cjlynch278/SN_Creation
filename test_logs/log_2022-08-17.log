@@ -63,3 +63,28 @@
 10:21:36,139 root INFO Config File Read
 10:21:52,385 root INFO Push To Collibra App started
 10:21:52,386 root INFO Config File Read
+11:11:02,786 root INFO Push To Collibra App started
+11:11:02,786 root INFO Config File Read
+11:11:09,165 root INFO Push To Collibra App started
+11:11:09,165 root INFO Config File Read
+11:14:36,125 root INFO Push To Collibra App started
+11:14:36,125 root INFO Config File Read
+11:14:41,871 root INFO API Call Status Code: 201
+11:14:41,872 root INFO Assets Created successful
+11:14:42,746 root INFO API Call Status Code: 201
+11:14:42,746 root INFO Attributes Created successful
+11:15:09,196 root INFO Push To Collibra App started
+11:15:09,196 root INFO Config File Read
+11:15:13,529 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/assets/bulk
+11:15:13,530 root INFO API Call Status Code: 400
+11:15:13,530 root ERROR Assets CreatedError
+11:15:13,531 root INFO Value not allowed
+11:15:13,532 root INFO An asset with signifier '6bf3a0861b3f01d03457caae6e4bcb26' already exists for domain 'ServiceNow Applications'.
+11:16:04,327 root INFO Push To Collibra App started
+11:16:04,327 root INFO Config File Read
+11:16:13,80 root INFO Push To Collibra App started
+11:16:13,80 root INFO Config File Read
+11:16:31,890 root INFO API Call Status Code: 201
+11:16:31,891 root INFO Assets Created successful
+11:16:35,312 root INFO API Call Status Code: 201
+11:16:35,312 root INFO Attributes Created successful
