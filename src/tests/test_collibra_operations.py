@@ -218,7 +218,7 @@ class SqlOperationsTest(unittest.TestCase):
             ids.append(asset["id"])
         return ids
 
-    def delete_collibra_test_assets(self):
+    def test_delete_collibra_test_assets(self):
         ids = self.get_snow_assets()
 
         url = "https://wlgore-dev.collibra.com/rest/2.0/assets/bulk"

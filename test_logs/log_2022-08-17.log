@@ -53,3 +53,13 @@
 09:49:14,305 root INFO An asset with signifier '6bf3a0861b3f01d03457caae6e4bcb26' already exists for domain 'ServiceNow Applications'.
 09:49:19,114 root ERROR Update dataframe configured incorrectly: 'sn_value'
 09:49:19,119 root ERROR Create Dataframe setup incorrectly: Length mismatch: Expected axis has 0 elements, new values have 2 elements
+10:14:19,798 root INFO Push To Collibra App started
+10:14:19,799 root INFO Config File Read
+10:18:41,14 root INFO Push To Collibra App started
+10:18:41,15 root INFO Config File Read
+10:21:17,869 root INFO Push To Collibra App started
+10:21:17,870 root INFO Config File Read
+10:21:36,137 root INFO Push To Collibra App started
+10:21:36,139 root INFO Config File Read
+10:21:52,385 root INFO Push To Collibra App started
+10:21:52,386 root INFO Config File Read

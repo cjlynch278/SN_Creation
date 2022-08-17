@@ -168,14 +168,13 @@ class Collibra_Operations:
             logging.error("Create Dataframe setup incorrectly: " + str(e))
             return
 
-        # Replace assets with null names with the snow id
-        create_dataframe["name"].fillna("Null", inplace=True)
+        # Replace assets with null names with nothing
         create_dataframe["displayName"].fillna("Null", inplace=True)
+        create_dataframe["name"].reaplce(to_replace="", value="Null")
 
         # This object list will be sent in the body of the api call
         object_list = create_dataframe.to_dict("records")
 
-        logging.debug(object_list)
         asset_create_response = self.collibra_api_call(
             "POST", self.bulk_assets_url, object_list
         )
