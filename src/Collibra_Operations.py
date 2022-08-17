@@ -173,7 +173,7 @@ class Collibra_Operations:
         create_dataframe["displayName"].fillna("Null", inplace=True)
 
         # This object list will be sent in the body of the api call
-        object_list = create_dataframe.to_json("records")
+        object_list = create_dataframe.to_dict("records")
 
         logging.debug(object_list)
         asset_create_response = self.collibra_api_call(
@@ -312,6 +312,8 @@ class Collibra_Operations:
         """
 
         payload = json.dumps(item_list)
+        logging.debug("JSON being sent for " + method_type + ":")
+        logging.debug(payload)
         headers = {
             "Content-Type": "application/json",
             "Authorization": self.collibra_auth,

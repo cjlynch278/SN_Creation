@@ -20,3 +20,36 @@
 09:21:14,393 root ERROR Assets CreatedError
 09:21:14,393 root INFO Value not allowed
 09:21:14,393 root INFO input argument of method addAssets should not be null
+09:25:08,105 root INFO Push To Collibra App started
+09:25:08,106 root INFO Config File Read
+09:25:15,193 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/assets/bulk
+09:25:15,193 root INFO API Call Status Code: 400
+09:25:23,57 root ERROR Assets CreatedError
+09:25:23,58 root INFO Value not allowed
+09:25:23,58 root INFO input argument of method addAssets should not be null
+09:25:49,887 root INFO Push To Collibra App started
+09:25:49,887 root INFO Config File Read
+09:25:56,191 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/assets/bulk
+09:25:56,192 root INFO API Call Status Code: 400
+09:25:56,193 root ERROR Assets CreatedError
+09:25:56,194 root INFO Value not allowed
+09:25:56,195 root INFO input argument of method addAssets should not be null
+09:26:55,684 root INFO Push To Collibra App started
+09:26:55,684 root INFO Config File Read
+09:45:58,452 root INFO Push To Collibra App started
+09:45:58,452 root INFO Config File Read
+09:49:00,414 root INFO API Call Status Code: 201
+09:49:00,417 root INFO Assets Created successful
+09:49:08,204 root INFO API Call Status Code: 201
+09:49:08,205 root INFO Attributes Created successful
+09:49:12,555 root INFO API Call Status Code: 201
+09:49:12,555 root INFO Attributes Created successful
+09:49:13,505 root INFO API Call Status Code: 200
+09:49:13,506 root INFO Attributes Updated successful
+09:49:14,302 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/assets/bulk
+09:49:14,303 root INFO API Call Status Code: 400
+09:49:14,303 root ERROR Assets CreatedError
+09:49:14,304 root INFO Value not allowed
+09:49:14,305 root INFO An asset with signifier '6bf3a0861b3f01d03457caae6e4bcb26' already exists for domain 'ServiceNow Applications'.
+09:49:19,114 root ERROR Update dataframe configured incorrectly: 'sn_value'
+09:49:19,119 root ERROR Create Dataframe setup incorrectly: Length mismatch: Expected axis has 0 elements, new values have 2 elements
