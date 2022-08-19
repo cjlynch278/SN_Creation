@@ -72,7 +72,7 @@ class Collibra_Operations:
             "Export Control": self.export_control,
             "Legal Hold": self.legal_hold,
             "Data Sensitivity": self.apm_data_sensitivity,
-            "Disaster Recovery Gap": self.disaster_recovery_gap,
+            "Disaster Recovery Required": self.disaster_recovery_gap,
             "Records Retention": self.records_retention,
             "CI Type": self.ci_type,
         }
@@ -102,7 +102,7 @@ class Collibra_Operations:
         self.create_attributes_result = False
         self.update_assets_result = False
         self.update_attributes_result = False
-        self.delete_asset_response = False
+        self.delete_asset_result = False
 
     def delete_assets(self, dataframe):
         """
@@ -139,12 +139,12 @@ class Collibra_Operations:
         response = self.collibra_api_call(
             "POST", self.bulk_attributes_url, create_status_list
         )
-        self.delete_asset_response = self.log_result(response, "Create Status")
+        self.delete_asset_response = self.log_result(response, "Update Status")
 
         response = self.collibra_api_call(
             "PATCH", self.bulk_attributes_url, update_status_list
         )
-        self.delete_asset_response = self.log_result(response, "Update Status")
+        self.delete_asset_result = self.log_result(response, "Update Status")
 
     def create_assets(self, dataframe):
         """
@@ -219,6 +219,7 @@ class Collibra_Operations:
             for attribute in attribute_columns:
                 value = row[attribute]
                 if not (value in ["Unknown", "None", None, "nan"]) and value == value:
+
                     current_attribute_dict = {
                         "assetId": row["asset_id"],
                         "typeId": self.attribute_map[attribute],
@@ -235,7 +236,7 @@ class Collibra_Operations:
 
     def update_attributes(self, dataframe):
         """
-        This method will update the attributes in collibrba
+        This method will update the attributes in collibra
         :param dataframe: This is the dataframe that gets returned by the attribute dataframe. It
             consists all of the attributes that will need to be created/updated in Collibra to
             match SNOW
@@ -245,15 +246,33 @@ class Collibra_Operations:
         create_list = []
         try:
             for index, row in dataframe.iterrows():
-                if "attribute_id" in row and not pandas.isnull(row["attribute_id"]):
+
+                # Update attribute:
+                if "attribute_id" in row and not pandas.isnull(row["attribute_id"])\
+                        and not (row["sn_value"] in ["Unknown", "None", None, "nan", "NaN", float("nan")])\
+                        and row["sn_value"] == row["sn_value"]:
+
                     current_attribute_dict = {
                         "id": row["attribute_id"],
                         "value": row["sn_value"],
                     }
                     update_list.append(current_attribute_dict)
 
+                # 'Remove' Attribute (set to null)
                 elif (
-                    not (row["sn_value"] in ["Unknown", "None", None, "nan"])
+                    "attribute_id" in row and not pandas.isnull(row["attribute_id"])
+                        and (row["sn_value"] in ["Unknown", "None", None, "nan", "NaN", float("nan")]
+                        or (row["sn_value"] != row["sn_value"]))
+
+                ):
+                    current_attribute_dict = {
+                    "id": row["attribute_id"],
+                    "value": "",
+                    }
+                    update_list.append(current_attribute_dict)
+                # Create Attribute
+                elif (
+                    not (row["sn_value"] in ["Unknown", "None", None, "nan", "NaN", float("nan")])
                     and row["sn_value"] == row["sn_value"]
                 ):
                     current_attribute_dict = {
@@ -265,6 +284,7 @@ class Collibra_Operations:
         except KeyError as e:
             self.update_assets_result = False
             self.update_attributes_result = False
+            print("Update dataframe configured incorrectly: " + str(e))
             logging.error("Update dataframe configured incorrectly: " + str(e))
             return
         attribute_create_response = self.collibra_api_call(
@@ -291,14 +311,14 @@ class Collibra_Operations:
         boolean_object = True
         if response.status_code in [200, 201]:
             self.update_assets_result = True
-            logging.info(type_of_call + " successful")
+            logging.debug(type_of_call + " successful")
             print(type_of_call + " successful")
         else:
-            logging.error(type_of_call + "Error")
-            print(type_of_call + "Error")
-            logging.info(response.json()["titleMessage"])
+            logging.error(type_of_call + " Error")
+            print(type_of_call + " Error")
+            logging.debug(response.json()["titleMessage"])
             print(response.json()["userMessage"])
-            logging.info(response.json()["userMessage"])
+            logging.debug(response.json()["userMessage"])
             print(response.json()["userMessage"])
             boolean_object = False
 
@@ -334,8 +354,8 @@ class Collibra_Operations:
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
             print("API call was unsuccessful: " + str(e))
-            logging.info("API call was unsuccessful: " + str(e))
+            logging.error("API call was unsuccessful: " + str(e))
 
         print("API Call Status Code: " + str(response.status_code))
-        logging.info("API Call Status Code: " + str(response.status_code))
+        logging.debug("API Call Status Code: " + str(response.status_code))
         return response

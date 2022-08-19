@@ -47,8 +47,8 @@ class MainClass:
             datefmt="%H:%M:%S",
             level= level,
         )
-        logging.info("Push To Collibra App started")
-        logging.info("Config File Read")
+        logging.debug("Push To Collibra App started")
+        logging.debug("Config File Read")
         self.sql_operations = SQLOperations(
             self.sql_user,
             self.sql_password,
@@ -92,15 +92,15 @@ class MainClass:
         logging.debug("SQL connected")
 
         create_dataframe = self.sql_operations.read_sql(self.create_sql_query)
-        logging.info("Create Sql read successfully")
+        logging.debug("Create Sql read successfully")
         self.collibra_operations.create_assets(create_dataframe)
 
         update_dataframe = self.sql_operations.read_sql(self.update_sql_query)
-        logging.info("Update Sql read successfully")
+        logging.debug("Update Sql read successfully")
         self.collibra_operations.update_attributes(update_dataframe)
 
         delete_dataframe = self.sql_operations.read_sql(self.delete_sql_query)
-        logging.info("Update Sql read successfully")
+        logging.debug("Delete Sql read successfully")
         self.collibra_operations.delete_assets(delete_dataframe)
 
         logging.info("================ SUMMARY ================")
@@ -119,6 +119,10 @@ class MainClass:
         logging.info(
             "Attributes Updated Successfully: "
             + str(self.collibra_operations.update_attributes_result)
+        )
+        logging.info(
+            "Assets Deleted Successfully: "
+            + str(self.collibra_operations.delete_asset_result)
         )
         try:
             self.prepare_and_send_email()

@@ -45,12 +45,11 @@ class SqlOperationsTest(unittest.TestCase):
         self.error_test = pandas.read_csv("src/tests/test_files/erroring_test.csv")
         self.delete_test = pandas.read_csv("src/tests/test_files/test_delete.csv")
         self.token = "Bearer " + self.access_token.get_bearer_token()
-    def atest_troubleshoot(self):
-        self.error_df = pandas.read_csv(
+    def test_troubleshoot(self):
+        error_df = pandas.read_csv(
             "src/tests/test_files/error_troubleshoot.csv"
         )
-        self.delete_collibra_test_assets()
-        self.collibra_operations.create_assets(self.six_test)
+        self.collibra_operations.update_attributes(error_df)
     def test_create_and_update(self):
         # Empty test
         self.collibra_operations.create_assets(self.empty_test_df)
@@ -91,6 +90,11 @@ class SqlOperationsTest(unittest.TestCase):
     def update_collibra(self):
         ids = self.get_snow_assets()
         update_dataframe = self.create_update_dataframe(ids)
+        self.collibra_operations.update_attributes(update_dataframe)
+        #Test null value (removing attribute)
+        ids = self.get_snow_assets()
+        update_dataframe = self.create_update_dataframe(ids)
+        update_dataframe["sn_value"] = None
         self.collibra_operations.update_attributes(update_dataframe)
 
     def create_update_dataframe(self, ids):
@@ -161,6 +165,7 @@ class SqlOperationsTest(unittest.TestCase):
         return json_response["results"][0]["id"]
 
     def test_delete_assets(self):
+        """
         self.delete_collibra_test_assets()
         self.collibra_operations.create_assets(self.six_test)
 
@@ -171,7 +176,9 @@ class SqlOperationsTest(unittest.TestCase):
         self.collibra_operations.delete_assets(self.test_df)
         assert self.collibra_operations.delete_asset_response
         self.collibra_operations.delete_asset_response = False
+        """
         self.collibra_operations.delete_assets(self.empty_test_df)
+
 
     def get_snow_domain(self):
         url = (

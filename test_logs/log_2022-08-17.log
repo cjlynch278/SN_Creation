@@ -88,3 +88,185 @@
 11:16:31,891 root INFO Assets Created successful
 11:16:35,312 root INFO API Call Status Code: 201
 11:16:35,312 root INFO Attributes Created successful
+12:39:15,762 root INFO Push To Collibra App started
+12:39:15,762 root INFO Config File Read
+12:39:19,708 root ERROR Update dataframe configured incorrectly: 'Disaster Recovery Required'
+12:40:09,714 root INFO Push To Collibra App started
+12:40:09,715 root INFO Config File Read
+12:40:35,174 root ERROR Update dataframe configured incorrectly: 'Disaster Recovery Required'
+12:41:02,119 root INFO Push To Collibra App started
+12:41:02,120 root INFO Config File Read
+12:41:05,565 root ERROR Update dataframe configured incorrectly: 'Disaster Recovery Required'
+12:44:00,435 root INFO Push To Collibra App started
+12:44:00,436 root INFO Config File Read
+12:46:13,469 root ERROR Update dataframe configured incorrectly: 'Disaster Recovery Required'
+13:43:58,2 root INFO Push To Collibra App started
+13:43:58,2 root INFO Config File Read
+13:44:05,425 root INFO API Call Status Code: 201
+13:44:05,426 root INFO Attributes Created successful
+13:44:06,62 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+13:44:06,64 root INFO API Call Status Code: 400
+13:44:06,64 root ERROR Attributes UpdatedError
+13:44:06,64 root INFO Bad Request
+13:44:06,66 root INFO There was an error while processing JSON content
+13:44:32,253 root INFO Push To Collibra App started
+13:44:32,253 root INFO Config File Read
+13:44:53,127 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+13:44:53,128 root INFO API Call Status Code: 400
+13:44:53,128 root ERROR Attributes CreatedError
+13:44:53,128 root INFO Value not allowed
+13:44:53,129 root INFO The maximum limit of attributes (1) has been reached.
+13:53:42,547 root INFO Push To Collibra App started
+13:53:42,547 root INFO Config File Read
+13:53:48,880 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+13:53:48,881 root INFO API Call Status Code: 400
+13:53:48,881 root ERROR Attributes CreatedError
+13:53:48,881 root INFO Value not allowed
+13:53:48,881 root INFO The maximum limit of attributes (1) has been reached.
+13:53:49,562 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+13:53:49,563 root INFO API Call Status Code: 400
+13:53:49,563 root ERROR Attributes UpdatedError
+13:53:49,563 root INFO Bad Request
+13:53:49,563 root INFO There was an error while processing JSON content
+13:54:03,2 root INFO Push To Collibra App started
+13:54:03,3 root INFO Config File Read
+13:56:16,505 root INFO Push To Collibra App started
+13:56:16,505 root INFO Config File Read
+13:56:23,514 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+13:56:23,515 root INFO API Call Status Code: 400
+13:56:23,515 root ERROR Attributes CreatedError
+13:56:23,515 root INFO Value not allowed
+13:56:23,515 root INFO The maximum limit of attributes (1) has been reached.
+13:56:24,255 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+13:56:24,255 root INFO API Call Status Code: 400
+13:56:24,256 root ERROR Attributes UpdatedError
+13:56:24,256 root INFO Bad Request
+13:56:24,256 root INFO There was an error while processing JSON content
+13:56:56,978 root INFO Push To Collibra App started
+13:56:56,979 root INFO Config File Read
+13:57:50,251 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+13:57:50,251 root INFO API Call Status Code: 400
+13:57:50,251 root ERROR Attributes CreatedError
+13:57:50,252 root INFO Value not allowed
+13:57:50,252 root INFO The maximum limit of attributes (1) has been reached.
+13:58:59,870 root INFO Push To Collibra App started
+13:58:59,871 root INFO Config File Read
+13:59:10,190 root INFO Push To Collibra App started
+13:59:10,190 root INFO Config File Read
+13:59:43,574 root INFO Push To Collibra App started
+13:59:43,574 root INFO Config File Read
+13:59:49,180 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+13:59:49,180 root INFO API Call Status Code: 400
+13:59:49,181 root ERROR Attributes CreatedError
+13:59:49,181 root INFO Value not allowed
+13:59:49,181 root INFO The maximum limit of attributes (1) has been reached.
+13:59:49,906 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+13:59:49,906 root INFO API Call Status Code: 400
+13:59:49,907 root ERROR Attributes UpdatedError
+13:59:49,908 root INFO Bad Request
+13:59:49,908 root INFO There was an error while processing JSON content
+13:59:57,722 root INFO Push To Collibra App started
+13:59:57,722 root INFO Config File Read
+14:00:03,498 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+14:00:03,499 root INFO API Call Status Code: 400
+14:00:03,499 root ERROR Attributes CreatedError
+14:00:03,500 root INFO Value not allowed
+14:00:03,501 root INFO The maximum limit of attributes (1) has been reached.
+14:02:34,824 root INFO Push To Collibra App started
+14:02:34,825 root INFO Config File Read
+14:04:10,920 root INFO Push To Collibra App started
+14:04:10,921 root INFO Config File Read
+14:04:17,215 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+14:04:17,217 root INFO API Call Status Code: 400
+14:04:17,217 root ERROR Attributes CreatedError
+14:04:17,217 root INFO Value not allowed
+14:04:17,217 root INFO The maximum limit of attributes (1) has been reached.
+14:04:17,929 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+14:04:17,930 root INFO API Call Status Code: 400
+14:04:17,930 root ERROR Attributes UpdatedError
+14:04:17,932 root INFO Bad Request
+14:04:17,933 root INFO There was an error while processing JSON content
+14:08:07,772 root INFO Push To Collibra App started
+14:08:07,772 root INFO Config File Read
+14:08:14,357 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+14:08:14,357 root INFO API Call Status Code: 400
+14:08:14,358 root ERROR Attributes CreatedError
+14:08:14,358 root INFO Value not allowed
+14:08:14,359 root INFO The maximum limit of attributes (1) has been reached.
+14:08:14,984 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+14:08:14,984 root INFO API Call Status Code: 400
+14:08:14,985 root ERROR Attributes UpdatedError
+14:08:14,985 root INFO Bad Request
+14:08:14,985 root INFO There was an error while processing JSON content
+14:08:24,577 root INFO Push To Collibra App started
+14:08:24,577 root INFO Config File Read
+14:08:29,742 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+14:08:29,742 root INFO API Call Status Code: 400
+14:08:29,743 root ERROR Attributes CreatedError
+14:08:29,743 root INFO Value not allowed
+14:08:29,744 root INFO The maximum limit of attributes (1) has been reached.
+14:10:14,473 root INFO Push To Collibra App started
+14:10:14,473 root INFO Config File Read
+14:10:20,622 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+14:10:20,623 root INFO API Call Status Code: 400
+14:10:20,624 root ERROR Attributes CreatedError
+14:10:20,625 root INFO Value not allowed
+14:10:20,626 root INFO The maximum limit of attributes (1) has been reached.
+14:16:46,189 root INFO Push To Collibra App started
+14:16:46,189 root INFO Config File Read
+14:16:53,97 root INFO Push To Collibra App started
+14:16:53,97 root INFO Config File Read
+14:28:01,258 root INFO Push To Collibra App started
+14:28:01,258 root INFO Config File Read
+14:28:08,409 root INFO Push To Collibra App started
+14:28:08,409 root INFO Config File Read
+14:28:14,225 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+14:28:14,226 root INFO API Call Status Code: 400
+14:28:14,227 root ERROR Attributes CreatedError
+14:28:14,228 root INFO Value not allowed
+14:28:14,229 root INFO The maximum limit of attributes (1) has been reached.
+14:31:50,17 root INFO Push To Collibra App started
+14:31:50,17 root INFO Config File Read
+14:31:56,621 root INFO Push To Collibra App started
+14:31:56,621 root INFO Config File Read
+14:32:02,542 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+14:32:02,542 root INFO API Call Status Code: 400
+14:32:02,542 root ERROR Attributes CreatedError
+14:32:02,543 root INFO Value not allowed
+14:32:02,543 root INFO The maximum limit of attributes (1) has been reached.
+14:33:15,864 root INFO Push To Collibra App started
+14:33:15,864 root INFO Config File Read
+14:34:44,331 root INFO Push To Collibra App started
+14:34:44,331 root INFO Config File Read
+14:35:49,990 root INFO Push To Collibra App started
+14:35:49,990 root INFO Config File Read
+14:37:33,796 root INFO Push To Collibra App started
+14:37:33,796 root INFO Config File Read
+14:38:21,259 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+14:38:21,261 root INFO API Call Status Code: 400
+14:38:21,261 root ERROR Attributes CreatedError
+14:38:21,263 root INFO Value not allowed
+14:38:21,264 root INFO The maximum limit of attributes (1) has been reached.
+14:38:36,702 root INFO API Call Status Code: 200
+14:38:36,702 root INFO Attributes Updated successful
+14:56:57,444 root INFO Push To Collibra App started
+14:56:57,444 root INFO Config File Read
+14:59:55,655 root INFO API Call Status Code: 201
+14:59:55,655 root INFO Assets Created successful
+14:59:56,896 root INFO API Call Status Code: 201
+14:59:56,897 root INFO Attributes Created successful
+15:00:01,836 root INFO API Call Status Code: 201
+15:00:01,836 root INFO Attributes Created successful
+15:00:02,682 root INFO API Call Status Code: 200
+15:00:02,683 root INFO Attributes Updated successful
+15:00:06,901 root INFO API Call Status Code: 201
+15:00:06,901 root INFO Attributes Created successful
+15:00:07,722 root INFO API Call Status Code: 200
+15:00:07,722 root INFO Attributes Updated successful
+15:00:08,417 root INFO API call was unsuccessful: 400 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/assets/bulk
+15:00:08,417 root INFO API Call Status Code: 400
+15:00:08,417 root ERROR Assets CreatedError
+15:00:08,417 root INFO Value not allowed
+15:00:08,418 root INFO An asset with signifier '6bf3a0861b3f01d03457caae6e4bcb26' already exists for domain 'ServiceNow Applications'.
+15:00:12,779 root ERROR Update dataframe configured incorrectly: 'sn_value'
+15:00:12,779 root ERROR Create asset dataframe configured incorrectly: 'asset_name'
