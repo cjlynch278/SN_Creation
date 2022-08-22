@@ -139,12 +139,16 @@ class Collibra_Operations:
         response = self.collibra_api_call(
             "POST", self.bulk_attributes_url, create_status_list
         )
-        self.delete_asset_response = self.log_result(response, "Update Status")
+
+        create_status_bool = self.log_result(response, "Create Statuses")
 
         response = self.collibra_api_call(
             "PATCH", self.bulk_attributes_url, update_status_list
         )
-        self.delete_asset_result = self.log_result(response, "Update Status")
+        update_status_bool = self.log_result(response, "Update Statuses")
+
+        if create_status_bool and update_status_bool:
+            self.delete_asset_result = True
 
     def create_assets(self, dataframe):
         """

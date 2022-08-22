@@ -16,4 +16,4 @@ select assets_to_change.is_current, Attribute_ID, Name, Asset_ID, Attribute_Name
      left join collibra.collibra_attributes on Parent_Asset_ID = Asset_ID
 
      and attribute_name = 'Application Status'
-     and Attribute_Value != 'Retired-Decommissioned'
+     where Attribute_Value != 'Retired-Decommissioned'

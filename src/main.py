@@ -36,9 +36,11 @@ class MainClass:
         except KeyError as e:
             print("The config file is incorrectly setup: " + str(e))
             os._exit(1)
+        # Configure Logger
         self.log_file_name = (
             self.logger_location + "_" + str(datetime.today().date()) + ".log"
         )
+        # Set logging levels a
         level = logging.getLevelName(self.debug_level)
         logging.basicConfig(
             filename=self.log_file_name,
@@ -47,6 +49,9 @@ class MainClass:
             datefmt="%H:%M:%S",
             level= level,
         )
+        logging.getLogger("requests").setLevel(level)
+        logging.getLogger("urllib3").setLevel(level)
+
         logging.debug("Push To Collibra App started")
         logging.debug("Config File Read")
         self.sql_operations = SQLOperations(
