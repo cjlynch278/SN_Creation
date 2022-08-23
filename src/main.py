@@ -90,7 +90,6 @@ class MainClass:
     def prepare_and_send_email(self):
         log_file = open(self.log_file_name, "r")
         email_contents = log_file.read()
-        logging.debug("Contents of email being sent: " + str(email_contents))
         email_class = Email_Class("smtp.wlgore.com", 25)
         email_class.send_mail(email_contents, "chlynch@wlgore.com")
         print("email sent!")
