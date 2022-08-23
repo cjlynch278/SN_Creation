@@ -252,9 +252,15 @@ class Collibra_Operations:
             for index, row in dataframe.iterrows():
 
                 # Update attribute:
-                if "attribute_id" in row and not pandas.isnull(row["attribute_id"])\
-                        and not (row["sn_value"] in ["Unknown", "None", None, "nan", "NaN", float("nan")])\
-                        and row["sn_value"] == row["sn_value"]:
+                if (
+                    "attribute_id" in row
+                    and not pandas.isnull(row["attribute_id"])
+                    and not (
+                        row["sn_value"]
+                        in ["Unknown", "None", None, "nan", "NaN", float("nan")]
+                    )
+                    and row["sn_value"] == row["sn_value"]
+                ):
 
                     current_attribute_dict = {
                         "id": row["attribute_id"],
@@ -264,19 +270,25 @@ class Collibra_Operations:
 
                 # 'Remove' Attribute (set to null)
                 elif (
-                    "attribute_id" in row and not pandas.isnull(row["attribute_id"])
-                        and (row["sn_value"] in ["Unknown", "None", None, "nan", "NaN", float("nan")]
-                        or (row["sn_value"] != row["sn_value"]))
-
+                    "attribute_id" in row
+                    and not pandas.isnull(row["attribute_id"])
+                    and (
+                        row["sn_value"]
+                        in ["Unknown", "None", None, "nan", "NaN", float("nan")]
+                        or (row["sn_value"] != row["sn_value"])
+                    )
                 ):
                     current_attribute_dict = {
-                    "id": row["attribute_id"],
-                    "value": "",
+                        "id": row["attribute_id"],
+                        "value": "",
                     }
                     update_list.append(current_attribute_dict)
                 # Create Attribute
                 elif (
-                    not (row["sn_value"] in ["Unknown", "None", None, "nan", "NaN", float("nan")])
+                    not (
+                        row["sn_value"]
+                        in ["Unknown", "None", None, "nan", "NaN", float("nan")]
+                    )
                     and row["sn_value"] == row["sn_value"]
                 ):
                     current_attribute_dict = {

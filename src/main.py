@@ -40,20 +40,22 @@ class MainClass:
         self.log_file_name = (
             self.logger_location + "_" + str(datetime.today().date()) + ".log"
         )
-        # Set logging levels a
+        # Set logging levels
         level = logging.getLevelName(self.debug_level)
         logging.basicConfig(
             filename=self.log_file_name,
             filemode="a",
             format="%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s",
             datefmt="%H:%M:%S",
-            level= level,
+            level=level,
         )
         logging.getLogger("requests").setLevel(level)
         logging.getLogger("urllib3").setLevel(level)
 
         logging.debug("Push To Collibra App started")
         logging.debug("Config File Read")
+
+        # Set up SQLOperations class
         self.sql_operations = SQLOperations(
             self.sql_user,
             self.sql_password,
@@ -108,27 +110,36 @@ class MainClass:
         logging.debug("Delete Sql read successfully")
         self.collibra_operations.delete_assets(delete_dataframe)
 
-        logging.info("================ SUMMARY ================")
-        logging.info(
+        logging.debug(
             "Assets Created Successfully: "
             + str(self.collibra_operations.create_assets_result)
         )
-        logging.info(
+        logging.debug(
             "Attributes Created Successfully: "
             + str(self.collibra_operations.create_attributes_result)
         )
-        logging.info(
+        logging.debug(
             "Assets Updated Successfully: "
-            + str(self.collibra_operations.update_attributes_result)
+            + str(self.collibra_operations.update_assets_result)
         )
-        logging.info(
+        logging.debug(
             "Attributes Updated Successfully: "
             + str(self.collibra_operations.update_attributes_result)
         )
-        logging.info(
+        logging.debug(
             "Assets Deleted Successfully: "
             + str(self.collibra_operations.delete_asset_result)
         )
+        if (
+            self.collibra_operations.create_assets_result
+            and self.collibra_operations.update_assets_result
+            and self.collibra_operations.update_attributes_result
+            and self.collibra_operations.create_attributes_result
+            and self.collibra_operations.delete_asset_result
+        ):
+            logging.info("SQL To Collibra Pipeline run successfully")
+        else:
+            logging.critical("Error when running the SQL to Collibra Pipeline")
         try:
             self.prepare_and_send_email()
         except Exception as e:
