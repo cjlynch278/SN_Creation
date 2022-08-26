@@ -91,7 +91,6 @@ class MainClass:
 
         with open(self.log_file_name, "r") as log_file:
             try:
-                contents = yaml.safe_load(log_file)
                 email_contents = log_file.read()
             except Exception as e:
                 print("Error Reading log file to email: " + str(e))

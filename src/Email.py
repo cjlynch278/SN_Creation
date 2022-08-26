@@ -6,6 +6,7 @@ class Email_Class:
         self.smtp_server = smtplib.SMTP(email_server_name, email_port)
 
     def send_mail(self, message, recipient):
+        print("Sending message: " + message)
         self.smtp_server.sendmail(
             "ServiceNowToCollibraPipeline",
             recipient,
