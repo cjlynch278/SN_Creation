@@ -88,8 +88,14 @@ class MainClass:
             )
 
     def prepare_and_send_email(self):
-        log_file = open(self.log_file_name, "r")
-        email_contents = log_file.read()
+
+        with open(self.log_file_name, "r") as log_file:
+            try:
+                contents = yaml.safe_load(log_file)
+                email_contents = log_file.read()
+            except Exception as e:
+                print("Error Reading log file to email: " + str(e))
+                email_contents = "Error Reading log file to email: " + str(e)
         email_class = Email_Class("smtp.wlgore.com", 25)
         email_class.send_mail(email_contents, "chlynch@wlgore.com")
         print("email sent!")
@@ -140,6 +146,10 @@ class MainClass:
             logging.info("SQL To Collibra Pipeline run successfully")
         else:
             logging.critical("Error when running the SQL to Collibra Pipeline")
+
+        # Shutdown Logger
+        logging.shutdown()
+
         try:
             self.prepare_and_send_email()
         except Exception as e:
