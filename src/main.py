@@ -91,12 +91,13 @@ class MainClass:
 
         with open(self.log_file_name, "r") as log_file:
             try:
-                email_contents = log_file.read()
+                contents = log_file.read()
             except Exception as e:
                 print("Error Reading log file to email: " + str(e))
-                email_contents = "Error Reading log file to email: " + str(e)
+                contents = "Error Reading log file to email: " + str(e)
         email_class = Email_Class("smtp.wlgore.com", 25)
-        email_class.send_mail(email_contents, "chlynch@wlgore.com")
+        message = 'Subject: {}\n\n{}'.format("Collibra and SNOW Pipeline", contents)
+        email_class.send_mail(message, "chlynch@wlgore.com")
         print("email sent!")
 
     def run(self):
