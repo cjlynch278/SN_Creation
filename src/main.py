@@ -33,6 +33,7 @@ class MainClass:
             self.status_attribute_id = config["COLLIBRA_DETAILS"]["Install_Status"]
             self.queries_location = config["ENVIRONMENT"]["Queries_Location"]
             self.debug_level = config["LOGGER"]["LEVEL"]
+            self.email_recepient = config["EMAIL_SETTINGS"]["Recipient"]
         except KeyError as e:
             print("The config file is incorrectly setup: " + str(e))
             os._exit(1)
@@ -97,7 +98,7 @@ class MainClass:
                 contents = "Error Reading log file to email: " + str(e)
         email_class = Email_Class("smtp.wlgore.com", 25)
         message = 'Subject: {}\n\n{}'.format("Collibra and SNOW Pipeline", contents)
-        email_class.send_mail(message, "chlynch@wlgore.com")
+        email_class.send_mail(message, self.email_recepient)
         print("email sent!")
 
     def run(self):

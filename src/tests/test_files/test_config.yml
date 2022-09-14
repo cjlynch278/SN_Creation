@@ -15,6 +15,8 @@ MYSQL_CONNECTION_DETAILS:
   LOGIN: CollibraDev
   PASSWORD: EXLCollibra@123456
   VARCHAR_LENGTH: 8000
+EMAIL_SETTINGS:
+  Recipient: collibrasysadmin@wlgore.com
 COLLIBRA_DETAILS:
   ADMIN_DOMAIN_ID: df1aedd9-104a-4256-ac3d-bccdb6e7812b
   Systems_Domain_ID: 60a15484-8c3e-4d6a-a1ca-b27f7e0aa787
