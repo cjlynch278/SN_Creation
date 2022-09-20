@@ -6,6 +6,8 @@ import pyodbc
 
 
 class SQLOperations:
+    """ This class handles the collection of data from SQL. It reaches out to SQL via a query specified, and returns a
+    pandas dataframe containing a list of values"""
     def __init__(
         self,
         sql_user,
@@ -38,11 +40,15 @@ class SQLOperations:
         self.collibra_auth = "Bearer " + access_token_class.get_bearer_token()
 
     def connect_to_sql(self):
+        """ Connects to the SQL database"""
         self.engine = create_engine(self.connection_string)
         self.conn = self.engine.connect()
 
     def read_sql(self, string_sql_query):
-
+        """
+        :param string_sql_query: the sql query who's returned values will be transformed into a dataframe.
+        :return: a pandas dataframe
+        """
         sql_query = pd.read_sql_query(
             string_sql_query,
             self.conn,

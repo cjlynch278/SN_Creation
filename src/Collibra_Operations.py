@@ -9,6 +9,9 @@ import yaml
 
 
 class Collibra_Operations:
+    """
+    This class handles the creation and modification of data objects in collibra.
+    """
     def __init__(self, admin_only_id, environment, token_auth, config_file):
         """
         :param admin_only_id: the id of the admin domain in Collibra
@@ -346,7 +349,7 @@ class Collibra_Operations:
         :param url: to specify which collibra needs to be called
         :param item_list: a list containing dicts of what should be in the
             body of the api call
-        :param method_type: determines what type of api call is being sent e.g. patch,
+        :param method_type: determines what type of api call is being senkt e.g. patch,
             post, get etc..
         :return: the json response of the api call
         """
