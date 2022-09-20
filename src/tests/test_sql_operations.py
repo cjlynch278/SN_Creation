@@ -6,7 +6,7 @@ import os
 import json
 from src.main import MainClass
 
-from src.SQLOperations import SQLOperations
+from src.sql_operations import SQLOperations
 
 
 class SqlOperationsTest(unittest.TestCase):

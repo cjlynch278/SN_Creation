@@ -9,6 +9,8 @@ AUTH:
 ENVIRONMENT:
   gore: wlgore-dev.collibra.com
   Queries_Location: src/queries
+EMAIL_SETTINGS:
+  Recipient: collibrasysadmin@wlgore.com
 MYSQL_CONNECTION_DETAILS:
   SERVER_NAME: anvrdmexldv03
   DATABASE_NAME: EXL_MDSDev

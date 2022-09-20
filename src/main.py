@@ -1,6 +1,6 @@
-from src.SQLOperations import SQLOperations
-from src.Collibra_Operations import Collibra_Operations
-from src.Email import Email_Class
+from src.sql_operations import SQLOperations
+from src.collibra_operations import Collibra_Operations
+from src.email_operations import Email_Class
 import yaml
 import os
 import logging
@@ -8,7 +8,15 @@ from datetime import datetime
 
 
 class MainClass:
+    """
+    This main class is where the program starts. It calls the Collibra_Operations, Email, and SQL_Opearations classes
+    """
     def __init__(self, config_file):
+        """
+        Initializes the program by gathering all required variables from the config file and setting up the logging
+        file.
+        :param config_file: The yaml file which contains many of the settings to run this program.
+        """
         with open(config_file, "r") as stream:
             try:
                 config = yaml.safe_load(stream)
@@ -33,6 +41,7 @@ class MainClass:
             self.status_attribute_id = config["COLLIBRA_DETAILS"]["Install_Status"]
             self.queries_location = config["ENVIRONMENT"]["Queries_Location"]
             self.debug_level = config["LOGGER"]["LEVEL"]
+            self.email_recepients = config["EMAIL_SETTINGS"]["Recipient"]
         except KeyError as e:
             print("The config file is incorrectly setup: " + str(e))
             os._exit(1)
@@ -88,19 +97,26 @@ class MainClass:
             )
 
     def prepare_and_send_email(self):
+        """Call the email class and email the log file to the specified admin"""
 
+        recepients = self.email_recepients.split(",")
         with open(self.log_file_name, "r") as log_file:
             try:
-                contents = yaml.safe_load(log_file)
-                email_contents = log_file.read()
+                contents = log_file.read()
             except Exception as e:
                 print("Error Reading log file to email: " + str(e))
-                email_contents = "Error Reading log file to email: " + str(e)
+                contents = "Error Reading log file to email: " + str(e)
         email_class = Email_Class("smtp.wlgore.com", 25)
-        email_class.send_mail(email_contents, "chlynch@wlgore.com")
+        # String to specify the subject and message of the email.
+        message = 'Subject: {}\n\n{}'.format("Collibra and SNOW Pipeline", contents)
+        email_class.send_mail(message, recepients)
         print("email sent!")
 
     def run(self):
+        """
+        This is one of the main methods for this program. It calls a majority of the necessary classes and
+        methods to collect and modify data.
+        """
         self.sql_operations.connect_to_sql()
         logging.debug("SQL connected")
 

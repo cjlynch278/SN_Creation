@@ -5,9 +5,9 @@ import yaml
 import os
 import json
 import requests
-from src.SQLOperations import SQLOperations
-from src.Collibra_Operations import Collibra_Operations
-from src.Access_Token import AccessToken
+from src.sql_operations import SQLOperations
+from src.collibra_operations import Collibra_Operations
+from src.access_token import AccessToken
 from src.main import MainClass
 
 
