@@ -1,6 +1,6 @@
-from src.SQLOperations import SQLOperations
-from src.Collibra_Operations import Collibra_Operations
-from src.Email import Email_Class
+from src.sql_operations import SQLOperations
+from src.collibra_operations import Collibra_Operations
+from src.email import Email_Class
 import yaml
 import os
 import logging
