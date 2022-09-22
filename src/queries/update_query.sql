@@ -69,6 +69,16 @@ select  *  from ( select  assets.is_current asset_currrent, Asset_ID,SN_System_I
 
       union
 
+      select assets.is_current asset_currrent,Asset_ID,SN_System_ID, systems.name system_name,systems.is_current,'CI Type' as attribute_type, Records_Retention sn_value from
+      (
+      select * from servicenow.servicenow_cmbd_ci_business_app
+      union
+      select * from servicenow.servicenow_cmbd_ci_service
+      ) systems
+      join collibra.collibra_assets assets on assets.Name = systems.SN_System_ID
+
+      union
+
 
       select assets.is_current asset_currrent,Asset_ID,SN_System_ID, systems.name system_name,systems.is_current,'Business Owner' as attribute_type, Owned_By sn_value from
       (
