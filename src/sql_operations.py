@@ -62,6 +62,6 @@ class SQLOperations:
         except sqlalchemy.exc.ResourceClosedError as e:
             print("No SQL Read: " + str(e))
             logging.warning("No SQL Read: " + str(e))
-            df = pd.DataFrame
+            df = pd.DataFrame()
 
         return df
