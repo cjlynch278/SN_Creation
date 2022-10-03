@@ -26,7 +26,6 @@ class SqlOperationsTest(unittest.TestCase):
         )
         self.six_test = pandas.read_csv("src/tests/test_files/six_test.csv")
         self.full_test_2 = pandas.read_csv("src/tests/test_files/full_test_2.csv")
-
         self.empty_test_df = pandas.DataFrame()
         self.access_token = AccessToken(self.main.token_auth)
         self.collibra_operations = Collibra_Operations(
@@ -205,7 +204,7 @@ class SqlOperationsTest(unittest.TestCase):
     def get_snow_assets(
         self,
     ):
-        snow_domain_id = self.get_snow_domain()
+        snow_domain_id = self.main.admin_only_domain_id
         url = (
             "https://wlgore-dev.collibra.com/rest/2.0/assets?offset=0&limit=100000&countLimit=-1&nameMatchMode=ANYWHERE&domainId="
             + snow_domain_id
