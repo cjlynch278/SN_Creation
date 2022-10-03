@@ -49,10 +49,16 @@ class SQLOperations:
         :param string_sql_query: the sql query who's returned values will be transformed into a dataframe.
         :return: a pandas dataframe
         """
-        sql_query = pd.read_sql_query(
-            string_sql_query,
-            self.conn,
-        )
+        try:
+            sql_query = pd.read_sql_query(
+                string_sql_query,
+                self.conn,
+            )
 
-        df = pd.DataFrame(sql_query)
+            df = pd.DataFrame(sql_query)
+        except sqlalchemy.exc.ResourceClosedError as e:
+            print("No SQL Read: " + str(e))
+            logging.warning("No SQL Read: " + str(e))
+            df = pd.DataFrame
+
         return df

@@ -1,0 +1,28 @@
+09:46:35,272 root ERROR API call was unsuccessful: 404 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+09:46:35,272 root ERROR Attributes Created Error
+09:54:12,436 root ERROR API call was unsuccessful: 404 Client Error:  for url: https://wlgore.collibra.com/rest/2.0/attributes/bulk
+09:54:12,437 root ERROR Attributes Created Error
+09:58:19,590 root ERROR API call was unsuccessful: 400 Client Error:  for url: https://wlgore.collibra.com/rest/2.0/attributes/bulk
+09:58:19,591 root ERROR Attributes Created Error
+10:02:13,655 root ERROR API call was unsuccessful: 400 Client Error:  for url: https://wlgore.collibra.com/rest/2.0/attributes/bulk
+10:02:13,657 root ERROR Attributes Created Error
+10:09:15,333 root ERROR API call was unsuccessful: 400 Client Error:  for url: https://wlgore.collibra.com/rest/2.0/attributes/bulk
+10:09:15,334 root ERROR Attributes Created Error
+10:12:07,66 root ERROR API call was unsuccessful: 400 Client Error:  for url: https://wlgore.collibra.com/rest/2.0/attributes/bulk
+10:12:07,67 root ERROR Attributes Created Error
+10:12:20,198 root ERROR API call was unsuccessful: 400 Client Error:  for url: https://wlgore.collibra.com/rest/2.0/attributes/bulk
+10:12:20,199 root ERROR Attributes Created Error
+10:12:41,896 root ERROR API call was unsuccessful: 400 Client Error:  for url: https://wlgore.collibra.com/rest/2.0/attributes/bulk
+10:12:41,897 root ERROR Attributes Created Error
+10:15:39,543 root ERROR API call was unsuccessful: 400 Client Error:  for url: https://wlgore.collibra.com/rest/2.0/attributes/bulk
+10:15:39,544 root ERROR Attributes Created Error
+10:15:58,968 root ERROR API call was unsuccessful: 400 Client Error:  for url: https://wlgore.collibra.com/rest/2.0/attributes/bulk
+10:15:58,968 root ERROR Attributes Created Error
+10:16:49,52 root ERROR API call was unsuccessful: 400 Client Error:  for url: https://wlgore.collibra.com/rest/2.0/attributes/bulk
+10:16:49,53 root ERROR Attributes Created Error
+10:16:58,977 root ERROR API call was unsuccessful: 400 Client Error:  for url: https://wlgore.collibra.com/rest/2.0/attributes/bulk
+10:16:58,978 root ERROR Attributes Created Error
+13:57:28,13 root ERROR API call was unsuccessful: 400 Client Error:  for url: https://wlgore.collibra.com/rest/2.0/attributes/bulk
+13:57:28,15 root ERROR Attributes Created Error
+13:58:10,904 root ERROR API call was unsuccessful: 404 Client Error:  for url: https://wlgore-test.collibra.com/rest/2.0/assets/bulk
+14:36:04,687 root ERROR API call was unsuccessful: 404 Client Error:  for url: https://wlgore.collibra.com/rest/2.0/assets/bulk
