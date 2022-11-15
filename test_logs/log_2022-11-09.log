@@ -1,0 +1,12 @@
+14:37:50,490 root ERROR API call was unsuccessful: 400 Client Error: Bad Request for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+14:37:50,493 root ERROR Attributes Created Error
+14:38:29,8 root ERROR API call was unsuccessful: 400 Client Error: Bad Request for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+14:38:29,9 root ERROR Attributes Created Error
+14:38:47,324 root ERROR API call was unsuccessful: 400 Client Error: Bad Request for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+14:38:47,327 root ERROR Attributes Created Error
+14:39:06,884 root ERROR API call was unsuccessful: 400 Client Error: Bad Request for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+14:39:06,892 root ERROR Attributes Created Error
+14:39:19,964 root ERROR API call was unsuccessful: 400 Client Error: Bad Request for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+14:39:19,964 root ERROR Attributes Created Error
+14:39:31,82 root ERROR API call was unsuccessful: 400 Client Error: Bad Request for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+14:39:31,84 root ERROR Attributes Created Error

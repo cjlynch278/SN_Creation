@@ -16,6 +16,7 @@ MYSQL_CONNECTION_DETAILS:
   LOGIN: CollibraDev
   PASSWORD: EXLCollibra@123456
   VARCHAR_LENGTH: 8000
+  DRIVER: SQL+Server+Native+Client+11.0
 EMAIL_SETTINGS:
   Recipient: collibrasysadmin@wlgore.com
 COLLIBRA_DETAILS:

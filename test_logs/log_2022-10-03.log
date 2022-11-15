@@ -26,3 +26,14 @@
 13:57:28,15 root ERROR Attributes Created Error
 13:58:10,904 root ERROR API call was unsuccessful: 404 Client Error:  for url: https://wlgore-test.collibra.com/rest/2.0/assets/bulk
 14:36:04,687 root ERROR API call was unsuccessful: 404 Client Error:  for url: https://wlgore.collibra.com/rest/2.0/assets/bulk
+19:27:44,304 root ERROR API call was unsuccessful: 404 Client Error:  for url: https://wlgore-dev.collibra.com/rest/2.0/assets/bulk
+19:28:13,16 root ERROR API call was unsuccessful: 500 Server Error:  for url: https://wlgore.collibra.com/rest/2.0/assets/bulk
+19:28:55,397 root ERROR API call was unsuccessful: 500 Server Error:  for url: https://wlgore.collibra.com/rest/2.0/assets/bulk
+19:31:08,375 root ERROR API call was unsuccessful: 500 Server Error:  for url: https://wlgore.collibra.com/rest/2.0/assets/bulk
+19:32:42,818 root ERROR API call was unsuccessful: 500 Server Error:  for url: https://wlgore.collibra.com/rest/2.0/assets/bulk
+19:33:11,317 root ERROR API call was unsuccessful: 500 Server Error:  for url: https://wlgore.collibra.com/rest/2.0/assets/bulk
+19:33:23,599 root ERROR API call was unsuccessful: 500 Server Error:  for url: https://wlgore.collibra.com/rest/2.0/assets/bulk
+19:33:30,179 root ERROR API call was unsuccessful: 500 Server Error:  for url: https://wlgore.collibra.com/rest/2.0/assets/bulk
+19:33:55,813 root ERROR API call was unsuccessful: 500 Server Error:  for url: https://wlgore.collibra.com/rest/2.0/assets/bulk
+19:34:19,526 root ERROR API call was unsuccessful: 500 Server Error:  for url: https://wlgore.collibra.com/rest/2.0/assets/bulk
+19:34:48,513 root ERROR API call was unsuccessful: 500 Server Error:  for url: https://wlgore.collibra.com/rest/2.0/assets/bulk

@@ -43,6 +43,7 @@ class MainClass:
             self.debug_level = config["LOGGER"]["LEVEL"]
             self.email_recepients = config["EMAIL_SETTINGS"]["Recipient"]
             self.environment_instance = config["ENVIRONMENT"]["instance"]
+            self.driver = config["MYSQL_CONNECTION_DETAILS"]["DRIVER"]
         except KeyError as e:
             print("The config file is incorrectly setup: " + str(e))
             os._exit(1)
@@ -74,6 +75,7 @@ class MainClass:
             self.token_auth,
             self.admin_only_domain_id,
             self.environment,
+            self.driver
         )
         logging.debug("Sql operations setup")
 

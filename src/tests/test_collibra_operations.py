@@ -23,6 +23,7 @@ class SqlOperationsTest(unittest.TestCase):
             self.main.token_auth,
             self.main.admin_only_domain_id,
             self.main.environment,
+            self.main.driver
         )
         self.six_test = pandas.read_csv("src/tests/test_files/six_test.csv")
         self.full_test_2 = pandas.read_csv("src/tests/test_files/full_test_2.csv")
@@ -46,8 +47,22 @@ class SqlOperationsTest(unittest.TestCase):
         self.token = "Bearer " + self.access_token.get_bearer_token()
 
     def test_troubleshoot(self):
-        error_df = pandas.read_csv("src/tests/test_files/error_troubleshoot.csv")
+        error_df = pandas.read_csv("src/tests/test_files/error_Nov.csv")
         self.collibra_operations.update_attributes(error_df)
+        print("Done")
+
+    def test_update_sn_number(self):
+        self.sn_number_df = pandas.read_csv(
+            "src/tests/test_files/duplicatesv2.csv"
+        )
+        update_list = []
+        for index, row in self.sn_number_df.iterrows():
+            update_list.append({"id": row["existing_system"], "name": row["full_Name"]})
+        response = self.collibra_operations.collibra_api_call(
+            "PATCH", "https://wlgore-dev.collibra.com/rest/2.0/assets/bulk", update_list
+        )
+        print(update_list)
+
 
     def test_create_and_update(self):
         # Empty test
@@ -120,28 +135,18 @@ class SqlOperationsTest(unittest.TestCase):
 
     def test_delete_existing_systems(self):
         delete_ids = []
-        delete_df = pandas.read_csv("src/tests/test_files/update_existing_systems.csv")
+        delete_df = pandas.read_csv("src/tests/test_files/duplicatesv2.csv")
         url = "https://wlgore-dev.collibra.com/rest/2.0/assets/bulk"
 
         for index, row in delete_df.iterrows():
-            if str(row["to_be_deleted"]) not in ["Unknown", "None", None, "nan", ""]:
-                delete_ids.append(row["to_be_deleted"])
+            if str(row["duplicate"]) not in ["Unknown", "None", None, "nan", ""]:
+                delete_ids.append(row["duplicate"])
 
         response = self.collibra_operations.collibra_api_call("DELETE", url, delete_ids)
-        print(response)
+        print("done")
 
-    def test_update_sn_number(self):
-        self.sn_number_df = pandas.read_csv(
-            "src/tests/test_files/update_existing_systems.csv"
-        )
-        # self.collibra_operations.update_attributes(self.sn_number_df)
-        update_list = []
-        for index, row in self.sn_number_df.iterrows():
-            update_list.append({"id": row["Asset_ID"], "name": row["sn_value"]})
-        response = self.collibra_operations.collibra_api_call(
-            "PATCH", "https://wlgore-dev.collibra.com/rest/2.0/assets/bulk", update_list
-        )
-        print(update_list)
+
+
 
     def get_status_attribute(self, type_id, asset_id):
         url = (

@@ -20,6 +20,7 @@ class SQLOperations:
         token_auth,
         admin_only_id,
         environment,
+        driver
     ):
         self.admin_only_id = admin_only_id
         self.environment = environment
@@ -28,6 +29,7 @@ class SQLOperations:
         self.sql_password = sql_password
         self.server_name = server_name
         self.database_name = database_name
+        self.driver = driver
         self.connection_string = (
             "mssql+pyodbc://"
             + self.sql_user
@@ -37,7 +39,8 @@ class SQLOperations:
             + self.server_name
             + "/"
             + self.database_name
-            + "?driver=SQL+Server+Native+Client+11.0"
+            + "?driver="
+            + self.driver
         )
         access_token_class = AccessToken(self.token_auth)
         self.collibra_auth = "Bearer " + access_token_class.get_bearer_token()
