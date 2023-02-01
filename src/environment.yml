@@ -5,8 +5,6 @@ dependencies:
   - pyyaml
   - pytest-flake8
   - requests
-  - sqlalchemy
-  - pandas
   - pyodbc
   - pip
   - PyInstaller
