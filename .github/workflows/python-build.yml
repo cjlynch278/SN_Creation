@@ -31,11 +31,8 @@ jobs:
     - name: Install dependencies
       run: |
         conda env update --file src/environment.yml --name base
-        pip install sqlalchemy
         pip show sqlalchemy
         pip install pandas
-        pip show pandas
-        conda update pandas
         pip show pandas
     - name: Lint with flake8
       run: |

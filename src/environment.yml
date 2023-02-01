@@ -3,6 +3,7 @@ name: push-to-collibra-environment
 dependencies:
   - python=3.8
   - pyyaml
+  - sqlalchemy=1.4.42
   - pytest-flake8
   - requests
   - pyodbc
