@@ -1,7 +1,7 @@
 name: push-to-collibra-environment
 
 dependencies:
-  - python=3.11
+  - python=3.10
   - pyyaml
   - pytest-flake8
   - requests
