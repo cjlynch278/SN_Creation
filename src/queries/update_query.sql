@@ -90,6 +90,15 @@ select  *  from ( select  assets.is_current asset_currrent, Asset_ID,SN_System_I
 
       union
 
+      select assets.is_current asset_currrent,Asset_ID,SN_System_ID, systems.name system_name,systems.is_current,'Description' as attribute_type, Description sn_value from
+      (
+      select * from servicenow.servicenow_cmbd_ci_business_app
+      union
+      select * from servicenow.servicenow_cmbd_ci_service
+      ) systems
+      join collibra.collibra_assets assets on assets.Name = systems.SN_System_ID
+      union
+
       select assets.is_current asset_currrent,Asset_ID,SN_System_ID, systems.name system_name,systems.is_current,'IT Application Owner' as attribute_type, IT_Owner sn_value from
       (
       select * from servicenow.servicenow_cmbd_ci_business_app
