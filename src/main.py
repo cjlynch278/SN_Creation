@@ -99,7 +99,7 @@ class MainClass:
                 self.admin_only_domain_id, self.systems_domain_id
             )
 
-        with open(self.queries_location + "/update_displsy_name_query.sql", "r") as update_display_name_query_file:
+        with open(self.queries_location + "/update_display_name_query.sql", "r") as update_display_name_query_file:
             self.update_display_name_query = update_display_name_query_file.read().format(
                 self.admin_only_domain_id, self.systems_domain_id
             )
