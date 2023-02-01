@@ -57,8 +57,8 @@ class SQLOperations:
         """
         try:
             sql_query = pd.read_sql_query(
-                string_sql_query,
-                self.conn,
+                sql = string_sql_query,
+                con= self.conn,
             )
 
             df = pd.DataFrame(sql_query)
