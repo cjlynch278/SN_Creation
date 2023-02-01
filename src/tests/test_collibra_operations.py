@@ -91,6 +91,8 @@ class SqlOperationsTest(unittest.TestCase):
         self.collibra_operations.create_assets(self.error_test)
         self.delete_collibra_test_assets()
 
+        self.test_fill_test_domain()
+
     def test_fill_test_domain(self):
         self.delete_collibra_test_assets()
         self.collibra_operations.create_assets(self.create_1_df)
@@ -98,7 +100,6 @@ class SqlOperationsTest(unittest.TestCase):
         self.update_collibra()
         assert self.collibra_operations.update_attributes_result
         assert self.collibra_operations.update_assets_result
-        self.delete_collibra_test_assets()
 
     def update_collibra(self):
         ids = self.get_snow_assets()
@@ -110,7 +111,23 @@ class SqlOperationsTest(unittest.TestCase):
         update_dataframe["sn_value"] = None
         self.collibra_operations.update_attributes(update_dataframe)
 
+    #Get rid of the update display name df method and simply create a dict based off of the ids below.
+    #-----------------
+    def test_update_display_name(self):
+        self.test_fill_test_domain()
+        ids = self.get_snow_assets()
+        data = {"Asset_ID": ids, "sn_value": "New value"}
+        display_name_df = pandas.DataFrame(data)
+        self.collibra_operations.update_display_name(display_name_df)
+        assert self.collibra_operations.update_display_name_result
+
+
     def create_update_dataframe(self, ids):
+        """
+         Create an example dataframe based off of the values in the snow domains
+        :param ids: ids in the snow domain
+        :return: dataframe to pass to the update attribute method
+        """
         attributes_ids = []
         for i in range(3):
             id = ids[i]
@@ -129,7 +146,7 @@ class SqlOperationsTest(unittest.TestCase):
             for item in response.json()["results"]:
                 attributes_ids.append(item["id"])
 
-        data = {"attribute_id": attributes_ids, "sn_value": "New value"}
+        data = {"attribute_id" : attributes_ids, "sn_value": "New value"}
         attribute_dataframe = pandas.DataFrame(data)
         return attribute_dataframe
 

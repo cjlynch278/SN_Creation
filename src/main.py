@@ -99,6 +99,12 @@ class MainClass:
                 self.admin_only_domain_id, self.systems_domain_id
             )
 
+        with open(self.queries_location + "/update_display_name_query.sql", "r") as update_display_name_query_file:
+            self.update_display_name_query = update_display_name_query_file.read().format(
+                self.admin_only_domain_id, self.systems_domain_id
+            )
+
+
     def prepare_and_send_email(self):
         """Call the email class and email the log file to the specified admin"""
 
@@ -135,6 +141,10 @@ class MainClass:
         logging.debug("Delete Sql read successfully")
         self.collibra_operations.delete_assets(delete_dataframe)
 
+        update_display_name_dataframe = self.sql_operations.read_sql(self.update_display_name_query)
+        logging.debug("Update Display Name Sql read successfully")
+        self.collibra_operations.update_display_name(update_display_name_dataframe)
+
         logging.debug(
             "Assets Created Successfully: "
             + str(self.collibra_operations.create_assets_result)
@@ -155,14 +165,19 @@ class MainClass:
             "Assets Deleted Successfully: "
             + str(self.collibra_operations.delete_asset_result)
         )
+        logging.debug(
+            "Display Name Update Successfully: "
+            + str(self.collibra_operations.update_display_name_result)
+        )
         if (
             self.collibra_operations.create_assets_result
             and self.collibra_operations.update_assets_result
             and self.collibra_operations.update_attributes_result
             and self.collibra_operations.create_attributes_result
             and self.collibra_operations.delete_asset_result
+            and self.collibra_operations.update_display_name_result
         ):
-            logging.info("SQL To Collibra Pipeline run successfully")
+            logging.info("SQL To Collibra Pipeline has run successfully")
         else:
             logging.critical("Error when running the SQL to Collibra Pipeline")
 

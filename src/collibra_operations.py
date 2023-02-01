@@ -106,6 +106,7 @@ class Collibra_Operations:
         self.update_assets_result = False
         self.update_attributes_result = False
         self.delete_asset_result = False
+        self.update_display_name_result = False
 
     def delete_assets(self, dataframe):
         """
@@ -319,6 +320,55 @@ class Collibra_Operations:
         self.update_attributes_result = self.log_result(
             attribute_update_response, "Attributes Updated"
         )
+
+    def update_display_name(self, display_name_df):
+        """
+        Along with updating all of the attributes, the display name of collibra assets will also need
+        to be updated from time to time. This needs to be a seperate method since the display name is
+        not an attribute, but part of the asset itself.
+
+        :param display_name_df: The dataframe consisiting of all of the assets with coorelating display names to
+        update
+        :return: Nothing
+        """
+
+        # Iterate through the display name df
+        display_name_update_list = []
+        try:
+            for index, row in display_name_df.iterrows():
+
+                # Update display name:
+                if (
+                        "Asset_ID" in row
+                        and not pandas.isnull(row["Asset_ID"])
+                        and not (
+                        row["sn_value"]
+                        in ["Unknown", "None", None, "nan", "NaN", float("nan")]
+                )
+                        and row["sn_value"] == row["sn_value"]
+                ):
+
+                    current_attribute_dict = {
+                        "id": row["Asset_ID"],
+                        "value": row["sn_value"],
+                    }
+                    display_name_update_list.append(current_attribute_dict)
+
+        except KeyError as e:
+            self.update_display_name_result = False
+            print("Update display name dataframe configured incorrectly: " + str(e))
+            logging.error("Update display name dataframe configured incorrectly: " + str(e))
+            return
+
+        # Make api call to patch existing assets' display name
+        update_display_name_response = self.collibra_api_call(
+            "PATCH", self.bulk_assets_url, display_name_update_list
+        )
+        self.update_display_name_result = self.log_result(
+            update_display_name_response, "Display Names Updated"
+        )
+
+
 
     def log_result(self, response, type_of_call):
         """
