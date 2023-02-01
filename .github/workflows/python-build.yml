@@ -34,6 +34,8 @@ jobs:
         pip install sqlalchemy
         pip show sqlalchemy
         pip show pandas
+        conda update pandas
+        pip show pandas
     - name: Lint with flake8
       run: |
         conda install flake8
