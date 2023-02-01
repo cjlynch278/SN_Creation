@@ -33,6 +33,7 @@ jobs:
         conda env update --file src/environment.yml --name base
         pip install sqlalchemy
         pip show sqlalchemy
+        pip show pandas
     - name: Lint with flake8
       run: |
         conda install flake8
