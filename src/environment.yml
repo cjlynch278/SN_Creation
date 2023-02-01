@@ -11,3 +11,4 @@ dependencies:
   - pip
   - PyInstaller
   - coverage
+  - charset
