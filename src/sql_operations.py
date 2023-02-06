@@ -57,7 +57,7 @@ class SQLOperations:
         :return: a pandas dataframe
         """
         print(pkg_resources.get_distribution("sqlalchemy"))
-
+        logging.debug("Query: " + string_sql_query)
         try:
             sql_query = pd.read_sql_query(
                 sql = string_sql_query,
