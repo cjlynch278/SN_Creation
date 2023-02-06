@@ -47,7 +47,7 @@ class SQLOperations:
 
     def connect_to_sql(self):
         """ Connects to the SQL database"""
-        self.engine = create_engine(con = self.connection_string)
+        self.engine = create_engine(url = self.connection_string)
         self.conn = self.engine.connect()
 
     def read_sql(self, string_sql_query):
