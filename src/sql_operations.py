@@ -56,7 +56,7 @@ class SQLOperations:
         :param string_sql_query: the sql query who's returned values will be transformed into a dataframe.
         :return: a pandas dataframe
         """
-        print(pkg_resources.get_distribution("pandas"))
+        print(pkg_resources.get_distribution("pd"))
         print(pkg_resources.get_distribution("sqlalchemy"))
 
         try:
