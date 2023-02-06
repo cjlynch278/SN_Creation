@@ -56,7 +56,6 @@ class SQLOperations:
         :param string_sql_query: the sql query who's returned values will be transformed into a dataframe.
         :return: a pandas dataframe
         """
-        print(pkg_resources.get_distribution("sqlalchemy"))
         logging.debug("Query: " + string_sql_query)
         try:
             sql_query = pd.read_sql_query(
