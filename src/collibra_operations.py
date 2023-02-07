@@ -348,11 +348,11 @@ class Collibra_Operations:
                         and row["sn_value"] == row["sn_value"]
                 ):
 
-                    current_attribute_dict = {
+                    current_display_name_dict = {
                         "id": row["Asset_ID"],
-                        "value": row["sn_value"],
+                        "displayName": row["sn_value"],
                     }
-                    display_name_update_list.append(current_attribute_dict)
+                    display_name_update_list.append(current_display_name_dict)
 
         except KeyError as e:
             self.update_display_name_result = False

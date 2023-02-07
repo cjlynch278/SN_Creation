@@ -1,0 +1,4 @@
+09:26:02,181 root ERROR API call was unsuccessful: 404 Client Error: Not Found for url: https://wlgore-dev.collibra.com/rest/2.0/assets/bulk
+09:26:02,182 root ERROR Display Names Updated Error
+09:40:20,939 root ERROR API call was unsuccessful: 404 Client Error: Not Found for url: https://wlgore-test.collibra.com/rest/2.0/assets/bulk
+09:40:20,939 root ERROR Assets Created Error
