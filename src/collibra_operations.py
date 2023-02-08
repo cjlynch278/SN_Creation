@@ -339,11 +339,12 @@ class Collibra_Operations:
 
                 # Update display name:
                 if (
+                        # Skip null and blank values
                         "Asset_ID" in row
                         and not pandas.isnull(row["Asset_ID"])
                         and not (
                         row["sn_value"]
-                        in ["Unknown", "None", None, "nan", "NaN", float("nan")]
+                        in ["Unknown", "None", None, "nan", "NaN", float("nan"), ""]
                 )
                         and row["sn_value"] == row["sn_value"]
                 ):

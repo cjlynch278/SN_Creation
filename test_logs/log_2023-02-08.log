@@ -1,0 +1,10 @@
+09:01:29,426 root ERROR API call was unsuccessful: 400 Client Error: Bad Request for url: https://wlgore-dev.collibra.com/rest/2.0/assets/bulk
+09:01:29,427 root ERROR Display Names Updated Error
+09:09:44,628 root ERROR API call was unsuccessful: 400 Client Error: Bad Request for url: https://wlgore-dev.collibra.com/rest/2.0/assets/bulk
+09:09:44,629 root ERROR Assets Created Error
+09:09:46,313 root ERROR Update dataframe configured incorrectly: 'sn_value'
+09:09:46,314 root ERROR Create asset dataframe configured incorrectly: 'asset_name'
+09:10:11,369 root ERROR API call was unsuccessful: 404 Client Error: Not Found for url: https://wlgore-dev.collibra.com/rest/2.0/assets/bulk
+09:10:47,592 root ERROR API call was unsuccessful: 400 Client Error: Bad Request for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+09:10:47,592 root ERROR Attributes Created Error
+09:11:26,906 root ERROR API call was unsuccessful: 404 Client Error: Not Found for url: https://wlgore-dev.collibra.com/rest/2.0/assets/bulk
