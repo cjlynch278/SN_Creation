@@ -6,6 +6,7 @@ import logging
 from sqlalchemy import create_engine
 from src.access_token import AccessToken
 import pyodbc
+import pkg_resources
 
 
 class SQLOperations:
@@ -47,7 +48,7 @@ class SQLOperations:
 
     def connect_to_sql(self):
         """ Connects to the SQL database"""
-        self.engine = create_engine(self.connection_string)
+        self.engine = create_engine(url = self.connection_string)
         self.conn = self.engine.connect()
 
     def read_sql(self, string_sql_query):
@@ -55,10 +56,11 @@ class SQLOperations:
         :param string_sql_query: the sql query who's returned values will be transformed into a dataframe.
         :return: a pandas dataframe
         """
+        logging.debug("Query: " + string_sql_query)
         try:
             sql_query = pd.read_sql_query(
-                string_sql_query,
-                self.conn,
+                sql = string_sql_query,
+                con= self.conn,
             )
 
             df = pd.DataFrame(sql_query)

@@ -111,12 +111,18 @@ class SqlOperationsTest(unittest.TestCase):
         update_dataframe["sn_value"] = None
         self.collibra_operations.update_attributes(update_dataframe)
 
-    #Get rid of the update display name df method and simply create a dict based off of the ids below.
-    #-----------------
     def test_update_display_name(self):
         self.test_fill_test_domain()
         ids = self.get_snow_assets()
+
+        # Test updating names to "New value"
         data = {"Asset_ID": ids, "sn_value": "New value"}
+        display_name_df = pandas.DataFrame(data)
+        self.collibra_operations.update_display_name(display_name_df)
+        assert self.collibra_operations.update_display_name_result
+
+        #Test updating names to blank value
+        data = {"Asset_ID": [ids[0], ids[1]], "sn_value": ""}
         display_name_df = pandas.DataFrame(data)
         self.collibra_operations.update_display_name(display_name_df)
         assert self.collibra_operations.update_display_name_result
