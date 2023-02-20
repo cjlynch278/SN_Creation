@@ -370,7 +370,6 @@ class Collibra_Operations:
         )
 
 
-
     def log_result(self, response, type_of_call):
         """
         This method writes the results of the api call to the logging file
@@ -411,7 +410,11 @@ class Collibra_Operations:
         headers = {
             "Content-Type": "application/json",
             "Authorization": self.collibra_auth,
-            "Cookie": "AWSALBTG=Xx66ouqWMBuXDDec5OSvqFCQP/PUHcQk4/bdJiR94rGzG/V5WRcMBzuU3pJlVYu4HU/n7EHRJzBq62YNY3YiIq8OMg9muLvH/0Lvx0LTA1YmNk+cncExFCbfBICAgwfP2CNp8y1lJYd4waxnTeYxClL7N8tdx1vyud+OkNC3BYKjOmzkz8I=; AWSALBTGCORS=Xx66ouqWMBuXDDec5OSvqFCQP/PUHcQk4/bdJiR94rGzG/V5WRcMBzuU3pJlVYu4HU/n7EHRJzBq62YNY3YiIq8OMg9muLvH/0Lvx0LTA1YmNk+cncExFCbfBICAgwfP2CNp8y1lJYd4waxnTeYxClL7N8tdx1vyud+OkNC3BYKjOmzkz8I=",
+            "Cookie": "AWSALBTG=Xx66ouqWMBuXDDec5OSvqFCQP/PUHcQk4/bdJiR94rGzG/V5WRcMBzuU3pJlVYu4HU/n7EHRJzBq62YNY3YiI"
+                      "q8OMg9muLvH/0Lvx0LTA1YmNk+cncExFCbfBICAgwfP2CNp8y1lJYd4waxnTeYxClL7N8tdx1vyud+OkNC3BYKjOmzkz8I"
+                      "=; AWSALBTGCORS=Xx66ouqWMBuXDDec5OSvqFCQP/PUHcQk4/bdJiR94rGzG/V5WRcMBzuU3pJlVYu4HU/n7EHRJzBq6"
+                      "2YNY3YiIq8OMg9muLvH/0Lvx0LTA1YmNk+cncExFCbfBICAgwfP2CNp8y1lJYd4waxnTeYxClL7N8tdx1vyud+OkNC3BY"
+                      "KjOmzkz8I=",
         }
 
         try:
@@ -425,6 +428,8 @@ class Collibra_Operations:
         except requests.exceptions.HTTPError as e:
             print("API call was unsuccessful: " + str(e))
             logging.error("API call was unsuccessful: " + str(e))
+            logging.error("Erroneous JSON sent for " + method_type + ":")
+            logging.error(payload)
 
         print("API Call Status Code: " + str(response.status_code))
         logging.debug("API Call Status Code: " + str(response.status_code))
