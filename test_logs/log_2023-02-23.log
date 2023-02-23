@@ -1,0 +1,13 @@
+10:21:11,993 root ERROR Update dataframe configured incorrectly: 'Owner'
+10:21:51,861 root ERROR Update dataframe configured incorrectly: 'Owner'
+10:22:07,589 root ERROR Update dataframe configured incorrectly: 'Owner'
+10:22:22,640 root ERROR Update dataframe configured incorrectly: 'Owner'
+10:22:46,137 root ERROR API call was unsuccessful: 400 Client Error: Bad Request for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+10:22:46,137 root ERROR Erroneous JSON sent for POST:
+10:22:46,137 root ERROR [{"assetId": "0000a1f7-2ecf-4560-80ce-69644d8c52a7", "typeId": "eff75d33-cba0-44d8-9c2a-f4c3fc589693", "value": "Hamza Jilani"}]
+10:22:46,138 root ERROR Attributes Created Error
+10:22:58,129 root ERROR Update dataframe configured incorrectly: 'Owner'
+10:31:32,796 root ERROR API call was unsuccessful: 400 Client Error: Bad Request for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+10:31:32,797 root ERROR Erroneous JSON sent for POST:
+10:31:32,797 root ERROR [{"assetId": "0000a1f7-2ecf-4560-80ce-69644d8c52a7", "typeId": "eff75d33-cba0-44d8-9c2a-f4c3fc589693", "value": "Hamza Jilani"}]
+10:31:32,798 root ERROR Attributes Created Error

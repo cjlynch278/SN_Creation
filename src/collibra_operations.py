@@ -69,7 +69,7 @@ class Collibra_Operations:
             "Application Status": self.install_status,
             "Business Criticality": self.business_criticality,
             "URL": self.url,
-            "Business Owner": self.owned_by,
+            "Owner": self.owned_by,
             "IT Application Owner": self.it_owner,
             "Application Contact": self.supported_by,
             "Export Control": self.export_control,
