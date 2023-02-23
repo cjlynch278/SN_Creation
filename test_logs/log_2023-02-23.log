@@ -11,3 +11,7 @@
 10:31:32,797 root ERROR Erroneous JSON sent for POST:
 10:31:32,797 root ERROR [{"assetId": "0000a1f7-2ecf-4560-80ce-69644d8c52a7", "typeId": "eff75d33-cba0-44d8-9c2a-f4c3fc589693", "value": "Hamza Jilani"}]
 10:31:32,798 root ERROR Attributes Created Error
+12:18:21,546 root ERROR Update dataframe configured incorrectly: 'sn_value'
+12:18:45,947 root ERROR Update dataframe configured incorrectly: 'attribute_type'
+12:19:00,212 root ERROR Update dataframe configured incorrectly: 'attribute_type'
+12:20:37,654 root ERROR Update dataframe configured incorrectly: '8eeeae37-e6cc-4cd9-a65d-c5b6c3a72c36'

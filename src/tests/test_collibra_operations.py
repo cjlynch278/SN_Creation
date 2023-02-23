@@ -27,6 +27,7 @@ class SqlOperationsTest(unittest.TestCase):
         )
         self.six_test = pandas.read_csv("src/tests/test_files/six_test.csv")
         self.full_test_2 = pandas.read_csv("src/tests/test_files/full_test_2.csv")
+        self.one_asset = pandas.read_csv("src/tests/test_files/empty_asset.csv")
         self.empty_test_df = pandas.DataFrame()
         self.access_token = AccessToken(self.main.token_auth)
         self.collibra_operations = Collibra_Operations(
@@ -111,6 +112,27 @@ class SqlOperationsTest(unittest.TestCase):
         update_dataframe["sn_value"] = None
         self.collibra_operations.update_attributes(update_dataframe)
 
+    # Create an asset that we can update with more attributes
+    def test_create_empty_assets(self):
+        self.delete_collibra_test_assets()
+        self.collibra_operations.create_assets(self.one_asset)
+        ids = self.get_snow_assets()
+        self.create_attributes(ids)
+        self.delete_collibra_test_assets()
+
+    # Create attributes on an empty asset.
+    def create_attributes(self, ids):
+        attribute_list = ["Owner", "Description", "Number", "Application Status", "Business Criticality", "URL",
+                          "IT Application Owner", "Application Contact", "Export Control","Legal Hold",
+                          "Data Sensitivity","Disaster Recovery Required","Records Retention","CI Type",]
+        data = {
+            "Asset_ID": ids[0],
+            "attribute_type": attribute_list,
+            "sn_value": "new value"
+        }
+        new_attributes_df = pandas.DataFrame(data)
+        self.collibra_operations.update_attributes(new_attributes_df)
+
     def test_update_display_name(self):
         self.test_fill_test_domain()
         ids = self.get_snow_assets()
@@ -167,9 +189,6 @@ class SqlOperationsTest(unittest.TestCase):
 
         response = self.collibra_operations.collibra_api_call("DELETE", url, delete_ids)
         print("done")
-
-
-
 
     def get_status_attribute(self, type_id, asset_id):
         url = (
