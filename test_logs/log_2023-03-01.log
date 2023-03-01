@@ -1,0 +1,9 @@
+10:21:25,632 root ERROR API call was unsuccessful: 400 Client Error: Bad Request for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+10:21:25,632 root ERROR Erroneous JSON sent for POST:
+10:21:25,633 root ERROR [{"assetId": "00c78a66-bb97-484f-b3ff-c298d0d3b00d", "typeId": "42203189-d926-4fb6-b809-829e9596bc28", "value": "Ken Gobble"}]
+10:21:25,634 root ERROR Attributes Created Error
+10:22:51,623 root ERROR Update dataframe configured incorrectly: 'Owner Bus'
+10:23:06,253 root ERROR API call was unsuccessful: 400 Client Error: Bad Request for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+10:23:06,255 root ERROR Erroneous JSON sent for POST:
+10:23:06,255 root ERROR [{"assetId": "00c78a66-bb97-484f-b3ff-c298d0d3b00d", "typeId": "eff75d33-cba0-44d8-9c2a-f4c3fc589693", "value": "Ken Gobble"}]
+10:23:06,257 root ERROR Attributes Created Error

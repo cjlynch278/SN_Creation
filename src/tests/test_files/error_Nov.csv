@@ -1,2 +1,2 @@
 ﻿asset_currrent,Asset_ID,SN_System_ID,system_name,is_current,attribute_type,sn_value,Attribute_Name,attribute_id,collibra_value,Parent_Asset_ID,Attribute_Type_ID
-1,00c78a66-bb97-484f-b3ff-c298d0d3b00d,9ba37fac1bcba8507e58cbbc1d4bcb7e,Guidance Software EnCase eDiscovery,1,Application Contact,Ken Gobble,NULL,NULL,NULL,NULL,NULL
+1,00c78a66-bb97-484f-b3ff-c298d0d3b00d,9ba37fac1bcba8507e58cbbc1d4bcb7e,Guidance Software EnCase eDiscovery,1,Owner,Ken Gobble,NULL,NULL,NULL,NULL,NULL
