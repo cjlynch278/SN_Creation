@@ -50,6 +50,7 @@ class SqlOperationsTest(unittest.TestCase):
     def test_troubleshoot(self):
         error_df = pandas.read_csv("src/tests/test_files/error_Nov.csv")
         self.collibra_operations.update_attributes(error_df)
+        self.collibra_auth = "Bearer " + self.main.collibra_operations.access_token_class.get_bearer_token()
         print("Done")
 
     def test_update_sn_number(self):

@@ -7,3 +7,11 @@
 10:23:06,255 root ERROR Erroneous JSON sent for POST:
 10:23:06,255 root ERROR [{"assetId": "00c78a66-bb97-484f-b3ff-c298d0d3b00d", "typeId": "eff75d33-cba0-44d8-9c2a-f4c3fc589693", "value": "Ken Gobble"}]
 10:23:06,257 root ERROR Attributes Created Error
+18:36:04,699 root ERROR API call was unsuccessful: 400 Client Error: Bad Request for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+18:36:04,701 root ERROR Erroneous JSON sent for POST:
+18:36:04,701 root ERROR [{"assetId": "00c78a66-bb97-484f-b3ff-c298d0d3b00d", "typeId": "eff75d33-cba0-44d8-9c2a-f4c3fc589693", "value": "Ken Gobble"}]
+18:36:04,703 root ERROR Attributes Created Error
+18:38:19,412 root ERROR API call was unsuccessful: 400 Client Error: Bad Request for url: https://wlgore-dev.collibra.com/rest/2.0/attributes/bulk
+18:38:19,413 root ERROR Erroneous JSON sent for POST:
+18:38:19,413 root ERROR [{"assetId": "00c78a66-bb97-484f-b3ff-c298d0d3b00d", "typeId": "eff75d33-cba0-44d8-9c2a-f4c3fc589693", "value": "Ken Gobble"}]
+18:38:19,416 root ERROR Attributes Created Error
