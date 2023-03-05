@@ -165,15 +165,19 @@ class Collibra_Operations:
             self.create_assets_result = True
             return
 
+        # Create a list for the dicts representing asset objects with their data. When we create a list of dictionaries,
+        # this can be used as a json object. This json object will be sent to collibra to create assets.
         asset_list = []
         for index, row in dataframe.iterrows():
             try:
+                # If the asset_name column is null, then set the name to the snow system id.
                 if not (row["asset_name"] in ["Unknown", "None", None, "nan", ""]):
                     asset_name = str(row["asset_name"])
                 else:
                     asset_name = str(row["SN_System_ID"])
                 asset_backend_name = str(row["SN_System_ID"])
 
+                # Create a dictionary object containing the data needed to create collibra objects.
                 current_asset_dict = {
                     "name": asset_backend_name,
                     "displayName": asset_name,
@@ -181,16 +185,21 @@ class Collibra_Operations:
                     "typeId": self.system_asset_type_id,
                     "statusId": self.system_status_id,
                 }
+
                 asset_list.append(current_asset_dict)
+
             except KeyError as e:
                 logging.error(
                     "Create asset dataframe configured incorrectly: " + str(e)
                 )
                 return
 
+        # Send the asset_list object (already json formatted) to Collibra to create assets.
         asset_create_response = self.collibra_api_call(
             "POST", self.bulk_assets_url, asset_list
         )
+
+        # Log the response
         self.create_assets_result = self.log_result(
             asset_create_response, "Assets Created"
         )
