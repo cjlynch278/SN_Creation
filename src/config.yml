@@ -1,30 +1,32 @@
 API_CONFIG:
-  limit: 1000000
+  limit: 50000
 AUTH:
-  username: chlynch0
-  password: W#llie7360000
+  auth-header: Basic Y2hseW5jaDpXI2xsaWU3MzYwMA==00
   cookie: AWSALB=ITtwYN2XhZe79p5QG2kgvZBRnWYjzaHsNbwhnoT0Y4PGLu69X//WO/sZjtET2v5Aeml1NEG/O499U1IcelGQYzOTT1cxSVqYlRkJCJE9mIT68JEXneaVqcMPZEHV; AWSALBCORS=ITtwYN2XhZe79p5QG2kgvZBRnWYjzaHsNbwhnoT0Y4PGLu69X//WO/sZjtET2v5Aeml1NEG/O499U1IcelGQYzOTT1cxSVqYlRkJCJE9mIT68JEXneaVqcMPZEHV; JSESSIONID=09599047-3630-435b-80d7-26e27533365e
   token_auth_header: Basic Z2VuX2NvbGxpYnJhX2FwaXVzZXI6QlFiNHk1c3dNczdEcFlRRGlNTTVNSGlpcHJnaHZBN0dHcTY2bnBLYWZaZlYxd0t0SG44S2V2S29zVU5Fb0hJNg==
 ENVIRONMENT:
   instance: Development
   gore: wlgore-dev.collibra.com
-  Queries_Location: src/queries
+  Queries_Location: DEV_SN_Creation\main\queries
 EMAIL_SETTINGS:
-  Recipient: collibrasysadmin@wlgore.com
+  Recipient: chlynch@wlgore.com
+  #Recipient: collibrasysadmin@wlgore.com
 MYSQL_CONNECTION_DETAILS:
-  SERVER_NAME: anvrdmexldv03
+  SERVER_NAME: anvsqldv02
   DATABASE_NAME: EXL_MDSDev
   LOGIN: CollibraDev
   PASSWORD: EXLCollibra@123456
   VARCHAR_LENGTH: 8000
-  DRIVER: SQL+Server+Native+Client+11.0
+  DRIVER: ODBC+Driver+17+for+SQL+Server
 COLLIBRA_DETAILS:
-  ADMIN_DOMAIN_ID: df1aedd9-104a-4256-ac3d-bccdb6e7812b
-  Systems_Domain_ID: 60a15484-8c3e-4d6a-a1ca-b27f7e0aa787
-  asset_name: b7023ae-9baf-4012-b6f2-aa52483d6c46
-  CI_Number: dda874d3-610e-4460-b4d1-7ef304605392
-  Install_Status: 8eeeae37-e6cc-4cd9-a65d-c5b6c3a72c36
-  Business_Criticality: 12d0118b-6d7b-4ef2-86aa-a44b5552dad9
+  INACTIVE_SERVICES_DOMAIN_ID: abe289e9-6b9d-4add-94ce-3f308ac850ce
+  ACTIVE_SERVICES_DOMAIN_ID: b0c3cbaa-1954-4218-97d6-b3f28d635aec
+  INACTIVE_BUSINESS_APPLICATIONS_DOMAIN_ID: eecdbd09-ae5b-4ed3-be84-17c9cae06cf4
+  ACTIVE_BUSINESS_APPLICATIONS_DOMAIN_ID: 21803cac-f033-4ed2-b345-ac199ebe0614
+  asset_name: 1aad8325-8d87-4151-be35-548fa1a11a22
+  CI_Number: 333a0461-98bf-4fc4-8b95-676a54ceb617
+  Install_Status: 74c5bc12-3df0-4c4b-94eb-05249193c8cf
+  Business_Criticality: 4dadd64d-98dc-4d58-a135-b617bad16bfd
   URL: 00000000-0000-0000-0000-000000000258
   Owned_By: eff75d33-cba0-44d8-9c2a-f4c3fc589693
   IT_Owner: 23c90dd8-eba5-4a0b-8d2e-98ef071963c8
@@ -38,8 +40,7 @@ COLLIBRA_DETAILS:
   # ID of the status we want the systems set to upon creation
   System_Status_ID: a669d696-06c4-46cc-abac-cd95bc27d374
   System_Asset_Type_ID: 00000000-0000-0000-0000-000000031302
-  CI_Type: 554a0af6-08f2-4c8f-86b2-5edbf2edace1
-
+  CI_Type: 2767ab91-06f3-427f-95cf-698fe309a29d
 SERVICE_NOW:
   ENVIRONMENT: goredev
   USERNAME: CollibraServiceNow
@@ -49,4 +50,5 @@ SERVICE_NOW:
   COOKIE: BIGipServerpool_goredev=a9e38fd365549b0c2c33897783bb1723; JSESSIONID=5BE2DB2FFD81BD35C9CB7A3F4CB3523C; glide_user_activity=U0N2M18xOmF3WElJdWl2VmxKWm4vUE5ZdGtEdVExNmpuU2ZWR0I5Z2dyQjFsbk9BckE9Om5HMitOZ1lxMXV1SWVDZXpYaWlXdWdMd3Fxb2czZWdmTTFYb3FEdXBqV2M9; glide_user_route=glide.c2430e9397ea43e166882ffdb6b97fa1
 LOGGER:
   LOCATION: logs/log
+  # NOTSET/DEBUG/INFO/WARN/ERROR/CRITICAL
   LEVEL: INFO

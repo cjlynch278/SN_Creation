@@ -4,7 +4,7 @@ select assets_to_change.is_current, Attribute_ID, Name, Asset_ID, Attribute_Name
 
 
      left join
-     ( select SN_System_ID, is_current from servicenow.{3}
+     ( select SN_System_ID, is_current from servicenow.{2}
 
      ) snow_apps on snow_apps.SN_System_ID = assets.name
      and   snow_apps.is_current = 1

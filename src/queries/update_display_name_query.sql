@@ -4,7 +4,7 @@ Find mismatching display names
                 
 select  Asset_ID, system_name sn_value, collibra_display_name collibra_value from(
 
-select Name system_name, is_current, SN_System_ID from servicenow.{3} where is_current = 1 and name is not null
+select Name system_name, is_current, SN_System_ID from servicenow.{2} where is_current = 1 and name is not null
 
 )
 systems
