@@ -1,4 +1,4 @@
-        select [SN_System_ID], {2}.[Name] asset_name ,[CI_Number],[Install_Status],
+        select [SN_System_ID], {3}.[Name] asset_name ,[CI_Number],[Install_Status],
         [Business_Criticality] ,[URL],[Owned_By],[IT_Owner],[Supported_By],
         [Export_Control],[Legal_Hold],[APM_Data_Sensitivity],[Disaster_Recovery_Gap],[Records_Retention],
         [Description], [CI_Type]
