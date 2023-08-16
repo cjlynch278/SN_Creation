@@ -1,0 +1,52 @@
+API_CONFIG:
+  limit: 1000000
+AUTH:
+  username: chlynch0
+  password: W#llie7360000
+  cookie: AWSALB=ITtwYN2XhZe79p5QG2kgvZBRnWYjzaHsNbwhnoT0Y4PGLu69X//WO/sZjtET2v5Aeml1NEG/O499U1IcelGQYzOTT1cxSVqYlRkJCJE9mIT68JEXneaVqcMPZEHV; AWSALBCORS=ITtwYN2XhZe79p5QG2kgvZBRnWYjzaHsNbwhnoT0Y4PGLu69X//WO/sZjtET2v5Aeml1NEG/O499U1IcelGQYzOTT1cxSVqYlRkJCJE9mIT68JEXneaVqcMPZEHV; JSESSIONID=09599047-3630-435b-80d7-26e27533365e
+  token_auth_header: Basic Z2VuX2NvbGxpYnJhX2FwaXVzZXI6QlFiNHk1c3dNczdEcFlRRGlNTTVNSGlpcHJnaHZBN0dHcTY2bnBLYWZaZlYxd0t0SG44S2V2S29zVU5Fb0hJNg==
+ENVIRONMENT:
+  instance: Development
+  gore: wlgore-dev.collibra.com
+  Queries_Location: src/queries
+EMAIL_SETTINGS:
+  Recipient: collibrasysadmin@wlgore.com
+MYSQL_CONNECTION_DETAILS:
+  SERVER_NAME: anvrdmexldv03
+  DATABASE_NAME: EXL_MDSDev
+  LOGIN: CollibraDev
+  PASSWORD: EXLCollibra@123456
+  VARCHAR_LENGTH: 8000
+  DRIVER: SQL+Server+Native+Client+11.0
+COLLIBRA_DETAILS:
+  ADMIN_DOMAIN_ID: df1aedd9-104a-4256-ac3d-bccdb6e7812b
+  Systems_Domain_ID: 60a15484-8c3e-4d6a-a1ca-b27f7e0aa787
+  asset_name: b7023ae-9baf-4012-b6f2-aa52483d6c46
+  CI_Number: dda874d3-610e-4460-b4d1-7ef304605392
+  Install_Status: 8eeeae37-e6cc-4cd9-a65d-c5b6c3a72c36
+  Business_Criticality: 12d0118b-6d7b-4ef2-86aa-a44b5552dad9
+  URL: 00000000-0000-0000-0000-000000000258
+  Owned_By: eff75d33-cba0-44d8-9c2a-f4c3fc589693
+  IT_Owner: 23c90dd8-eba5-4a0b-8d2e-98ef071963c8
+  Supported_By: 42203189-d926-4fb6-b809-829e9596bc28
+  Export_Control: 6177a307-6879-42a9-8b8f-f6c0c085d701
+  Legal_Hold: 153c2857-ca03-486c-8f94-61893d56dbf0
+  APM_Data_Sensitivity: 270d4a3d-fd4e-45b8-b2bc-57b0bc31b12d
+  Disaster_Recovery_Gap: 75990512-2359-4c3d-996e-86dbc17cf03e
+  Records_Retention: e2d0fc7f-fa63-409f-a9ab-ff861a5c1206
+  Description: 00000000-0000-0000-0000-000000003114
+  # ID of the status we want the systems set to upon creation
+  System_Status_ID: a669d696-06c4-46cc-abac-cd95bc27d374
+  System_Asset_Type_ID: 00000000-0000-0000-0000-000000031302
+  CI_Type: 554a0af6-08f2-4c8f-86b2-5edbf2edace1
+
+SERVICE_NOW:
+  ENVIRONMENT: goredev
+  USERNAME: CollibraServiceNow
+  PASSWORD: 5ee8a5351b26c5d0973dfd115b4bcb2e
+  CLIENT_ID: af3129f57162c5d0dd53edce09920e9a
+  CLIENT_SECRET: kWG**2P-%24K
+  COOKIE: BIGipServerpool_goredev=a9e38fd365549b0c2c33897783bb1723; JSESSIONID=5BE2DB2FFD81BD35C9CB7A3F4CB3523C; glide_user_activity=U0N2M18xOmF3WElJdWl2VmxKWm4vUE5ZdGtEdVExNmpuU2ZWR0I5Z2dyQjFsbk9BckE9Om5HMitOZ1lxMXV1SWVDZXpYaWlXdWdMd3Fxb2czZWdmTTFYb3FEdXBqV2M9; glide_user_route=glide.c2430e9397ea43e166882ffdb6b97fa1
+LOGGER:
+  LOCATION: logs/log
+  LEVEL: INFO
