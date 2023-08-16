@@ -21,7 +21,7 @@ class SqlOperationsTest(unittest.TestCase):
             "test",
             "test",
             self.main.token_auth,
-            self.main.admin_only_domain_id,
+            self.main.inactive_services_id,
             self.main.environment,
             self.main.driver
         )
@@ -31,7 +31,7 @@ class SqlOperationsTest(unittest.TestCase):
         self.empty_test_df = pandas.DataFrame()
         self.access_token = AccessToken(self.main.token_auth)
         self.collibra_operations = Collibra_Operations(
-            self.main.admin_only_domain_id,
+            self.main.inactive_services_id,
             self.main.environment,
             self.main.token_auth,
             "./src/tests/test_files/test_config.yml",
@@ -50,7 +50,7 @@ class SqlOperationsTest(unittest.TestCase):
     def test_troubleshoot(self):
         error_df = pandas.read_csv("src/tests/test_files/error_Nov.csv")
         self.collibra_operations.update_attributes(error_df)
-        self.collibra_auth = "Bearer " + self.main.collibra_operations.access_token_class.get_bearer_token()
+        self.collibra_auth = "Bearer " + self.main.services_collibra_operations.access_token_class.get_bearer_token()
         print("Done")
 
     def test_update_sn_number(self):
@@ -212,15 +212,15 @@ class SqlOperationsTest(unittest.TestCase):
     def test_delete_assets(self):
         """
         self.delete_collibra_test_assets()
-        self.collibra_operations.create_assets(self.six_test)
+        self.services_collibra_operations.create_assets(self.six_test)
 
         ids = self.get_snow_assets()
         status_id = self.get_status_attribute(self.main.status_attribute_id, ids[0])
         data = {"Attribute_ID": [status_id], "Asset_ID": [ids[0]]}
         self.test_df = pandas.DataFrame(data)
-        self.collibra_operations.delete_assets(self.test_df)
-        assert self.collibra_operations.delete_asset_response
-        self.collibra_operations.delete_asset_response = False
+        self.services_collibra_operations.delete_assets(self.test_df)
+        assert self.services_collibra_operations.delete_asset_response
+        self.services_collibra_operations.delete_asset_response = False
         """
         self.collibra_operations.delete_assets(self.empty_test_df)
 
@@ -252,7 +252,7 @@ class SqlOperationsTest(unittest.TestCase):
     def get_snow_assets(
         self,
     ):
-        snow_domain_id = self.main.admin_only_domain_id
+        snow_domain_id = self.main.inactive_services_id
         url = (
             "https://wlgore-dev.collibra.com/rest/2.0/assets?offset=0&limit=100000&countLimit=-1&nameMatchMode=ANYWHERE&domainId="
             + snow_domain_id

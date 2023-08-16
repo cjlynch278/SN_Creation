@@ -23,8 +23,10 @@ class MainClass:
             except yaml.YAMLError as exc:
                 print(exc)
         try:
-            self.admin_only_domain_id = config["COLLIBRA_DETAILS"]["ADMIN_DOMAIN_ID"]
-            self.systems_domain_id = config["COLLIBRA_DETAILS"]["Systems_Domain_ID"]
+            self.inactive_services_id = config["COLLIBRA_DETAILS"]["INACTIVE_SERVICES_DOMAIN_ID"]
+            self.active_services_id = config["COLLIBRA_DETAILS"]["ACTIVE_SERVICES_DOMAIN_ID"]
+            self.inactive_applications_id = config["COLLIBRA_DETAILS"]["INACTIVE_BUSINESS_APPLICATIONS_DOMAIN_ID"]
+            self.active_applications_id = config["COLLIBRA_DETAILS"]["ACTIVE_BUSINESS_APPLICATIONS_DOMAIN_ID"]
             self.token_auth = config["AUTH"]["token_auth_header"]
             self.database_name = str(
                 config["MYSQL_CONNECTION_DETAILS"]["DATABASE_NAME"]
@@ -73,35 +75,51 @@ class MainClass:
             self.server_name,
             self.database_name,
             self.token_auth,
-            self.admin_only_domain_id,
+            self.inactive_services_id,
             self.environment,
             self.driver
         )
         logging.debug("Sql operations setup")
 
-        self.collibra_operations = Collibra_Operations(
-            self.admin_only_domain_id, self.environment, self.token_auth, config_file
+        self.services_collibra_operations = Collibra_Operations(
+            self.inactive_services_id, self.environment, self.token_auth, config_file
         )
+        self.applications_collibra_operations = Collibra_Operations(
+            self.inactive_applications_id, self.environment, self.token_auth, config_file
+        )
+
         logging.debug("Collibra Operations setup")
 
         with open(self.queries_location + "/create_query.sql", "r") as create_sql_file:
-            self.create_sql_query = create_sql_file.read().format(
-                self.admin_only_domain_id, self.systems_domain_id
+            self.create_services_sql_query = create_sql_file.read().format(
+                self.inactive_services_id, self.active_services_id, "servicenow_cmbd_ci_service" , "sn_services"
+            )
+            self.create_applications_sql_query = create_sql_file.read().format(
+                self.inactive_applications_id, self.active_services_id, "servicenow_cmbd_ci_business_app", "sn_business_apps"
             )
 
         with open(self.queries_location + "/update_query.sql", "r") as update_sql_file:
-            self.update_sql_query = update_sql_file.read().format(
-                self.admin_only_domain_id, self.systems_domain_id
+            self.update_services_sql_query = update_sql_file.read().format(
+                self.inactive_services_id, self.active_services_id, "servicenow_cmbd_ci_service" , "sn_services"
+            )
+            self.update_applications_sql_query = update_sql_file.read().format(
+                self.inactive_applications_id, self.active_services_id,"servicenow_cmbd_ci_business_app", "sn_business_apps"
             )
 
         with open(self.queries_location + "/delete_query.sql", "r") as delete_sql_file:
-            self.delete_sql_query = delete_sql_file.read().format(
-                self.admin_only_domain_id, self.systems_domain_id
+            self.delete_services_sql_query = delete_sql_file.read().format(
+                self.inactive_services_id, self.active_services_id, "servicenow_cmbd_ci_service"
+            )
+            self.delete_applications_sql_query = delete_sql_file.read().format(
+                self.inactive_applications_id, self.active_services_id, "servicenow_cmbd_ci_business_app"
             )
 
         with open(self.queries_location + "/update_display_name_query.sql", "r") as update_display_name_query_file:
-            self.update_display_name_query = update_display_name_query_file.read().format(
-                self.admin_only_domain_id, self.systems_domain_id
+            self.update_application_display_name_query = update_display_name_query_file.read().format(
+                self.inactive_services_id, self.active_services_id, "servicenow_cmbd_ci_service"
+            )
+            self.update_services_display_name_query = update_display_name_query_file.read().format(
+                self.inactive_applications_id, self.active_services_id, "servicenow_cmbd_ci_business_app"
             )
 
 
@@ -129,53 +147,99 @@ class MainClass:
         self.sql_operations.connect_to_sql()
         logging.debug("SQL connected")
 
-        create_dataframe = self.sql_operations.read_sql(self.create_sql_query)
-        logging.debug("Create Sql read successfully")
-        self.collibra_operations.create_assets(create_dataframe)
+        create_services_dataframe = self.sql_operations.read_sql(self.create_services_sql_query)
+        logging.debug("Create services Sql read successfully")
+        self.services_collibra_operations.create_assets(create_services_dataframe)
 
-        update_dataframe = self.sql_operations.read_sql(self.update_sql_query)
-        logging.debug("Update Sql read successfully")
-        self.collibra_operations.update_attributes(update_dataframe)
+        create_applications_dataframe = self.sql_operations.read_sql(self.create_applications_sql_query)
+        logging.debug("Create applications Sql read successfully")
+        self.applications_collibra_operations.create_assets(create_applications_dataframe)
 
-        delete_dataframe = self.sql_operations.read_sql(self.delete_sql_query)
-        logging.debug("Delete Sql read successfully")
-        self.collibra_operations.delete_assets(delete_dataframe)
+        update_services_dataframe = self.sql_operations.read_sql(self.update_services_sql_query)
+        logging.debug("Update services Sql read successfully")
+        self.services_collibra_operations.update_attributes(update_services_dataframe)
 
-        update_display_name_dataframe = self.sql_operations.read_sql(self.update_display_name_query)
-        logging.debug("Update Display Name Sql read successfully")
-        self.collibra_operations.update_display_name(update_display_name_dataframe)
+        update_applications_dataframe = self.sql_operations.read_sql(self.update_applications_sql_query)
+        logging.debug("Update applications Sql read successfully")
+        self.applications_collibra_operations.update_attributes(update_applications_dataframe)
+
+        delete_services_dataframe = self.sql_operations.read_sql(self.delete_services_sql_query)
+        logging.debug("Delete services Sql read successfully")
+        self.services_collibra_operations.delete_assets(delete_services_dataframe)
+
+        delete_applications_dataframe = self.sql_operations.read_sql(self.delete_applications_sql_query)
+        logging.debug("Delete applications Sql read successfully")
+        self.applications_collibra_operations.delete_assets(delete_applications_dataframe)
+
+        update_services_display_name_dataframe = self.sql_operations.read_sql(self.update_services_display_name_query)
+        logging.debug("Update services Display Name Sql read successfully")
+        self.services_collibra_operations.update_display_name(update_services_display_name_dataframe)
+
+        update_applications_display_name_dataframe = self.sql_operations.read_sql(self.update_application_display_name_query)
+        logging.debug("Update application Display Name Sql read successfully")
+        self.applications_collibra_operations.update_display_name(update_applications_display_name_dataframe)
 
         logging.debug(
-            "Assets Created Successfully: "
-            + str(self.collibra_operations.create_assets_result)
+            "Service Assets Created Successfully: "
+            + str(self.services_collibra_operations.create_assets_result)
         )
         logging.debug(
-            "Attributes Created Successfully: "
-            + str(self.collibra_operations.create_attributes_result)
+            "Application Assets Created Successfully: "
+            + str(self.applications_collibra_operations.create_assets_result)
         )
         logging.debug(
-            "Assets Updated Successfully: "
-            + str(self.collibra_operations.update_assets_result)
+            "Service Attributes Created Successfully: "
+            + str(self.services_collibra_operations.create_attributes_result)
         )
         logging.debug(
-            "Attributes Updated Successfully: "
-            + str(self.collibra_operations.update_attributes_result)
+            "Application Attributes Created Successfully: "
+            + str(self.applications_collibra_operations.create_attributes_result)
         )
         logging.debug(
-            "Assets Deleted Successfully: "
-            + str(self.collibra_operations.delete_asset_result)
+            "Service Assets Updated Successfully: "
+            + str(self.services_collibra_operations.update_assets_result)
         )
         logging.debug(
-            "Display Name Update Successfully: "
-            + str(self.collibra_operations.update_display_name_result)
+            "Application Assets Updated Successfully: "
+            + str(self.applications_collibra_operations.update_assets_result)
+        )
+        logging.debug(
+            "Service Attributes Updated Successfully: "
+            + str(self.services_collibra_operations.update_attributes_result)
+        )
+        logging.debug(
+            "Application Attributes Updated Successfully: "
+            + str(self.applications_collibra_operations.update_attributes_result)
+        )
+        logging.debug(
+            "Service Assets Deleted Successfully: "
+            + str(self.services_collibra_operations.delete_asset_result)
+        )
+        logging.debug(
+            "Application Assets Deleted Successfully: "
+            + str(self.applications_collibra_operations.delete_asset_result)
+        )
+        logging.debug(
+            "Service Display Names Update Successfully: "
+            + str(self.services_collibra_operations.update_display_name_result)
+        )
+        logging.debug(
+            "Application Display Names Update Successfully: "
+            + str(self.applications_collibra_operations.update_display_name_result)
         )
         if (
-            self.collibra_operations.create_assets_result
-            and self.collibra_operations.update_assets_result
-            and self.collibra_operations.update_attributes_result
-            and self.collibra_operations.create_attributes_result
-            and self.collibra_operations.delete_asset_result
-            and self.collibra_operations.update_display_name_result
+            self.services_collibra_operations.create_assets_result
+            and self.services_collibra_operations.update_assets_result
+            and self.services_collibra_operations.update_attributes_result
+            and self.services_collibra_operations.create_attributes_result
+            and self.services_collibra_operations.delete_asset_result
+            and self.services_collibra_operations.update_display_name_result
+            and self.applications_collibra_operations.create_assets_result
+            and self.applications_collibra_operations.update_assets_result
+            and self.applications_collibra_operations.update_attributes_result
+            and self.applications_collibra_operations.create_attributes_result
+            and self.applications_collibra_operations.delete_asset_result
+            and self.applications_collibra_operations.update_display_name_result
         ):
             logging.info("SQL To Collibra Pipeline has run successfully")
         else:
